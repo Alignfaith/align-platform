@@ -1,0 +1,1 @@
+The website wording (messaging/ purpose) should be for the dating platform and less about fitness or the book
