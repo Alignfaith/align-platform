@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
+import { Prisma } from '@prisma/client'
 import { hashPassword, emailSchema, passwordSchema, nameSchema, generateInviteCode } from '@/lib/security'
 import { handleApiError, ConflictError, ValidationError } from '@/lib/errors'
 
