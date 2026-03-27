@@ -11,15 +11,15 @@ export async function POST(req: Request) {
     }
 
     // TEMP: replace later with real auth user
-    const userId = 'demo-user-id'
+    const profileId = 'demo-profile-id'
 
-    const post = await prisma.growthPost.create({
-      data: {
-        userId,
-        pillar,
-        content,
-      },
-    })
+const post = await prisma.growthPost.create({
+  data: {
+    profileId,
+    pillar,
+    content,
+  },
+})
 
     return NextResponse.json(post)
   } catch (err) {
