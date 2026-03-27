@@ -169,16 +169,7 @@ model User {
   @@index([status])
   @@index([createdAt])
 }
-model GrowthPost {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  pillar    Pillar
-  content   String
-
-  createdAt DateTime @default(now())
-}}
 
 // NextAuth.js required models
 model Account {
