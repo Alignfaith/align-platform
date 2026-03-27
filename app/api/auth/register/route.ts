@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
     const passwordHash = await hashPassword(data.password)
 
     // Create user with profile in a transaction
-const user = await prisma.$transaction(async (tx) => {
+const user = await prisma.$transaction(async (tx: any) => {
       // Create user
       const newUser = await tx.user.create({
         data: {
