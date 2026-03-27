@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
-import { Prisma } from '@prisma/client'
 import { hashPassword, emailSchema, passwordSchema, nameSchema, generateInviteCode } from '@/lib/security'
 import { handleApiError, ConflictError, ValidationError } from '@/lib/errors'
 
@@ -69,7 +68,7 @@ export async function POST(req: NextRequest) {
     const passwordHash = await hashPassword(data.password)
 
     // Create user with profile in a transaction
-    const user = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+const user = await prisma.$transaction(async (tx) => {
       // Create user
       const newUser = await tx.user.create({
         data: {
