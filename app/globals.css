@@ -992,7 +992,7 @@ img {
 .hero__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(0, 0, 0, 0.72);
   z-index: 1;
 }
 
@@ -1031,17 +1031,21 @@ img {
   gap: var(--space-4);
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: var(--space-16);
 }
 
-/* Stats row */
+/* Stats bar — solid section below hero */
+.hero__stats-bar {
+  background: #0d0d0f;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: var(--space-8) 0;
+}
+
 .hero__stats {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-8);
-  padding-top: var(--space-10);
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  gap: var(--space-10);
 }
 
 .hero__stat {
@@ -1061,7 +1065,7 @@ img {
 
 .hero__stat-label {
   font-size: var(--text-sm);
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.5);
   letter-spacing: var(--tracking-wide);
 }
 
@@ -1577,7 +1581,7 @@ img {
   }
 
   .hero__stats {
-    gap: var(--space-5);
+    gap: var(--space-6);
   }
 
   .hero__stat-divider {
