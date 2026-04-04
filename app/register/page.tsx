@@ -480,7 +480,7 @@ export default function RegisterPage() {
                                                         type="checkbox"
                                                         checked={formData.hasReadBook}
                                                         onChange={(e) => updateFormData('hasReadBook', e.target.checked)}
-                                                        style={{ marginTop: '4px', flexShrink: 0 }}
+                                                        style={{ marginTop: '4px', flexShrink: 0, width: 'auto', padding: 0 }}
                                                         disabled={isLoading}
                                                     />
                                                     <span style={{ flex: 1, minWidth: 0 }}>
@@ -504,7 +504,7 @@ export default function RegisterPage() {
                                                         type="checkbox"
                                                         checked={formData.understandsFramework}
                                                         onChange={(e) => updateFormData('understandsFramework', e.target.checked)}
-                                                        style={{ marginTop: '4px', flexShrink: 0 }}
+                                                        style={{ marginTop: '4px', flexShrink: 0, width: 'auto', padding: 0 }}
                                                         required
                                                         disabled={isLoading}
                                                     />
@@ -569,7 +569,7 @@ export default function RegisterPage() {
                                                         type="checkbox"
                                                         checked={formData.agreesToGuidelines}
                                                         onChange={(e) => updateFormData('agreesToGuidelines', e.target.checked)}
-                                                        style={{ marginTop: '4px', flexShrink: 0 }}
+                                                        style={{ marginTop: '4px', flexShrink: 0, width: 'auto', padding: 0 }}
                                                         required
                                                         disabled={isLoading}
                                                     />
@@ -594,7 +594,7 @@ export default function RegisterPage() {
                                                         type="checkbox"
                                                         checked={formData.agreesToTerms}
                                                         onChange={(e) => updateFormData('agreesToTerms', e.target.checked)}
-                                                        style={{ marginTop: '4px', flexShrink: 0 }}
+                                                        style={{ marginTop: '4px', flexShrink: 0, width: 'auto', padding: 0 }}
                                                         required
                                                         disabled={isLoading}
                                                     />
