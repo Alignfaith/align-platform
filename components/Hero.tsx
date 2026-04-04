@@ -25,7 +25,7 @@ export default function Hero() {
                     position: 'absolute',
                     inset: 0,
                     zIndex: 2,
-                    background: 'rgba(0, 0, 0, 0.70)',
+                    background: 'rgba(0, 0, 0, 0.45)',
                 }} />
 
                 {/* z-index 3 — text content above overlay */}
