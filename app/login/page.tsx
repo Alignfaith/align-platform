@@ -6,7 +6,7 @@ import { signIn, getSession } from 'next-auth/react'
 import Link from 'next/link'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { Mail, Lock, ArrowRight, Loader2, CheckCircle } from 'lucide-react'
+import { Mail, Lock, ArrowRight, Loader2, CheckCircle, Eye, EyeOff } from 'lucide-react'
 
 function LoginForm() {
     const router = useRouter()
@@ -15,6 +15,7 @@ function LoginForm() {
     const [password, setPassword] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
+    const [showPassword, setShowPassword] = useState(false)
     const [showRegisteredMessage, setShowRegisteredMessage] = useState(false)
 
     useEffect(() => {
@@ -157,9 +158,9 @@ function LoginForm() {
                                 }}
                             />
                             <input
-                                type="password"
+                                type={showPassword ? 'text' : 'password'}
                                 className="form-input"
-                                style={{ paddingLeft: '40px' }}
+                                style={{ paddingLeft: '40px', paddingRight: '44px' }}
                                 value={password}
                                 onChange={(e) => {
                                     setPassword(e.target.value)
@@ -169,6 +170,25 @@ function LoginForm() {
                                 required
                                 disabled={isLoading}
                             />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(v => !v)}
+                                style={{
+                                    position: 'absolute',
+                                    right: '12px',
+                                    top: '50%',
+                                    transform: 'translateY(-50%)',
+                                    background: 'none',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    color: 'var(--color-slate)',
+                                    padding: 0,
+                                    display: 'flex',
+                                }}
+                                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                            >
+                                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                            </button>
                         </div>
                     </div>
 

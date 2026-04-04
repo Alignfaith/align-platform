@@ -12,7 +12,7 @@ const registerSchema = z.object({
   lastName: nameSchema,
   reflections: z
     .array(z.string().min(50, 'Each reflection must be at least 50 characters'))
-    .length(3, 'Exactly 3 reflections required'),
+    .length(6, 'Exactly 6 reflections required'),
   hasReadBook: z.boolean(),
   understandsFramework: z.boolean(),
   agreesToGuidelines: z.boolean(),

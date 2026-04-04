@@ -6,7 +6,7 @@ import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { ArrowLeft, ArrowRight, Check, BookOpen, Users, FileText, Shield, Loader2 } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, BookOpen, Users, FileText, Shield, Loader2, Eye, EyeOff } from 'lucide-react'
 
 const steps = [
     { id: 1, name: 'Account', icon: Users },
@@ -31,6 +31,21 @@ const reflectionQuestions = [
         question: 'How does your faith, or willingness to grow in Christian faith, influence how you approach relationships?',
         placeholder: 'Share how your faith journey shapes your perspective on relationships...',
     },
+    {
+        id: 4,
+        question: 'How do you currently steward your mental and emotional health? What practices help you stay grounded?',
+        placeholder: 'Describe habits like therapy, journaling, prayer, mentorship, or other disciplines you use to maintain mental fitness...',
+    },
+    {
+        id: 5,
+        question: 'Describe your current approach to physical health and self-care. How does honoring your body connect to your faith and relational readiness?',
+        placeholder: 'Share how you steward your physical health through exercise, rest, nutrition, and intentional self-presentation...',
+    },
+    {
+        id: 6,
+        question: 'Where are you in your financial stewardship journey, and how are you building stability for your future?',
+        placeholder: 'Describe your current financial habits, goals, and how you are preparing financially for a committed relationship...',
+    },
 ]
 
 export default function RegisterPage() {
@@ -38,6 +53,8 @@ export default function RegisterPage() {
     const [currentStep, setCurrentStep] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -45,7 +62,7 @@ export default function RegisterPage() {
         password: '',
         confirmPassword: '',
         inviteCode: '',
-        reflections: ['', '', ''],
+        reflections: ['', '', '', '', '', ''],
         hasReadBook: false,
         understandsFramework: false,
         agreesToGuidelines: false,
@@ -291,28 +308,72 @@ export default function RegisterPage() {
 
                                             <div className="form-group">
                                                 <label className="form-label">Password</label>
-                                                <input
-                                                    type="password"
-                                                    className="form-input"
-                                                    value={formData.password}
-                                                    onChange={(e) => updateFormData('password', e.target.value)}
-                                                    required
-                                                    minLength={8}
-                                                    disabled={isLoading}
-                                                />
+                                                <div style={{ position: 'relative' }}>
+                                                    <input
+                                                        type={showPassword ? 'text' : 'password'}
+                                                        className="form-input"
+                                                        style={{ paddingRight: '44px' }}
+                                                        value={formData.password}
+                                                        onChange={(e) => updateFormData('password', e.target.value)}
+                                                        required
+                                                        minLength={8}
+                                                        disabled={isLoading}
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setShowPassword(v => !v)}
+                                                        style={{
+                                                            position: 'absolute',
+                                                            right: '12px',
+                                                            top: '50%',
+                                                            transform: 'translateY(-50%)',
+                                                            background: 'none',
+                                                            border: 'none',
+                                                            cursor: 'pointer',
+                                                            color: 'var(--color-slate)',
+                                                            padding: 0,
+                                                            display: 'flex',
+                                                        }}
+                                                        aria-label={showPassword ? 'Hide password' : 'Show password'}
+                                                    >
+                                                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                                    </button>
+                                                </div>
                                                 <p className="form-hint">At least 8 characters with uppercase, lowercase, and number</p>
                                             </div>
 
                                             <div className="form-group">
                                                 <label className="form-label">Confirm Password</label>
-                                                <input
-                                                    type="password"
-                                                    className="form-input"
-                                                    value={formData.confirmPassword}
-                                                    onChange={(e) => updateFormData('confirmPassword', e.target.value)}
-                                                    required
-                                                    disabled={isLoading}
-                                                />
+                                                <div style={{ position: 'relative' }}>
+                                                    <input
+                                                        type={showConfirmPassword ? 'text' : 'password'}
+                                                        className="form-input"
+                                                        style={{ paddingRight: '44px' }}
+                                                        value={formData.confirmPassword}
+                                                        onChange={(e) => updateFormData('confirmPassword', e.target.value)}
+                                                        required
+                                                        disabled={isLoading}
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setShowConfirmPassword(v => !v)}
+                                                        style={{
+                                                            position: 'absolute',
+                                                            right: '12px',
+                                                            top: '50%',
+                                                            transform: 'translateY(-50%)',
+                                                            background: 'none',
+                                                            border: 'none',
+                                                            cursor: 'pointer',
+                                                            color: 'var(--color-slate)',
+                                                            padding: 0,
+                                                            display: 'flex',
+                                                        }}
+                                                        aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+                                                    >
+                                                        {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                                    </button>
+                                                </div>
                                             </div>
 
                                             <div className="form-group">
