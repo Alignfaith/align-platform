@@ -45,7 +45,6 @@ function LoginForm() {
                 } else {
                     router.push('/dashboard')
                 }
-                router.refresh()
             }
         } catch {
             setError('An error occurred. Please try again.')

@@ -138,7 +138,7 @@ export default function DashboardPage() {
                                     </div>
                                     {session.user.tier === 'FREE' && (
                                         <p style={{ color: 'var(--color-slate)', marginBottom: 'var(--space-4)', fontSize: 'var(--text-sm)' }}>
-                                            Free members focus on private personal growth. Upgrade to unlock community features and discovery.
+                                            Free members are welcome to grow privately. Upgrade to unlock community features and discovery.
                                         </p>
                                     )}
                                     <Link href="/pricing" className="btn btn--secondary btn--sm" style={{ width: '100%' }}>

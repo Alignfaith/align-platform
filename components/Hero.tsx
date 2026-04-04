@@ -27,9 +27,9 @@ export default function Hero() {
                         </div>
 
                         <h1 className="hero__title hero__title--brand">
-                            ALIGN
+                            ROOTED
                         </h1>
-                        <p className="hero__tagline">The Relational Fitness Ecosystem for intentional believers.</p>
+                        <p className="hero__tagline">This Christian dating site focuses on personal growth before alignment.</p>
 
                         <p className="hero__description">
                             Align is a <strong>Preparation-First</strong> community. We equip you to become the person you are looking for through our Six Pillar framework before you align with a partner.

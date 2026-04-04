@@ -73,8 +73,8 @@ export default function Header() {
                     <Image
                         src="/images/logo.png"
                         alt="Align"
-                        width={100}
-                        height={130}
+                        width={70}
+                        height={90}
                         priority
                     />
                     <span className="header__brand">ALIGN</span>

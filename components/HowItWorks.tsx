@@ -14,7 +14,7 @@ const steps = [
     {
         icon: CreditCard,
         title: 'Choose Commitment',
-        description: 'Select a tier to unlock community features. Free members focus solely on private personal growth.',
+        description: 'Select a tier to unlock community features. Free members are welcome to grow privately at their own pace.',
     },
     {
         icon: Users,
