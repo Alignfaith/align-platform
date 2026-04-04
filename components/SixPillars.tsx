@@ -1,94 +1,124 @@
-import Image from 'next/image'
-import {
-    Church,
-    Brain,
-    Dumbbell,
-    Wallet,
-    Sparkles,
-    Heart
-} from 'lucide-react'
+import { Church, Brain, Dumbbell, Wallet, Sparkles, Heart } from 'lucide-react'
 
-// Descriptions from SOURCE_OF_TRUTH.md
 const pillars = [
     {
         icon: Church,
         title: 'Spiritual Fitness',
-        weight: '30%',
-        description: 'How your faith shows up in your daily life, decisions, and relationships. This is about belief, practice, community, and direction, not perfection.',
-        image: 'https://images.unsplash.com/photo-1507692049790-de58290a4334?w=400&q=80',
+        description: 'How your faith shows up in your daily life, decisions, and relationships.',
+        color: '#E11D48',
     },
     {
         icon: Brain,
         title: 'Mental Fitness',
-        weight: '20%',
-        description: 'How you think, respond, take responsibility, and handle life\'s pressures. This is about perspective, humility, and self-control, not diagnoses.',
-        image: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=400&q=80',
-    },
-    {
-        icon: Heart,
-        title: 'Intimacy Fitness',
-        weight: '20%',
-        description: 'How you approach closeness, boundaries, trust, and emotional connection. This is about intention and maturity, not sexual experience or speed.',
-        image: 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400&q=80',
+        description: 'How you think, respond, and handle life\'s pressures with humility and self-control.',
+        color: '#3B82F6',
     },
     {
         icon: Wallet,
         title: 'Financial Fitness',
-        weight: '15%',
-        description: 'How you manage money, responsibility, and stability in your life. This is about stewardship and habits, not income or net worth.',
-        image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=400&q=80',
+        description: 'How you manage money, build stability, and practice stewardship in your life.',
+        color: '#F59E0B',
     },
     {
         icon: Dumbbell,
         title: 'Physical Fitness',
-        weight: '10%',
-        description: 'How you care for your body through movement, health, and daily habits. This is about consistency and effort, not appearance or athleticism.',
-        image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&q=80',
+        description: 'How you care for your body through movement, health, and consistent daily habits.',
+        color: '#10B981',
     },
     {
         icon: Sparkles,
         title: 'Appearance Fitness',
-        weight: '5%',
-        description: 'How you present yourself and the effort you put into showing up well. This is about self-respect and awareness, not fashion or vanity.',
-        image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
+        description: 'How you present yourself and honor God through intentional self-care.',
+        color: '#8B5CF6',
+    },
+    {
+        icon: Heart,
+        title: 'Intimacy Fitness',
+        description: 'How you approach closeness, trust, and emotional connection with intention.',
+        color: '#EC4899',
     },
 ]
 
 export default function SixPillars() {
     return (
-        <section id="pillars" className="section section--cream">
+        <section style={{
+            background: 'var(--color-bg-primary)',
+            padding: 'var(--space-24) 0',
+        }}>
             <div className="container">
                 <div className="text-center" style={{ marginBottom: 'var(--space-16)' }}>
-                    <div className="section-badge">
-                        <Sparkles size={14} />
-                        <span>The Framework</span>
-                    </div>
-                    <h2 className="section-title">The Six Pillars</h2>
-                    <p className="section-subtitle">
-                        Align uses the Six Pillars to measure <strong>alignment</strong> between you and potential matches. 
-                        Not all areas of life matter equally in a long-term relationship—some differences are preferences, others are foundational.
+                    <p style={{
+                        fontSize: 'var(--text-sm)',
+                        fontWeight: 'var(--font-semibold)',
+                        color: 'var(--color-primary)',
+                        letterSpacing: '0.1em',
+                        textTransform: 'uppercase',
+                        marginBottom: 'var(--space-3)',
+                    }}>
+                        The Framework
+                    </p>
+                    <h2 style={{
+                        color: 'var(--color-text-primary)',
+                        marginBottom: 'var(--space-4)',
+                    }}>
+                        The Six Pillars
+                    </h2>
+                    <p style={{
+                        fontSize: 'var(--text-lg)',
+                        color: 'var(--color-text-secondary)',
+                        maxWidth: '560px',
+                        margin: '0 auto',
+                        lineHeight: 'var(--leading-relaxed)',
+                    }}>
+                        Align measures readiness across six areas of life — because lasting relationships
+                        are built on more than attraction.
                     </p>
                 </div>
 
-                <div className="pillars-grid">
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                    gap: 'var(--space-6)',
+                }}>
                     {pillars.map((pillar) => (
-                        <div key={pillar.title} className="pillar-card">
-                            <div className="pillar-card__image">
-                                <Image
-                                    src={pillar.image}
-                                    alt={pillar.title}
-                                    fill
-                                    style={{ objectFit: 'cover' }}
-                                />
-                                <div className="pillar-card__image-overlay" />
+                        <div
+                            key={pillar.title}
+                            style={{
+                                padding: 'var(--space-8)',
+                                borderRadius: 'var(--radius-xl)',
+                                background: 'var(--color-bg-secondary)',
+                                border: '1px solid var(--color-border-subtle)',
+                                transition: 'border-color 200ms ease, transform 200ms ease',
+                            }}
+                        >
+                            <div style={{
+                                width: '48px',
+                                height: '48px',
+                                borderRadius: 'var(--radius-lg)',
+                                background: `${pillar.color}18`,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                marginBottom: 'var(--space-5)',
+                            }}>
+                                <pillar.icon size={22} color={pillar.color} />
                             </div>
-                            <div className="pillar-card__content">
-                                <div className="pillar-card__icon">
-                                    <pillar.icon size={24} />
-                                </div>
-                                <h3 className="pillar-card__title">{pillar.title}</h3>
-                                <p className="pillar-card__description">{pillar.description}</p>
-                            </div>
+                            <h3 style={{
+                                fontSize: 'var(--text-lg)',
+                                fontWeight: 'var(--font-bold)',
+                                color: 'var(--color-text-primary)',
+                                marginBottom: 'var(--space-2)',
+                            }}>
+                                {pillar.title}
+                            </h3>
+                            <p style={{
+                                fontSize: 'var(--text-sm)',
+                                color: 'var(--color-text-secondary)',
+                                lineHeight: 'var(--leading-relaxed)',
+                                margin: 0,
+                            }}>
+                                {pillar.description}
+                            </p>
                         </div>
                     ))}
                 </div>

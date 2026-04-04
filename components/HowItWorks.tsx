@@ -1,103 +1,107 @@
-import { UserPlus, BookOpen, CreditCard, Users } from 'lucide-react'
+import { Layers, TrendingUp, Heart } from 'lucide-react'
 
 const steps = [
     {
-        icon: UserPlus,
-        title: 'Join the Ecosystem',
-        description: 'Create your profile and start your personal assessment. This is your first step into the training ground.',
+        icon: Layers,
+        number: '01',
+        title: 'Build Your Foundation',
+        description: 'Complete the Six Pillar assessment to understand where you are spiritually, mentally, physically, financially, and relationally.',
     },
     {
-        icon: BookOpen,
-        title: 'Weekly Reflections',
-        description: 'Post updates to your Six Pillars. Your "Readiness Score" grows as you document your journey.',
+        icon: TrendingUp,
+        number: '02',
+        title: 'Grow With Purpose',
+        description: 'Access tools, reflections, and community resources designed to strengthen each pillar of your life before you pursue a relationship.',
     },
     {
-        icon: CreditCard,
-        title: 'Choose Commitment',
-        description: 'Select a tier to unlock community features. Free members are welcome to grow privately at their own pace.',
-    },
-    {
-        icon: Users,
-        title: 'Phased Discovery',
-        description: 'Connections start with Pillar alignment. Photos and deep contact unlock as you grow in conversation.',
+        icon: Heart,
+        number: '03',
+        title: 'Align With Someone Real',
+        description: 'Get matched with someone who shares your values, faith, and direction — based on character and pillar alignment, not just photos.',
     },
 ]
 
 export default function HowItWorks() {
     return (
-        <section id="how-it-works" className="section section--white">
+        <section className="section section--white">
             <div className="container">
-                <div className="text-center" style={{ marginBottom: 'var(--space-12)' }}>
-                    <h2 style={{ marginBottom: 'var(--space-4)' }}>How Align Works</h2>
+                <div className="text-center" style={{ marginBottom: 'var(--space-16)' }}>
+                    <h2 style={{ marginBottom: 'var(--space-4)', color: 'var(--color-text-primary)' }}>
+                        How Align Works
+                    </h2>
                     <p style={{
                         fontSize: 'var(--text-lg)',
-                        color: 'var(--color-slate)',
-                        maxWidth: '600px',
+                        color: 'var(--color-text-secondary)',
+                        maxWidth: '560px',
                         margin: '0 auto',
+                        lineHeight: 'var(--leading-relaxed)',
                     }}>
-                        This is not a swipe app. All interaction is built around personal growth,
-                        faith, and readiness before connection.
+                        This is not a swipe app. Every feature is built around growth, faith, and readiness.
                     </p>
                 </div>
 
                 <div style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
                     gap: 'var(--space-8)',
                 }}>
-                    {steps.map((step, index) => (
+                    {steps.map((step) => (
                         <div
-                            key={step.title}
+                            key={step.number}
                             style={{
                                 display: 'flex',
                                 flexDirection: 'column',
-                                alignItems: 'center',
-                                textAlign: 'center',
-                                padding: 'var(--space-6)',
+                                alignItems: 'flex-start',
+                                padding: 'var(--space-8)',
+                                borderRadius: 'var(--radius-xl)',
+                                border: '1px solid var(--color-border-subtle)',
+                                background: 'var(--color-bg-secondary)',
+                                transition: 'border-color 200ms ease',
                             }}
                         >
                             <div style={{
-                                width: '80px',
-                                height: '80px',
-                                borderRadius: 'var(--radius-full)',
-                                background: 'linear-gradient(135deg, rgba(225, 29, 72, 0.1) 0%, rgba(225, 29, 72, 0.05) 100%)',
-                                border: '1px solid rgba(225, 29, 72, 0.2)',
                                 display: 'flex',
                                 alignItems: 'center',
-                                justifyContent: 'center',
-                                marginBottom: 'var(--space-4)',
-                                position: 'relative',
+                                justifyContent: 'space-between',
+                                width: '100%',
+                                marginBottom: 'var(--space-6)',
                             }}>
-                                <step.icon size={32} color="#E11D48" />
-                                <span style={{
-                                    position: 'absolute',
-                                    top: '-8px',
-                                    right: '-8px',
-                                    width: '32px',
-                                    height: '32px',
-                                    borderRadius: 'var(--radius-full)',
-                                    background: 'linear-gradient(135deg, #E11D48 0%, #F43F5E 50%, #BE123C 100%)',
-                                    color: '#FFFFFF',
+                                <div style={{
+                                    width: '52px',
+                                    height: '52px',
+                                    borderRadius: 'var(--radius-lg)',
+                                    background: 'rgba(225, 29, 72, 0.1)',
+                                    border: '1px solid rgba(225, 29, 72, 0.2)',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    fontWeight: '700',
-                                    fontSize: 'var(--text-sm)',
                                 }}>
-                                    {index + 1}
+                                    <step.icon size={24} color="#E11D48" />
+                                </div>
+                                <span style={{
+                                    fontFamily: 'var(--font-heading)',
+                                    fontSize: 'var(--text-3xl)',
+                                    fontWeight: 'var(--font-extrabold)',
+                                    color: 'rgba(225, 29, 72, 0.15)',
+                                    lineHeight: 1,
+                                }}>
+                                    {step.number}
                                 </span>
                             </div>
                             <h3 style={{
-                                fontFamily: 'var(--font-heading)',
                                 fontSize: 'var(--text-xl)',
-                                marginBottom: 'var(--space-2)',
+                                fontWeight: 'var(--font-bold)',
+                                color: 'var(--color-text-primary)',
+                                marginBottom: 'var(--space-3)',
+                                lineHeight: 'var(--leading-snug)',
                             }}>
                                 {step.title}
                             </h3>
                             <p style={{
-                                color: 'var(--color-slate)',
                                 fontSize: 'var(--text-sm)',
-                                marginBottom: 0,
+                                color: 'var(--color-text-secondary)',
+                                lineHeight: 'var(--leading-relaxed)',
+                                margin: 0,
                             }}>
                                 {step.description}
                             </p>
