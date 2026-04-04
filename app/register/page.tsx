@@ -480,10 +480,10 @@ export default function RegisterPage() {
                                                         type="checkbox"
                                                         checked={formData.hasReadBook}
                                                         onChange={(e) => updateFormData('hasReadBook', e.target.checked)}
-                                                        style={{ marginTop: '4px' }}
+                                                        style={{ marginTop: '4px', flexShrink: 0 }}
                                                         disabled={isLoading}
                                                     />
-                                                    <span>
+                                                    <span style={{ flex: 1, minWidth: 0 }}>
                                                         I have read or am committed to reading the Relationship Fitness book to understand the framework.
                                                     </span>
                                                 </label>
@@ -504,11 +504,11 @@ export default function RegisterPage() {
                                                         type="checkbox"
                                                         checked={formData.understandsFramework}
                                                         onChange={(e) => updateFormData('understandsFramework', e.target.checked)}
-                                                        style={{ marginTop: '4px' }}
+                                                        style={{ marginTop: '4px', flexShrink: 0 }}
                                                         required
                                                         disabled={isLoading}
                                                     />
-                                                    <span>
+                                                    <span style={{ flex: 1, minWidth: 0 }}>
                                                         I understand that Align is built on the Six Pillars framework and that preparation
                                                         comes before connection.
                                                     </span>
@@ -569,11 +569,11 @@ export default function RegisterPage() {
                                                         type="checkbox"
                                                         checked={formData.agreesToGuidelines}
                                                         onChange={(e) => updateFormData('agreesToGuidelines', e.target.checked)}
-                                                        style={{ marginTop: '4px' }}
+                                                        style={{ marginTop: '4px', flexShrink: 0 }}
                                                         required
                                                         disabled={isLoading}
                                                     />
-                                                    <span>
+                                                    <span style={{ flex: 1, minWidth: 0 }}>
                                                         I affirm my commitment to Christian values and agree to follow the community guidelines.
                                                     </span>
                                                 </label>
@@ -594,11 +594,11 @@ export default function RegisterPage() {
                                                         type="checkbox"
                                                         checked={formData.agreesToTerms}
                                                         onChange={(e) => updateFormData('agreesToTerms', e.target.checked)}
-                                                        style={{ marginTop: '4px' }}
+                                                        style={{ marginTop: '4px', flexShrink: 0 }}
                                                         required
                                                         disabled={isLoading}
                                                     />
-                                                    <span>
+                                                    <span style={{ flex: 1, minWidth: 0 }}>
                                                         I agree to the <Link href="/terms" style={{ color: 'var(--color-primary)' }}>Terms of Service</Link> and{' '}
                                                         <Link href="/privacy" style={{ color: 'var(--color-primary)' }}>Privacy Policy</Link>.
                                                     </span>
