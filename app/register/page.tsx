@@ -465,54 +465,59 @@ export default function RegisterPage() {
                                                 </p>
                                             </div>
 
-                                            <div className="form-group">
-                                                <label style={{
+                                            <div style={{ marginBottom: 'var(--space-5)' }}>
+                                                <div style={{
                                                     display: 'flex',
                                                     alignItems: 'flex-start',
-                                                    gap: 'var(--space-3)',
-                                                    cursor: 'pointer',
+                                                    gap: '12px',
                                                     padding: 'var(--space-3)',
                                                     borderRadius: 'var(--radius-md)',
                                                     border: '2px solid var(--color-rose)',
                                                     backgroundColor: formData.hasReadBook ? 'var(--color-blush)' : 'transparent',
-                                                }}>
+                                                    cursor: 'pointer',
+                                                    boxSizing: 'border-box',
+                                                    width: '100%',
+                                                }} onClick={() => !isLoading && updateFormData('hasReadBook', !formData.hasReadBook)}>
                                                     <input
                                                         type="checkbox"
+                                                        id="hasReadBook"
                                                         checked={formData.hasReadBook}
                                                         onChange={(e) => updateFormData('hasReadBook', e.target.checked)}
-                                                        style={{ marginTop: '4px', flexShrink: 0, width: 'auto', padding: 0 }}
+                                                        style={{ marginTop: '4px', flexShrink: 0, cursor: 'pointer' }}
                                                         disabled={isLoading}
                                                     />
-                                                    <span style={{ flex: 1, minWidth: 0 }}>
+                                                    <label htmlFor="hasReadBook" style={{ cursor: 'pointer', flex: 1, margin: 0, fontWeight: 'normal', fontSize: 'var(--text-sm)' }}>
                                                         I have read or am committed to reading the Relationship Fitness book to understand the framework.
-                                                    </span>
-                                                </label>
+                                                    </label>
+                                                </div>
                                             </div>
 
-                                            <div className="form-group">
-                                                <label style={{
+                                            <div style={{ marginBottom: 'var(--space-5)' }}>
+                                                <div style={{
                                                     display: 'flex',
                                                     alignItems: 'flex-start',
-                                                    gap: 'var(--space-3)',
-                                                    cursor: 'pointer',
+                                                    gap: '12px',
                                                     padding: 'var(--space-3)',
                                                     borderRadius: 'var(--radius-md)',
                                                     border: '2px solid var(--color-rose)',
                                                     backgroundColor: formData.understandsFramework ? 'var(--color-blush)' : 'transparent',
-                                                }}>
+                                                    cursor: 'pointer',
+                                                    boxSizing: 'border-box',
+                                                    width: '100%',
+                                                }} onClick={() => !isLoading && updateFormData('understandsFramework', !formData.understandsFramework)}>
                                                     <input
                                                         type="checkbox"
+                                                        id="understandsFramework"
                                                         checked={formData.understandsFramework}
                                                         onChange={(e) => updateFormData('understandsFramework', e.target.checked)}
-                                                        style={{ marginTop: '4px', flexShrink: 0, width: 'auto', padding: 0 }}
-                                                        required
+                                                        style={{ marginTop: '4px', flexShrink: 0, cursor: 'pointer' }}
                                                         disabled={isLoading}
                                                     />
-                                                    <span style={{ flex: 1, minWidth: 0 }}>
+                                                    <label htmlFor="understandsFramework" style={{ cursor: 'pointer', flex: 1, margin: 0, fontWeight: 'normal', fontSize: 'var(--text-sm)' }}>
                                                         I understand that Align is built on the Six Pillars framework and that preparation
                                                         comes before connection.
-                                                    </span>
-                                                </label>
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                     )}
@@ -554,55 +559,59 @@ export default function RegisterPage() {
                                                 </ul>
                                             </div>
 
-                                            <div className="form-group">
-                                                <label style={{
+                                            <div style={{ marginBottom: 'var(--space-5)' }}>
+                                                <div style={{
                                                     display: 'flex',
                                                     alignItems: 'flex-start',
-                                                    gap: 'var(--space-3)',
-                                                    cursor: 'pointer',
+                                                    gap: '12px',
                                                     padding: 'var(--space-3)',
                                                     borderRadius: 'var(--radius-md)',
                                                     border: '2px solid var(--color-rose)',
                                                     backgroundColor: formData.agreesToGuidelines ? 'var(--color-blush)' : 'transparent',
-                                                }}>
+                                                    cursor: 'pointer',
+                                                    boxSizing: 'border-box',
+                                                    width: '100%',
+                                                }} onClick={() => !isLoading && updateFormData('agreesToGuidelines', !formData.agreesToGuidelines)}>
                                                     <input
                                                         type="checkbox"
+                                                        id="agreesToGuidelines"
                                                         checked={formData.agreesToGuidelines}
                                                         onChange={(e) => updateFormData('agreesToGuidelines', e.target.checked)}
-                                                        style={{ marginTop: '4px', flexShrink: 0, width: 'auto', padding: 0 }}
-                                                        required
+                                                        style={{ marginTop: '4px', flexShrink: 0, cursor: 'pointer' }}
                                                         disabled={isLoading}
                                                     />
-                                                    <span style={{ flex: 1, minWidth: 0 }}>
+                                                    <label htmlFor="agreesToGuidelines" style={{ cursor: 'pointer', flex: 1, margin: 0, fontWeight: 'normal', fontSize: 'var(--text-sm)' }}>
                                                         I affirm my commitment to Christian values and agree to follow the community guidelines.
-                                                    </span>
-                                                </label>
+                                                    </label>
+                                                </div>
                                             </div>
 
-                                            <div className="form-group">
-                                                <label style={{
+                                            <div style={{ marginBottom: 'var(--space-5)' }}>
+                                                <div style={{
                                                     display: 'flex',
                                                     alignItems: 'flex-start',
-                                                    gap: 'var(--space-3)',
-                                                    cursor: 'pointer',
+                                                    gap: '12px',
                                                     padding: 'var(--space-3)',
                                                     borderRadius: 'var(--radius-md)',
                                                     border: '2px solid var(--color-rose)',
                                                     backgroundColor: formData.agreesToTerms ? 'var(--color-blush)' : 'transparent',
-                                                }}>
+                                                    cursor: 'pointer',
+                                                    boxSizing: 'border-box',
+                                                    width: '100%',
+                                                }} onClick={() => !isLoading && updateFormData('agreesToTerms', !formData.agreesToTerms)}>
                                                     <input
                                                         type="checkbox"
+                                                        id="agreesToTerms"
                                                         checked={formData.agreesToTerms}
                                                         onChange={(e) => updateFormData('agreesToTerms', e.target.checked)}
-                                                        style={{ marginTop: '4px', flexShrink: 0, width: 'auto', padding: 0 }}
-                                                        required
+                                                        style={{ marginTop: '4px', flexShrink: 0, cursor: 'pointer' }}
                                                         disabled={isLoading}
                                                     />
-                                                    <span style={{ flex: 1, minWidth: 0 }}>
+                                                    <label htmlFor="agreesToTerms" style={{ cursor: 'pointer', flex: 1, margin: 0, fontWeight: 'normal', fontSize: 'var(--text-sm)' }}>
                                                         I agree to the <Link href="/terms" style={{ color: 'var(--color-primary)' }}>Terms of Service</Link> and{' '}
                                                         <Link href="/privacy" style={{ color: 'var(--color-primary)' }}>Privacy Policy</Link>.
-                                                    </span>
-                                                </label>
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                     )}
