@@ -27,7 +27,7 @@ export default function Hero() {
                         </div>
 
                         <h1 className="hero__title hero__title--brand">
-                            ROOTED
+                            ALIGN
                         </h1>
                         <p className="hero__tagline">This Christian dating site focuses on personal growth before alignment.</p>
 
