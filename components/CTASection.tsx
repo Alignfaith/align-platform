@@ -35,6 +35,14 @@ export default function CTASection() {
                         Get Started
                         <ArrowRight size={18} />
                     </Link>
+                    <a
+                        href="https://www.amazon.com/s?k=Relationship+Fitness+Thomas+Marks"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn--outline-white btn--lg"
+                    >
+                        Get the Book
+                    </a>
                 </div>
             </div>
         </section>

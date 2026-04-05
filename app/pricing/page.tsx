@@ -42,25 +42,34 @@ export default function PricingPage() {
                                 display: 'flex',
                                 justifyContent: 'center',
                             }}>
-                                <div style={{
-                                    position: 'relative',
-                                    borderRadius: 'var(--radius-lg)',
-                                    overflow: 'hidden',
-                                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                                    transform: 'perspective(1000px) rotateY(-5deg)',
-                                    transition: 'transform 0.3s ease',
-                                }}>
-                                    <Image
-                                        src="/images/book-cover.jpg"
-                                        alt="Relationship Fitness: Preparing yourself for the love you desire by Thomas Marks"
-                                        width={350}
-                                        height={450}
-                                        style={{
-                                            objectFit: 'cover',
-                                        }}
-                                        priority
-                                    />
-                                </div>
+                                <a
+                                    href="https://www.amazon.com/s?k=Relationship+Fitness+Thomas+Marks"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{ display: 'block' }}
+                                    title="Get Relationship Fitness on Amazon"
+                                >
+                                    <div style={{
+                                        position: 'relative',
+                                        borderRadius: 'var(--radius-lg)',
+                                        overflow: 'hidden',
+                                        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                                        transform: 'perspective(1000px) rotateY(-5deg)',
+                                        transition: 'transform 0.3s ease',
+                                    }}>
+                                        <Image
+                                            src="/images/book-cover.jpg"
+                                            alt="Relationship Fitness: Preparing yourself for the love you desire by Thomas Marks"
+                                            width={350}
+                                            height={450}
+                                            style={{
+                                                objectFit: 'cover',
+                                                display: 'block',
+                                            }}
+                                            priority
+                                        />
+                                    </div>
+                                </a>
                             </div>
 
                             {/* Book Info */}
