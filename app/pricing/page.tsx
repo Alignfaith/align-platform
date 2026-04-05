@@ -43,7 +43,7 @@ export default function PricingPage() {
                                 justifyContent: 'center',
                             }}>
                                 <a
-                                    href="https://www.amazon.com/s?k=Relationship+Fitness+Thomas+Marks"
+                                    href="https://a.co/d/0ga6eAg8"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     style={{ display: 'block' }}
@@ -58,7 +58,7 @@ export default function PricingPage() {
                                         transition: 'transform 0.3s ease',
                                     }}>
                                         <Image
-                                            src="/images/book-cover.jpg"
+                                            src="/images/book-cover.png"
                                             alt="Relationship Fitness: Preparing yourself for the love you desire by Thomas Marks"
                                             width={350}
                                             height={450}

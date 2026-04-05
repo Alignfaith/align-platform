@@ -36,7 +36,7 @@ export default function CTASection() {
                         <ArrowRight size={18} />
                     </Link>
                     <a
-                        href="https://www.amazon.com/s?k=Relationship+Fitness+Thomas+Marks"
+                        href="https://a.co/d/0ga6eAg8"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn btn--outline-white btn--lg"
