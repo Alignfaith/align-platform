@@ -25,9 +25,9 @@ const tiers = [
     {
         name: 'Tier 1',
         subtitle: 'Preparation Engagement',
-        price: '$34.99',
+        price: '$29.99',
         period: '/month',
-        saveText: 'Or $29.99/mo with 6-month commitment',
+        saveText: '6-month commitment required',
         features: [
             { text: 'Everything in Free', included: true },
             { text: 'View other members through pillar system', included: true },
@@ -45,9 +45,9 @@ const tiers = [
     {
         name: 'Tier 2',
         subtitle: 'Connection Plus',
-        price: '$44.99',
+        price: '$39.99',
         period: '/month',
-        saveText: 'Or $39.99/mo with 6-month commitment',
+        saveText: '6-month commitment required',
         features: [
             { text: 'Everything in Tier 1', included: true },
             { text: 'Priority placement in discovery', included: true },

@@ -1298,8 +1298,9 @@ img {
 
 .tier-card__save {
   font-size: var(--text-sm);
-  color: var(--color-accent);
-  font-weight: var(--font-semibold);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-normal);
+  font-style: italic;
   margin-bottom: var(--space-6);
 }
 
