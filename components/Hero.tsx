@@ -1,12 +1,5 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Check } from 'lucide-react'
-
-const trustIndicators = [
-    'Built on the Six Pillars',
-    '100% Faith-Based',
-    'No Swiping, No Games',
-]
 
 export default function Hero() {
     return (
@@ -17,62 +10,61 @@ export default function Hero() {
                     position: 'absolute',
                     inset: 0,
                     zIndex: 1,
-                    background: '#1a1a2e',
+                    background: '#0d0d14',
                 }}>
                     <Image
                         src="/images/hero-cross.png"
-                        alt="Cross"
+                        alt="Heart and cross"
                         fill
                         priority
-                        style={{ objectFit: 'contain', objectPosition: 'center' }}
+                        style={{ objectFit: 'contain', objectPosition: 'center 30%' }}
                     />
                 </div>
 
-                {/* z-index 2 — dark overlay sits directly on top of image */}
+                {/* z-index 2 — gradient overlay: transparent at top, dark at bottom so text is readable */}
                 <div style={{
                     position: 'absolute',
                     inset: 0,
                     zIndex: 2,
-                    background: 'rgba(0, 0, 0, 0.55)',
+                    background: 'linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.82) 75%, rgba(0,0,0,0.92) 100%)',
                 }} />
 
-                {/* z-index 3 — text content above overlay */}
-                <div className="container" style={{ position: 'relative', zIndex: 3 }}>
+                {/* z-index 3 — text content anchored to bottom of hero */}
+                <div className="container" style={{ position: 'relative', zIndex: 3, width: '100%' }}>
                     <div className="hero__centered">
-                        <p className="hero__eyebrow">
-                            Faith-Centered Relationship Platform
-                        </p>
-
                         <h1 className="hero__headline">
-                            Prepare Before<br />You Pursue
+                            Prepare Your Heart.<br />
+                            Align Your Life.<br />
+                            Find God-Centered Love.
                         </h1>
 
                         <p className="hero__subheadline">
-                            Align is not a dating app. It&apos;s a faith-based platform that helps Christian singles
-                            grow spiritually, mentally, and financially — so you become the person worth finding
-                            before you start looking.
+                            A faith-based platform helping Christian singles grow spiritually and in every
+                            area of life — so you&apos;re ready for meaningful, no-games relationships.
                         </p>
-
-                        <div className="hero__trust">
-                            {trustIndicators.map((label) => (
-                                <div key={label} className="hero__trust-item">
-                                    <Check size={14} strokeWidth={3} className="hero__trust-icon" />
-                                    <span>{label}</span>
-                                </div>
-                            ))}
-                        </div>
 
                         <div className="hero__actions">
                             <Link href="/register" className="btn btn--primary btn--lg">
                                 Get Started Free
                             </Link>
-                            <a href="#how-it-works" className="btn btn--outline-white btn--lg">
-                                See How It Works
-                            </a>
+                            <Link href="/framework" className="btn btn--outline-white btn--lg">
+                                Explore the Six Pillars
+                            </Link>
                         </div>
+
+                        <p className="hero__trust-line">
+                            100% Faith-Based &bull; Built on Biblical Principles &bull; No Swiping, No Games
+                        </p>
                     </div>
                 </div>
             </section>
+
+            {/* Credit line */}
+            <div className="hero__credit-bar">
+                <p className="hero__credit">
+                    Created by Thomas Marks, author of the Relationship Fitness framework
+                </p>
+            </div>
 
             {/* Stats bar — solid dark section below hero */}
             <div className="hero__stats-bar">
