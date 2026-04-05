@@ -969,7 +969,6 @@ img {
   display: flex;
   align-items: flex-end;
   padding-top: var(--header-height);
-  background: var(--color-bg-primary);
   position: relative;
   overflow: hidden;
 }

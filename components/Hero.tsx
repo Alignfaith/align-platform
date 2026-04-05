@@ -1,27 +1,19 @@
 import Link from 'next/link'
-import Image from 'next/image'
 
 export default function Hero() {
     return (
         <>
-            <section className="hero">
-                {/* z-index 1 — background image, cover so no bars, bottom-aligned to show full hands */}
-                <div style={{
-                    position: 'absolute',
-                    inset: 0,
-                    zIndex: 1,
-                    background: '#1a0a00',
-                }}>
-                    <Image
-                        src="/images/hero-cross.png"
-                        alt="Heart and cross"
-                        fill
-                        priority
-                        style={{ objectFit: 'contain', objectPosition: 'center center' }}
-                    />
-                </div>
-
-                {/* z-index 2 — very light gradient: nearly clear at top, subtle darkening only at bottom for text legibility */}
+            <section
+                className="hero"
+                style={{
+                    backgroundImage: 'url(/images/hero-cross.png)',
+                    backgroundSize: 'contain',
+                    backgroundPosition: 'center 30%',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundColor: '#1a0a00',
+                }}
+            >
+                {/* Gradient overlay: very light at top, gentle darkening at bottom for text legibility */}
                 <div style={{
                     position: 'absolute',
                     inset: 0,
@@ -29,7 +21,7 @@ export default function Hero() {
                     background: 'linear-gradient(to bottom, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.50) 75%, rgba(0,0,0,0.65) 100%)',
                 }} />
 
-                {/* z-index 3 — all text anchored to bottom of hero */}
+                {/* Text content anchored to bottom of hero */}
                 <div className="container" style={{ position: 'relative', zIndex: 3, width: '100%' }}>
                     <div className="hero__centered">
                         <h1 className="hero__headline">
