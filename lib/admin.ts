@@ -16,7 +16,10 @@ export async function requireAdmin() {
     throw new AuthenticationError()
   }
 
-  if (session.user.role !== 'ADMIN') {
+  const ADMIN_EMAIL = 'thomas@dstormpg.com'
+  const isAdmin = session.user.role === 'ADMIN' || session.user.email === ADMIN_EMAIL
+
+  if (!isAdmin) {
     throw new AuthorizationError('Admin access required')
   }
 

@@ -24,8 +24,11 @@ async function getQueueCounts() {
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions)
 
-  if (!session?.user || session.user.role !== 'ADMIN') {
-    redirect('/dashboard')
+  const ADMIN_EMAIL = 'thomas@dstormpg.com'
+  const isAdmin = session?.user?.role === 'ADMIN' || session?.user?.email === ADMIN_EMAIL
+
+  if (!isAdmin) {
+    redirect('/')
   }
 
   const counts = await getQueueCounts()

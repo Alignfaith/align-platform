@@ -9,10 +9,15 @@ export async function GET() {
 
     const now = new Date()
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    const weekStart = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
 
     const [
       totalUsers,
       activeToday,
+      newThisWeek,
+      tierFree,
+      tierOne,
+      tierTwo,
       pendingPhotos,
       openReports,
       pendingAppeals,
@@ -24,6 +29,10 @@ export async function GET() {
     ] = await Promise.all([
       prisma.user.count(),
       prisma.user.count({ where: { lastActiveAt: { gte: todayStart } } }),
+      prisma.user.count({ where: { createdAt: { gte: weekStart } } }),
+      prisma.user.count({ where: { tier: 'FREE' } }),
+      prisma.user.count({ where: { tier: 'TIER_1' } }),
+      prisma.user.count({ where: { tier: 'TIER_2' } }),
       prisma.photo.count({ where: { isApproved: false, moderatedAt: null } }),
       prisma.report.count({ where: { status: 'OPEN' } }),
       prisma.appeal.count({ where: { status: 'PENDING' } }),
@@ -66,6 +75,11 @@ export async function GET() {
       stats: {
         totalUsers,
         activeToday,
+        newThisWeek,
+        tierFree,
+        tierOne,
+        tierTwo,
+        paidMembers: tierOne + tierTwo,
         pendingPhotos,
         openReports,
         pendingAppeals,
