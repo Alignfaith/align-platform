@@ -23,7 +23,7 @@ const steps = [
 
 export default function HowItWorks() {
     return (
-        <section className="section section--white">
+        <section id="how-it-works" className="section section--white">
             <div className="container">
                 <div className="text-center" style={{ marginBottom: 'var(--space-16)' }}>
                     <h2 style={{ marginBottom: 'var(--space-4)', color: 'var(--color-text-primary)' }}>
