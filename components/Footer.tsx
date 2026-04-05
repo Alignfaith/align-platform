@@ -52,39 +52,6 @@ export default function Footer() {
                     </p>
                 </div>
 
-                {/* StricklandAI Badge */}
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    paddingTop: 'var(--space-6)',
-                    borderTop: '1px solid rgba(255,255,255,0.1)',
-                    marginTop: 'var(--space-6)'
-                }}>
-                    <a
-                        href="https://stricklandai.com?ref=badge"
-                        target="_blank"
-                        rel="noopener"
-                        id="strickland-badge"
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '6px',
-                            padding: '8px 14px',
-                            background: 'linear-gradient(135deg, rgba(15,23,42,0.95) 0%, rgba(30,41,59,0.95) 100%)',
-                            border: '1px solid rgba(251,191,36,0.3)',
-                            borderRadius: '8px',
-                            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-                            textDecoration: 'none',
-                            fontFamily: 'system-ui,-apple-system,sans-serif',
-                            fontSize: '12px',
-                            color: '#fff',
-                            transition: 'transform 0.2s, box-shadow 0.2s',
-                        }}
-                    >
-                        <span style={{ fontSize: '14px' }}>⚡</span>
-                        <span>Optimized by <strong style={{ color: '#fbbf24' }}>Strickland</strong></span>
-                    </a>
-                </div>
             </div>
         </footer>
     )

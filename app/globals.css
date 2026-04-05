@@ -557,7 +557,7 @@ img {
 
 .btn--white {
   background-color: var(--color-white);
-  color: var(--color-bg-primary);
+  color: #111111;
   border-color: var(--color-white);
 }
 

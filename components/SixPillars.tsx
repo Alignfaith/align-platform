@@ -76,14 +76,17 @@ export default function SixPillars() {
                 </div>
 
                 <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    justifyContent: 'center',
                     gap: 'var(--space-6)',
                 }}>
                     {pillars.map((pillar) => (
                         <div
                             key={pillar.title}
                             style={{
+                                flex: '0 1 calc(33.333% - 16px)',
+                                minWidth: '260px',
                                 padding: 'var(--space-8)',
                                 borderRadius: 'var(--radius-xl)',
                                 background: 'var(--color-bg-secondary)',
