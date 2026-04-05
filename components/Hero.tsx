@@ -10,13 +10,14 @@ export default function Hero() {
                     position: 'absolute',
                     inset: 0,
                     zIndex: 1,
+                    background: '#1a1a2e',
                 }}>
                     <Image
                         src="/images/hero-cross.png"
                         alt="Cross"
                         fill
                         priority
-                        style={{ objectFit: 'cover', objectPosition: 'center' }}
+                        style={{ objectFit: 'contain', objectPosition: 'center' }}
                     />
                 </div>
 
