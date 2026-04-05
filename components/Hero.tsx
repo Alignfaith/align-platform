@@ -12,11 +12,11 @@ export default function Hero() {
                     zIndex: 1,
                 }}>
                     <Image
-                        src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=1920&q=80"
-                        alt="Couple holding hands"
+                        src="/images/hero-cross.png"
+                        alt="Cross"
                         fill
                         priority
-                        style={{ objectFit: 'cover', objectPosition: 'center 30%' }}
+                        style={{ objectFit: 'cover', objectPosition: 'center' }}
                     />
                 </div>
 
@@ -25,7 +25,7 @@ export default function Hero() {
                     position: 'absolute',
                     inset: 0,
                     zIndex: 2,
-                    background: 'rgba(0, 0, 0, 0.45)',
+                    background: 'rgba(0, 0, 0, 0.35)',
                 }} />
 
                 {/* z-index 3 — text content above overlay */}
