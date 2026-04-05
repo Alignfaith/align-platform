@@ -965,7 +965,7 @@ img {
    =================================== */
 
 .hero {
-  min-height: 80vh;
+  min-height: 100vh;
   display: flex;
   align-items: flex-end;
   padding-top: var(--header-height);
@@ -1018,25 +1018,18 @@ img {
 .hero__trust-line {
   font-size: var(--text-xs);
   letter-spacing: var(--tracking-wide);
-  color: rgba(255, 255, 255, 0.55);
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-  margin: 0;
-}
-
-/* Credit bar — thin strip between hero and stats bar */
-.hero__credit-bar {
-  background: #111116;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  padding: var(--space-3) 0;
-  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+  margin: 0 0 var(--space-3);
 }
 
 .hero__credit {
   font-size: var(--text-xs);
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.4);
   letter-spacing: var(--tracking-wide);
   margin: 0;
   font-style: italic;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* Stats bar — solid section below hero */
