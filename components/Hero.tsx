@@ -48,7 +48,7 @@ export default function Hero() {
                         </div>
 
                         <p className="hero__trust-line">
-                            100% Faith-Based &bull; Built on Biblical Principles &bull; No Swiping, No Games
+                            100% Faith-Based &bull; Built on Biblical Principles &bull; Intentional Connections
                         </p>
 
                         <p className="hero__credit">
