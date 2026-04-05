@@ -111,12 +111,13 @@ export default function FrameworkPage() {
                         </div>
 
                         <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            justifyContent: 'center',
                             gap: 'var(--space-6)',
                         }}>
                             {frameworkPrinciples.map((principle) => (
-                                <div key={principle.title} className="card">
+                                <div key={principle.title} className="card" style={{ flex: '0 1 calc(33.333% - 16px)', minWidth: '280px' }}>
                                     <div style={{
                                         display: 'flex',
                                         alignItems: 'flex-start',
@@ -153,46 +154,94 @@ export default function FrameworkPage() {
                 {/* How Pillars Work */}
                 <section className="section section--white">
                     <div className="container">
-                        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                            <h2 className="text-center" style={{ marginBottom: 'var(--space-8)' }}>
-                                How The Pillars Work on Align
-                            </h2>
+                        <div className="text-center" style={{ marginBottom: 'var(--space-12)' }}>
+                            <h2 style={{ marginBottom: 'var(--space-4)' }}>How The Pillars Work on Align</h2>
+                            <p style={{ fontSize: 'var(--text-lg)', color: 'var(--color-slate)', maxWidth: '560px', margin: '0 auto' }}>
+                                The Six Pillars power every part of the platform — from your own growth to how you connect with others.
+                            </p>
+                        </div>
 
-                            <div style={{
-                                backgroundColor: 'var(--color-cream)',
-                                borderRadius: 'var(--radius-xl)',
-                                padding: 'var(--space-8)',
-                            }}>
-                                <div style={{ marginBottom: 'var(--space-6)' }}>
-                                    <h4 style={{ color: 'var(--color-primary)', marginBottom: 'var(--space-2)' }}>
-                                        For Preparation
-                                    </h4>
-                                    <p style={{ color: 'var(--color-slate)', marginBottom: 0 }}>
-                                        Use the pillars to assess where you are and where you need to grow.
-                                        Even free members can engage with pillar-based self-reflection privately.
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+                            gap: 'var(--space-8)',
+                        }}>
+                            {[
+                                {
+                                    icon: Target,
+                                    number: '01',
+                                    title: 'For Preparation',
+                                    description: 'Use the pillars to assess where you are and where you need to grow. Even free members can engage with pillar-based self-reflection privately.',
+                                },
+                                {
+                                    icon: Compass,
+                                    number: '02',
+                                    title: 'For Discernment',
+                                    description: 'When viewing other members (paid tiers), you see their pillar engagement — not photos or bios. Discern alignment based on values and growth.',
+                                },
+                                {
+                                    icon: Heart,
+                                    number: '03',
+                                    title: 'For Alignment',
+                                    description: 'The pillars are not used for scoring or ranking. They exist to help you find alignment with someone who shares your commitment to growth and faith.',
+                                },
+                            ].map((item) => (
+                                <div key={item.title} style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'flex-start',
+                                    padding: 'var(--space-8)',
+                                    borderRadius: 'var(--radius-xl)',
+                                    border: '1px solid var(--color-border-subtle)',
+                                    background: 'var(--color-bg-secondary)',
+                                }}>
+                                    <div style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'space-between',
+                                        width: '100%',
+                                        marginBottom: 'var(--space-6)',
+                                    }}>
+                                        <div style={{
+                                            width: '52px',
+                                            height: '52px',
+                                            borderRadius: 'var(--radius-lg)',
+                                            background: 'rgba(225, 29, 72, 0.1)',
+                                            border: '1px solid rgba(225, 29, 72, 0.2)',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }}>
+                                            <item.icon size={24} color="#E11D48" />
+                                        </div>
+                                        <span style={{
+                                            fontFamily: 'var(--font-heading)',
+                                            fontSize: 'var(--text-3xl)',
+                                            fontWeight: 'var(--font-extrabold)',
+                                            color: 'rgba(225, 29, 72, 0.15)',
+                                            lineHeight: 1,
+                                        }}>
+                                            {item.number}
+                                        </span>
+                                    </div>
+                                    <h3 style={{
+                                        fontSize: 'var(--text-xl)',
+                                        fontWeight: 'var(--font-bold)',
+                                        color: 'var(--color-text-primary)',
+                                        marginBottom: 'var(--space-3)',
+                                    }}>
+                                        {item.title}
+                                    </h3>
+                                    <p style={{
+                                        fontSize: 'var(--text-sm)',
+                                        color: 'var(--color-text-secondary)',
+                                        lineHeight: 'var(--leading-relaxed)',
+                                        margin: 0,
+                                    }}>
+                                        {item.description}
                                     </p>
                                 </div>
-
-                                <div style={{ marginBottom: 'var(--space-6)' }}>
-                                    <h4 style={{ color: 'var(--color-primary)', marginBottom: 'var(--space-2)' }}>
-                                        For Discernment
-                                    </h4>
-                                    <p style={{ color: 'var(--color-slate)', marginBottom: 0 }}>
-                                        When viewing other members (paid tiers), you see their pillar engagement—not
-                                        photos or bios. This helps you discern alignment based on values and growth.
-                                    </p>
-                                </div>
-
-                                <div>
-                                    <h4 style={{ color: 'var(--color-primary)', marginBottom: 'var(--space-2)' }}>
-                                        For Alignment
-                                    </h4>
-                                    <p style={{ color: 'var(--color-slate)', marginBottom: 0 }}>
-                                        The pillars are not used for scoring or ranking. They exist to help you find
-                                        alignment with someone who shares your commitment to growth and faith.
-                                    </p>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </section>
@@ -208,9 +257,6 @@ export default function FrameworkPage() {
                             <Link href="/register" className="btn btn--white btn--lg">
                                 Get Started Free
                                 <ArrowRight size={18} />
-                            </Link>
-                            <Link href="/book" className="btn btn--outline-white btn--lg">
-                                Get the Book
                             </Link>
                         </div>
                     </div>

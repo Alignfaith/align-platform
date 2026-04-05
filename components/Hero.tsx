@@ -11,6 +11,9 @@ export default function Hero() {
                     backgroundPosition: 'center 20%',
                     backgroundRepeat: 'no-repeat',
                     backgroundColor: '#1a0a00',
+                    width: '100vw',
+                    marginLeft: 'calc(-50vw + 50%)',
+                    marginRight: 'calc(-50vw + 50%)',
                 }}
             >
                 {/* Gradient overlay: very light at top, gentle darkening at bottom for text legibility */}
