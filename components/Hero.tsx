@@ -7,8 +7,8 @@ export default function Hero() {
                 className="hero"
                 style={{
                     backgroundImage: 'url(/images/hero-cross.png)',
-                    backgroundSize: 'contain',
-                    backgroundPosition: 'center 30%',
+                    backgroundSize: '100% auto',
+                    backgroundPosition: 'center 20%',
                     backgroundRepeat: 'no-repeat',
                     backgroundColor: '#1a0a00',
                 }}
