@@ -113,11 +113,11 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true, matchesCalculated: otherProfiles.length })
   } catch (error) {
-    console.error('[assessment/complete] CAUGHT ERROR:', error)
-    if (error instanceof Error) {
-      console.error('[assessment/complete] message:', error.message)
-      console.error('[assessment/complete] stack:', error.stack)
-    }
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    const message = error instanceof Error ? error.message : String(error)
+    const stack = error instanceof Error ? error.stack : undefined
+    console.error('[assessment/complete] CAUGHT ERROR:', message)
+    console.error('[assessment/complete] stack:', stack)
+    // Return error details temporarily for debugging
+    return NextResponse.json({ error: 'Internal server error', detail: message }, { status: 500 })
   }
 }
