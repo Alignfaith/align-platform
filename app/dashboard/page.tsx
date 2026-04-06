@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { User, Heart, MessageCircle, Settings, Crown, Users, Shield } from 'lucide-react'
+import { User, Heart, MessageCircle, Settings, Crown, Users, Shield, BookOpen, Download } from 'lucide-react'
 import Link from 'next/link'
 
 import ReflectionEngine from '@/components/ReflectionEngine'
@@ -144,6 +144,44 @@ export default function DashboardPage() {
                                     <Link href="/pricing" className="btn btn--secondary btn--sm" style={{ width: '100%' }}>
                                         {session.user.tier === 'FREE' ? 'Upgrade Training' : 'Manage Subscription'}
                                     </Link>
+                                </div>
+
+                                {/* Book Download */}
+                                <div style={{
+                                    backgroundColor: 'white',
+                                    borderRadius: 'var(--radius-lg)',
+                                    padding: 'var(--space-6)',
+                                    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                                }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', marginBottom: 'var(--space-3)' }}>
+                                        <BookOpen size={22} color="var(--color-primary)" />
+                                        <h3 style={{ marginBottom: 0, fontSize: 'var(--text-base)' }}>Relationship Fitness</h3>
+                                    </div>
+                                    {session.user.tier === 'FREE' ? (
+                                        <>
+                                            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-slate)', marginBottom: 'var(--space-4)' }}>
+                                                Upgrade to get a free copy of <em>Relationship Fitness</em> by Thomas Marks.
+                                            </p>
+                                            <Link href="/pricing" className="btn btn--primary btn--sm" style={{ width: '100%', textAlign: 'center' }}>
+                                                Upgrade to Get the Book
+                                            </Link>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-slate)', marginBottom: 'var(--space-4)' }}>
+                                                Your free copy is included with your membership.
+                                            </p>
+                                            <a
+                                                href="/books/relationship-fitness.pdf"
+                                                download="Relationship-Fitness-Thomas-Marks.pdf"
+                                                className="btn btn--primary btn--sm"
+                                                style={{ width: '100%', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                                            >
+                                                <Download size={15} />
+                                                Download Your Free Copy
+                                            </a>
+                                        </>
+                                    )}
                                 </div>
 
                                 {/* Quick Links */}
