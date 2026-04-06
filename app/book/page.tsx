@@ -21,7 +21,7 @@ const testimonials = [
         location: "Atlanta, GA",
     },
     {
-        quote: "Thomas breaks down complex relationship dynamics into practical, faith-based guidance anyone can follow.",
+        quote: "Thomas breaks down complex relationship dynamics into practical, faith based guidance anyone can follow.",
         author: "Sarah M.",
         location: "Dallas, TX",
     },

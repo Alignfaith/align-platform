@@ -13,7 +13,7 @@ const frameworkPrinciples = [
     {
         icon: Shield,
         title: 'Faith as Foundation',
-        description: 'Your relationship with God must come first. A Christ-centered foundation provides the stability that every lasting relationship requires.',
+        description: 'Your relationship with God must come first. A Christ centered foundation provides the stability that every lasting relationship requires.',
     },
     {
         icon: Compass,
@@ -47,7 +47,7 @@ export default function FrameworkPage() {
                             maxWidth: '700px',
                             margin: '0 auto',
                         }}>
-                            A Christ-centered framework for personal preparation and relational readiness,
+                            A Christ centered framework for personal preparation and relational readiness,
                             built on the six pillars that every strong partnership requires.
                         </p>
                     </div>

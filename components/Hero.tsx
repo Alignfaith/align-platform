@@ -30,11 +30,11 @@ export default function Hero() {
                         <h1 className="hero__headline">
                             Prepare Your Heart.<br />
                             Align Your Life.<br />
-                            Find God-Centered Love.
+                            Find God Centered Love.
                         </h1>
 
                         <p className="hero__subheadline">
-                            A faith-based platform helping Christian singles grow spiritually and in every
+                            A faith based platform helping Christian singles grow spiritually and in every
                             area of life — so you&apos;re ready for the relationship God intends.
                         </p>
 

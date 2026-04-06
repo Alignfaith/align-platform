@@ -79,7 +79,7 @@ export default function GuidelinesPage() {
                     <div className="container text-center">
                         <h1 style={{ marginBottom: 'var(--space-4)' }}>Community Guidelines</h1>
                         <p style={{ fontSize: 'var(--text-xl)', opacity: 0.9, maxWidth: '700px', margin: '0 auto' }}>
-                            Align is a sacred space for intentional, faith-based connection. These guidelines
+                            Align is a sacred space for intentional, faith based connection. These guidelines
                             protect our community and ensure a positive experience for everyone.
                         </p>
                     </div>
