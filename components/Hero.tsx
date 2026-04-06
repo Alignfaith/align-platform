@@ -52,7 +52,7 @@ export default function Hero() {
                         </p>
 
                         <p className="hero__credit">
-                            Created by Thomas Marks, author of the Relationship Fitness framework
+                            Created by Thomas Marks, author of Relationship Fitness
                         </p>
                     </div>
                 </div>
