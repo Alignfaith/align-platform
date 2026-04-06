@@ -30,12 +30,15 @@ export const metadata: Metadata = {
     keywords: ['Christian dating', 'faith based dating', 'relationship platform', 'intentional relationships', 'meaningful connection'],
     authors: [{ name: 'Thomas Marks' }],
     icons: {
-        icon: '/images/logo.png',
-        apple: '/images/logo.png',
+        icon: [
+            { url: '/favicon.ico', sizes: '32x32', type: 'image/x-icon' },
+            { url: '/icon.png', sizes: '192x192', type: 'image/png' },
+        ],
+        apple: { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
     },
     openGraph: {
         title: 'Align | Find Meaningful Connection',
-        description: 'A Christian-based dating platform where preparation comes before connection.',
+        description: 'A Christian dating platform where preparation comes before connection.',
         type: 'website',
         locale: 'en_US',
     },
