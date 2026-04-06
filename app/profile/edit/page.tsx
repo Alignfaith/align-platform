@@ -272,7 +272,7 @@ export default function ProfileEditPage() {
                         style={{ display: 'none' }}
                       />
                     </div>
-                    <h4 style={{ marginBottom: 'var(--space-1)' }}>Identity Image</h4>
+                    <h4 style={{ marginBottom: 'var(--space-1)' }}>Photo</h4>
                     <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-slate)', marginBottom: 'var(--space-2)' }}>
                       For internal use only. Not visible to members until admin-approved.
                     </p>
