@@ -38,7 +38,7 @@ export async function GET() {
           humanVerificationPhotoUrl: true,
           humanVerificationSubmittedAt: true,
           userId: true,
-          user: { select: { email: true, name: true } },
+          user: { select: { email: true } },
         },
         orderBy: { humanVerificationSubmittedAt: 'asc' },
       }),

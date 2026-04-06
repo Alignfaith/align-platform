@@ -22,7 +22,7 @@ interface PendingVerification {
   humanVerificationPhotoUrl: string
   humanVerificationSubmittedAt: string | null
   userId: string
-  user: { email: string; name: string | null }
+  user: { email: string }
 }
 
 interface VerificationData {
@@ -194,7 +194,7 @@ export default function VerificationsPage() {
                   <p style={{ fontWeight: 600, marginBottom: '2px' }}>{v.firstName} {v.lastName}</p>
                   <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)', marginBottom: '2px' }}>{v.user.email}</p>
                   <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-secondary)', marginBottom: '2px' }}>
-                    Username: <strong>{v.user.name ?? v.user.email.split('@')[0]}</strong>
+                    Username: <strong>{v.firstName} {v.lastName}</strong>
                   </p>
                   <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)', marginBottom: 0, display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <Clock size={11} /> Submitted {timeAgo(v.humanVerificationSubmittedAt)}
