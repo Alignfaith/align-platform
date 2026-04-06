@@ -14,205 +14,242 @@ export default function AboutPage() {
                     <div className="container">
                         <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
                             <h1 style={{ marginBottom: 'var(--space-4)' }}>About Align</h1>
-                            <p style={{
-                                fontSize: 'var(--text-xl)',
-                                opacity: 0.9,
-                                fontStyle: 'italic',
-                            }}>
-                                Preparation comes before connection.
-                            </p>
-                        </div>
-                    </div>
-                </section>
+                            <p simport Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import SixPillars from '@/components/SixPillars'
+import Link from 'next/link'
+import { BookOpen, Sun, Shield, Heart } from 'lucide-react'
 
-                {/* What is Align */}
-                <section className="section section--cream">
-                    <div className="container">
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: '1fr 1fr',
-                            gap: 'var(--space-12)',
-                            alignItems: 'center',
-                        }}>
-                            <div>
-                                <h2 style={{ marginBottom: 'var(--space-4)' }}>
-                                    What is Align?
-                                </h2>
-                                <p style={{ fontSize: 'var(--text-lg)', color: 'var(--color-slate)', marginBottom: 'var(--space-4)' }}>
-                                    Align is a Christian-based relationship platform for people who want to grow in
-                                    faith, character, and readiness before engaging with others.
-                                </p>
-                                <p style={{ color: 'var(--color-slate)', marginBottom: 'var(--space-4)' }}>
-                                    This is <strong>not</strong> a swipe app. This is <strong>not</strong> profile-based dating.
-                                    All interaction is built around a Six Pillars system focused on personal growth.
-                                </p>
-                                <p style={{ color: 'var(--color-slate)' }}>
-                                    Alignment matters more than appearance. Intention leads the way.
-                                </p>
-                            </div>
+export default function AboutPage() {
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
 
-                            <div style={{
-                                backgroundColor: 'var(--color-white)',
-                                borderRadius: 'var(--radius-2xl)',
-                                padding: 'var(--space-8)',
-                                boxShadow: 'var(--shadow-lg)',
-                            }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)', marginBottom: 'var(--space-6)' }}>
-                                    <BookOpen size={40} color="var(--color-primary)" />
-                                    <div>
-                                        <h4 style={{ marginBottom: 'var(--space-1)' }}>Built on the Framework</h4>
-                                        <p style={{ color: 'var(--color-slate)', marginBottom: 0, fontSize: 'var(--text-sm)' }}>
-                                            Relationship Fitness by Thomas Marks
-                                        </p>
-                                    </div>
-                                </div>
-                                <p style={{ color: 'var(--color-charcoal)', fontStyle: 'italic', marginBottom: 0 }}>
-                                    "Most relationships do not fall apart because of a lack of love. They fall apart
-                                    because people enter them unprepared for the weight, responsibility, and spiritual
-                                    maturity that love requires."
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+        .about-hero {
+          background: linear-gradient(160deg, #c0182a 0%, #8b0e1d 100%);
+          padding: 80px 40px;
+          text-align: center;
+        }
+        .about-eyebrow {
+          font-size: 11px;
+          font-weight: 500;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.6);
+          margin-bottom: 20px;
+        }
+        .about-hero h1 {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(36px, 6vw, 56px);
+          font-weight: 700;
+          color: #fff;
+          line-height: 1.15;
+          margin-bottom: 16px;
+        }
+        .about-hero h1 em { font-style: italic; color: rgba(255,255,255,0.82); }
+        .about-hero-sub {
+          font-size: 17px;
+          color: rgba(255,255,255,0.7);
+          font-weight: 300;
+          max-width: 460px;
+          margin: 0 auto;
+        }
+        .about-what {
+          padding: 80px 40px;
+          max-width: 860px;
+          margin: 0 auto;
+        }
+        .about-label {
+          font-size: 11px;
+          font-weight: 500;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: #c0182a;
+          margin-bottom: 14px;
+          display: block;
+        }
+        .about-title {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(26px, 4vw, 36px);
+          font-weight: 700;
+          line-height: 1.2;
+          color: #1a1512;
+          margin-bottom: 20px;
+        }
+        .about-body {
+          font-size: 16px;
+          color: #4a3f35;
+          line-height: 1.8;
+          max-width: 560px;
+        }
+        .about-do-list { margin-top: 48px; }
+        .about-do-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 24px;
+          padding: 28px 0;
+          border-bottom: 1px solid #e8e2d8;
+        }
+        .about-do-item:first-child { border-top: 1px solid #e8e2d8; }
+        .about-do-icon {
+          width: 40px; height: 40px;
+          border-radius: 50%;
+          background: #fdf0f1;
+          border: 1px solid #f0c8cc;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          margin-top: 2px;
+        }
+        .about-do-title {
+          font-family: 'Playfair Display', serif;
+          font-size: 18px;
+          font-weight: 700;
+          color: #1a1512;
+          margin-bottom: 6px;
+        }
+        .about-do-body { font-size: 15px; color: #5c5047; line-height: 1.7; }
+        .about-divider { width: 100%; height: 1px; background: #e8e2d8; }
+        .about-pillars-wrap {
+          padding: 80px 40px;
+          max-width: 860px;
+          margin: 0 auto;
+        }
+        .about-quote {
+          background: #f5f0e8;
+          padding: 72px 40px;
+          text-align: center;
+          border-top: 1px solid #e8e2d8;
+          border-bottom: 1px solid #e8e2d8;
+        }
+        .about-quote-icon { display: flex; justify-content: center; margin-bottom: 28px; }
+        .about-quote-text {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(18px, 2.8vw, 23px);
+          font-style: italic;
+          color: #2a1f18;
+          max-width: 620px;
+          margin: 0 auto 24px;
+          line-height: 1.75;
+        }
+        .about-quote-attr {
+          font-size: 12px;
+          color: #9a8878;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+        }
+        .about-cta {
+          background: #c0182a;
+          padding: 72px 40px;
+          text-align: center;
+        }
+        .about-cta-title {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(28px, 4vw, 42px);
+          font-weight: 700;
+          color: #fff;
+          margin-bottom: 14px;
+        }
+        .about-cta-sub {
+          font-size: 16px;
+          color: rgba(255,255,255,0.72);
+          margin-bottom: 36px;
+          font-weight: 300;
+        }
+        .about-cta-btn {
+          display: inline-block;
+          background: #fff;
+          color: #c0182a;
+          font-size: 14px;
+          font-weight: 500;
+          letter-spacing: 0.06em;
+          padding: 14px 36px;
+          border-radius: 100px;
+          text-decoration: none;
+        }
+      `}</style>
 
-                {/* The Book */}
-                <section className="section section--white">
-                    <div className="container">
-                        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                            <div style={{ textAlign: 'center', marginBottom: 'var(--space-10)' }}>
-                                <h2 style={{ marginBottom: 'var(--space-4)' }}>The Relationship Fitness Book</h2>
-                                <p style={{ fontSize: 'var(--text-lg)', color: 'var(--color-slate)' }}>
-                                    The foundation that makes Align possible.
-                                </p>
-                            </div>
+      <Header />
 
-                            <div style={{
-                                backgroundColor: 'var(--color-blush)',
-                                borderRadius: 'var(--radius-2xl)',
-                                padding: 'var(--space-10)',
-                            }}>
-                                <h3 style={{ color: 'var(--color-primary)', marginBottom: 'var(--space-4)' }}>
-                                    Relationship Fitness: Preparing yourself for the love you desire
-                                </h3>
-                                <p style={{ marginBottom: 'var(--space-4)' }}>
-                                    <strong>By Thomas Marks</strong> — A Practical Guide to Personal Discipline,
-                                    Alignment, and Christ-Centered Growth
-                                </p>
-                                <p style={{ color: 'var(--color-slate)', marginBottom: 'var(--space-4)' }}>
-                                    Relationship Fitness is a guide to strengthening the areas that shape every relationship.
-                                    Through years of personal growth, faith, leadership, and real-world experience, Thomas Marks
-                                    reveals the six pillars that every strong partnership is built on.
-                                </p>
-                                <p style={{ color: 'var(--color-slate)', marginBottom: 'var(--space-4)' }}>
-                                    These pillars will help you confront old patterns, develop discipline, understand your
-                                    identity in God, and create stability in the areas that matter most.
-                                </p>
-                                <p style={{ color: 'var(--color-charcoal)', fontWeight: 500, marginBottom: 'var(--space-6)' }}>
-                                    This book is not about chasing a soulmate or hoping love magically works itself out.
-                                    It is about becoming the kind of person who can sustain a healthy relationship with
-                                    confidence, clarity, and purpose.
-                                </p>
-                                <Link href="/book" className="btn btn--primary">
-                                    Learn More About the Book
-                                    <ArrowRight size={18} />
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+      <main style={{ paddingTop: 'var(--header-height)' }}>
 
-                {/* Six Pillars */}
-                <SixPillars />
+        {/* Hero */}
+        <div className="about-hero">
+          <p className="about-eyebrow">About Align</p>
+          <h1>We prepare you<br />to <em>love well.</em></h1>
+          <p className="about-hero-sub">A platform built entirely around your growth in faith, character, and readiness.</p>
+        </div>
 
-                {/* Why Different */}
-                <section className="section section--white">
-                    <div className="container">
-                        <div style={{ textAlign: 'center', marginBottom: 'var(--space-10)' }}>
-                            <h2>Why Align is Different</h2>
-                        </div>
+        {/* What We Do */}
+        <div className="about-what">
+          <span className="about-label">What we do</span>
+          <h2 className="about-title">Everything here is<br />built for your growth.</h2>
+          <p className="about-body">Align is a Christian-based relationship platform where every feature, every interaction, and every prompt exists for one reason: to help you become the person a healthy relationship requires.</p>
 
-                        <div className="grid grid--3">
-                            <div className="card text-center">
-                                <div style={{
-                                    width: '64px',
-                                    height: '64px',
-                                    borderRadius: 'var(--radius-full)',
-                                    backgroundColor: 'var(--color-blush)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    margin: '0 auto var(--space-4)',
-                                }}>
-                                    <Heart size={28} color="var(--color-primary)" />
-                                </div>
-                                <h4>Character First</h4>
-                                <p style={{ color: 'var(--color-slate)', marginBottom: 0 }}>
-                                    Connect through values, pillars, and faith—not photos or superficial profiles.
-                                </p>
-                            </div>
+          <div className="about-do-list">
+            <div className="about-do-item">
+              <div className="about-do-icon"><Sun size={18} color="#c0182a" /></div>
+              <div>
+                <p className="about-do-title">We grow you through the Six Pillars</p>
+                <p className="about-do-body">All interaction on Align is organized around six areas of personal development. You grow intentionally, not by accident.</p>
+              </div>
+            </div>
+            <div className="about-do-item">
+              <div className="about-do-icon"><Shield size={18} color="#c0182a" /></div>
+              <div>
+                <p className="about-do-title">We prioritize preparation over presentation</p>
+                <p className="about-do-body">Alignment matters more than appearance. Intention leads the way. We guide you to know yourself before you connect with others.</p>
+              </div>
+            </div>
+            <div className="about-do-item">
+              <div className="about-do-icon"><Heart size={18} color="#c0182a" /></div>
+              <div>
+                <p className="about-do-title">We build intention-first connection</p>
+                <p className="about-do-body">When you're ready to connect, you meet people whose growth journey aligns with yours. Shared values and mutual readiness are the foundation.</p>
+              </div>
+            </div>
+            <div className="about-do-item">
+              <div className="about-do-icon"><BookOpen size={18} color="#c0182a" /></div>
+              <div>
+                <p className="about-do-title">We root everything in the Framework</p>
+                <p className="about-do-body">Align is built on <em>Relationship Fitness</em> by Thomas Marks, a proven framework for developing the spiritual maturity and character that love requires.</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-                            <div className="card text-center">
-                                <div style={{
-                                    width: '64px',
-                                    height: '64px',
-                                    borderRadius: 'var(--radius-full)',
-                                    backgroundColor: 'var(--color-blush)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    margin: '0 auto var(--space-4)',
-                                }}>
-                                    <Users size={28} color="var(--color-primary)" />
-                                </div>
-                                <h4>Equal Experience</h4>
-                                <p style={{ color: 'var(--color-slate)', marginBottom: 0 }}>
-                                    Men and women see the exact same experience. Same standards. Same expectations.
-                                </p>
-                            </div>
+        <div className="about-divider" />
 
-                            <div className="card text-center">
-                                <div style={{
-                                    width: '64px',
-                                    height: '64px',
-                                    borderRadius: 'var(--radius-full)',
-                                    backgroundColor: 'var(--color-blush)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    margin: '0 auto var(--space-4)',
-                                }}>
-                                    <Shield size={28} color="var(--color-primary)" />
-                                </div>
-                                <h4>Protected Space</h4>
-                                <p style={{ color: 'var(--color-slate)', marginBottom: 0 }}>
-                                    Faith-forward community with enforced guidelines. Participation is a privilege.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+        {/* Six Pillars — reuses your existing component */}
+        <div className="about-pillars-wrap">
+          <span className="about-label">The Six Pillars</span>
+          <h2 className="about-title">Your personal growth<br />framework.</h2>
+          <p className="about-body">Each pillar is an area of your life you'll develop intentionally, not as a checklist, but as a way of becoming.</p>
+          <SixPillars />
+        </div>
 
-                {/* CTA */}
-                <section className="section section--primary">
-                    <div className="container text-center">
-                        <h2 style={{ marginBottom: 'var(--space-4)' }}>Ready to Be Aligned?</h2>
-                        <p style={{ fontSize: 'var(--text-lg)', opacity: 0.9, marginBottom: 'var(--space-6)' }}>
-                            If you are ready to break cycles, strengthen your foundation, and step into the
-                            version of yourself God has called you to be—this is your path.
-                        </p>
-                        <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--space-4)', flexWrap: 'wrap' }}>
-                            <Link href="/register" className="btn btn--white btn--lg">
-                                Begin Your Journey
-                            </Link>
-                            <Link href="/pricing" className="btn btn--outline-white btn--lg">
-                                View Membership
-                            </Link>
-                        </div>
-                    </div>
-                </section>
-            </main>
-            <Footer />
-        </>
-    )
+        {/* Quote */}
+        <div className="about-quote">
+          <div className="about-quote-icon">
+            <BookOpen size={40} color="#c0182a" strokeWidth={1.5} />
+          </div>
+          <p className="about-quote-text">Most relationships do not fall apart because of a lack of love. They fall apart because people enter them unprepared for the weight, responsibility, and spiritual maturity that love requires.</p>
+          <p className="about-quote-attr">Thomas Marks &mdash; Relationship Fitness</p>
+        </div>
+
+        {/* CTA */}
+        <div className="about-cta">
+          <h2 className="about-cta-title">Preparation comes<br />before connection.</h2>
+          <p className="about-cta-sub">Start growing today. The right relationship begins with becoming the right person.</p>
+          <Link className="about-cta-btn" href="/get-started">Begin Your Journey</Link>
+        </div>
+
+      </main>
+
+      <Footer />
+    </>
+  )
 }
+
