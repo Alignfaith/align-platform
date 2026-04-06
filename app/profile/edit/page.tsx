@@ -15,7 +15,7 @@ import { US_STATES, COUNTRIES, EDUCATION_OPTIONS } from '@/lib/location-data'
 import CityAutocomplete from '@/components/CityAutocomplete'
 
 // Resize image client-side using canvas, returns a JPEG blob
-async function resizeImageToJpeg(file: File, maxPx = 1200): Promise<Blob> {
+async function resizeImageToJpeg(file: File, maxPx = 800): Promise<Blob> {
   return new Promise((resolve, reject) => {
     const img = new window.Image()
     const objectUrl = URL.createObjectURL(file)
@@ -40,7 +40,7 @@ async function resizeImageToJpeg(file: File, maxPx = 1200): Promise<Blob> {
       canvas.toBlob(
         (blob) => (blob ? resolve(blob) : reject(new Error('Image conversion failed'))),
         'image/jpeg',
-        0.88
+        0.82
       )
     }
     img.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error('Could not load image')) }
@@ -245,7 +245,8 @@ export default function ProfileEditPage() {
                         overflow: 'hidden', boxShadow: 'var(--shadow-md)',
                       }}>
                         {displayPhoto ? (
-                          <Image src={displayPhoto} alt="Identity photo" width={120} height={120} style={{ objectFit: 'cover', width: '100%', height: '100%' }} unoptimized />
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={displayPhoto} alt="Photo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         ) : (
                           <User size={64} color="var(--color-primary)" />
                         )}
