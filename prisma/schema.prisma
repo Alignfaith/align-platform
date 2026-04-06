@@ -412,6 +412,13 @@ model Match {
   // Conversation link (created on mutual match)
   conversation Conversation?
 
+  // Alignment scoring
+  alignmentScore    Float?
+  alignmentTier     String?
+  hardStopTriggered Boolean @default(false)
+  hardStopReason    String?
+  pillarBreakdown   Json?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

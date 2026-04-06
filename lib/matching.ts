@@ -1,240 +1,115 @@
-// Align Faith - Matching Algorithm
-// Source of Truth: /SOURCE_OF_TRUTH.md
-
-import { PILLAR_WEIGHTS, HARD_STOP_QUESTIONS, PILLAR_CONFIGS, PillarType } from './pillarQuestions';
-import { prisma } from '@/lib/prisma';
-
-export interface UserAnswers {
-    [questionId: string]: number; // 1-5 value
+// lib/matching.ts
+const PILLAR_WEIGHTS: Record<string, number> = {
+  SPIRITUAL:  0.30,
+  MENTAL:     0.20,
+  INTIMACY:   0.20,
+  FINANCIAL:  0.15,
+  PHYSICAL:   0.10,
+  APPEARANCE: 0.05,
 }
 
-export interface MatchResult {
-    overallScore: number; // 0-100
-    pillarScores: Record<PillarType, number>;
-    isHardStop: boolean;
-    hardStopReasons: string[];
-    alignmentTier: 'excellent' | 'strong' | 'moderate' | 'low' | 'incompatible';
+const THRESHOLDS = [
+  { min: 85, label: 'Excellent' },
+  { min: 70, label: 'Strong' },
+  { min: 50, label: 'Moderate' },
+  { min: 30, label: 'Low' },
+  { min: 0,  label: 'No Match' },
+]
+
+const HARD_STOP_QUESTIONS = [
+  { questionId: 'spiritual_faith_centrality', maxDistance: 3, label: 'Faith Centrality' },
+  { questionId: 'spiritual_faith_in_relationships', maxDistance: 3, label: 'Faith in Relationships' },
+  { questionId: 'intimacy_pace', maxDistance: 3, label: 'Intimacy Pace' },
+  { questionId: 'mental_accountability', maxDistance: 3, label: 'Accountability' },
+]
+
+export type PillarAnswers = Record<string, number>
+
+export type PillarBreakdown = Record<string, {
+  pillarScore: number
+  contribution: number
+  weight: number
+  questionCount: number
+}>
+
+export type MatchResult = {
+  score: number | null
+  tier: string | null
+  hardStopTriggered: boolean
+  hardStopReason: string | null
+  pillarBreakdown: PillarBreakdown | null
 }
 
-export interface MatchingConfig {
-    weights: Record<PillarType, number>;
-    hardStopQuestions: string[];
-    thresholds: {
-        excellent: number;
-        strong: number;
-        moderate: number;
-        low: number;
-    };
+export function calculateMatch(answersA: PillarAnswers, answersB: PillarAnswers): MatchResult {
+  for (const hs of HARD_STOP_QUESTIONS) {
+    const a = answersA[hs.questionId]
+    const b = answersB[hs.questionId]
+    if (a == null || b == null) continue
+    if (Math.abs(a - b) > hs.maxDistance) {
+      return { score: null, tier: 'Disqualified', hardStopTriggered: true, hardStopReason: hs.label, pillarBreakdown: null }
+    }
+  }
+
+  const pillarGroups: Record<string, { a: number; b: number }[]> = {}
+  for (const questionId of Object.keys(answersA)) {
+    const b = answersB[questionId]
+    if (b == null) continue
+    const pillar = derivePillar(questionId)
+    if (!pillar) continue
+    if (!pillarGroups[pillar]) pillarGroups[pillar] = []
+    pillarGroups[pillar].push({ a: answersA[questionId], b })
+  }
+
+  const pillarBreakdown: PillarBreakdown = {}
+  let totalScore = 0
+
+  for (const [pillar, questions] of Object.entries(pillarGroups)) {
+    const weight = PILLAR_WEIGHTS[pillar]
+    if (!weight) continue
+    const pillarScore = questions.reduce((sum, { a, b }) => sum + (1 - Math.abs(a - b) / 4) * 100, 0) / questions.length
+    const contribution = pillarScore * weight
+    totalScore += contribution
+    pillarBreakdown[pillar] = { pillarScore: Math.round(pillarScore), contribution: Math.round(contribution * 10) / 10, weight, questionCount: questions.length }
+  }
+
+  const score = Math.round(totalScore)
+  return { score, tier: getTier(score), hardStopTriggered: false, hardStopReason: null, pillarBreakdown }
 }
 
-// Default config (matches current hardcoded values)
-const DEFAULT_CONFIG: MatchingConfig = {
-    weights: { ...PILLAR_WEIGHTS },
-    hardStopQuestions: [...HARD_STOP_QUESTIONS],
-    thresholds: {
-        excellent: 85,
-        strong: 70,
-        moderate: 50,
-        low: 30,
-    },
-};
-
-/**
- * Load matching config from SystemConfig DB, falling back to hardcoded defaults.
- * Config keys: matching_pillar_weights, matching_hard_stops, matching_thresholds
- */
-export async function loadMatchingConfig(): Promise<MatchingConfig> {
-    try {
-        const configs = await prisma.systemConfig.findMany({
-            where: {
-                key: {
-                    in: ['matching_pillar_weights', 'matching_hard_stops', 'matching_thresholds'],
-                },
-            },
-        });
-
-        const configMap = new Map(configs.map(c => [c.key, c.value]));
-
-        const weights = configMap.has('matching_pillar_weights')
-            ? JSON.parse(configMap.get('matching_pillar_weights')!) as Record<PillarType, number>
-            : DEFAULT_CONFIG.weights;
-
-        const hardStopQuestions = configMap.has('matching_hard_stops')
-            ? JSON.parse(configMap.get('matching_hard_stops')!) as string[]
-            : DEFAULT_CONFIG.hardStopQuestions;
-
-        const thresholds = configMap.has('matching_thresholds')
-            ? JSON.parse(configMap.get('matching_thresholds')!) as MatchingConfig['thresholds']
-            : DEFAULT_CONFIG.thresholds;
-
-        return { weights, hardStopQuestions, thresholds };
-    } catch {
-        // DB unavailable or query failed -- use defaults
-        return DEFAULT_CONFIG;
-    }
+function getTier(score: number): string {
+  for (const t of THRESHOLDS) { if (score >= t.min) return t.label }
+  return 'No Match'
 }
 
-// Calculate distance between two answers (0 = same, 4 = max difference)
-const calculateDistance = (answer1: number, answer2: number): number => {
-    return Math.abs(answer1 - answer2);
-};
+function derivePillar(questionId: string): string | null {
+  if (questionId.startsWith('spiritual'))  return 'SPIRITUAL'
+  if (questionId.startsWith('mental'))     return 'MENTAL'
+  if (questionId.startsWith('intimacy'))   return 'INTIMACY'
+  if (questionId.startsWith('financial'))  return 'FINANCIAL'
+  if (questionId.startsWith('physical'))   return 'PHYSICAL'
+  if (questionId.startsWith('appearance')) return 'APPEARANCE'
+  return null
+}
 
-// Convert distance to score (0-100 scale, higher = more aligned)
-const distanceToScore = (distance: number): number => {
-    // Distance 0 = 100, Distance 1 = 75, Distance 2 = 50, Distance 3 = 25, Distance 4 = 0
-    return Math.max(0, 100 - (distance * 25));
-};
+export function rankMatches(myAnswers: PillarAnswers, candidates: { profileId: string; answers: PillarAnswers }[]) {
+  return candidates
+    .map(({ profileId, answers }) => ({ profileId, ...calculateMatch(myAnswers, answers) }))
+    .sort((a, b) => {
+      if (a.hardStopTriggered && !b.hardStopTriggered) return 1
+      if (!a.hardStopTriggered && b.hardStopTriggered) return -1
+      return (b.score ?? 0) - (a.score ?? 0)
+    })
+}
 
-// Check for hard stop conditions
-const checkHardStops = (user1: UserAnswers, user2: UserAnswers, hardStopQuestions: string[]): string[] => {
-    const reasons: string[] = [];
-
-    for (const questionId of hardStopQuestions) {
-        const answer1 = user1[questionId];
-        const answer2 = user2[questionId];
-
-        if (answer1 !== undefined && answer2 !== undefined) {
-            const distance = calculateDistance(answer1, answer2);
-
-            // Hard stop if one user is at 1 (strongest) and other is at 5 (weakest)
-            if ((answer1 === 1 && answer2 === 5) || (answer1 === 5 && answer2 === 1)) {
-                reasons.push(questionId);
-            }
-
-            // Also hard stop if distance is 4 (max) on critical questions
-            if (distance === 4) {
-                if (!reasons.includes(questionId)) {
-                    reasons.push(questionId);
-                }
-            }
-        }
-    }
-
-    return reasons;
-};
-
-// Calculate pillar score (average of all questions in pillar)
-const calculatePillarScore = (
-    pillarId: PillarType,
-    user1: UserAnswers,
-    user2: UserAnswers
-): number => {
-    const pillarConfig = PILLAR_CONFIGS.find(p => p.id === pillarId);
-    if (!pillarConfig) return 0;
-    
-    let totalScore = 0;
-    let answeredQuestions = 0;
-    
-    for (const question of pillarConfig.questions) {
-        const answer1 = user1[question.id];
-        const answer2 = user2[question.id];
-        
-        if (answer1 !== undefined && answer2 !== undefined) {
-            const distance = calculateDistance(answer1, answer2);
-            totalScore += distanceToScore(distance);
-            answeredQuestions++;
-        }
-    }
-    
-    if (answeredQuestions === 0) return 0;
-    return totalScore / answeredQuestions;
-};
-
-// Determine alignment tier from overall score
-const getAlignmentTier = (
-    score: number,
-    isHardStop: boolean,
-    thresholds: MatchingConfig['thresholds'] = DEFAULT_CONFIG.thresholds
-): MatchResult['alignmentTier'] => {
-    if (isHardStop) return 'incompatible';
-    if (score >= thresholds.excellent) return 'excellent';
-    if (score >= thresholds.strong) return 'strong';
-    if (score >= thresholds.moderate) return 'moderate';
-    if (score >= thresholds.low) return 'low';
-    return 'incompatible';
-};
-
-// Main matching function (synchronous, uses provided or default config)
-export const calculateMatch = (
-    user1: UserAnswers,
-    user2: UserAnswers,
-    config: MatchingConfig = DEFAULT_CONFIG
-): MatchResult => {
-    // Check for hard stops first
-    const hardStopReasons = checkHardStops(user1, user2, config.hardStopQuestions);
-    const isHardStop = hardStopReasons.length > 0;
-
-    // Calculate score for each pillar
-    const pillarScores: Record<PillarType, number> = {
-        SPIRITUAL: calculatePillarScore('SPIRITUAL', user1, user2),
-        MENTAL: calculatePillarScore('MENTAL', user1, user2),
-        INTIMACY: calculatePillarScore('INTIMACY', user1, user2),
-        FINANCIAL: calculatePillarScore('FINANCIAL', user1, user2),
-        PHYSICAL: calculatePillarScore('PHYSICAL', user1, user2),
-        APPEARANCE: calculatePillarScore('APPEARANCE', user1, user2),
-    };
-
-    // Calculate weighted overall score using config weights
-    let overallScore = 0;
-    for (const [pillar, weight] of Object.entries(config.weights)) {
-        const pillarScore = pillarScores[pillar as PillarType];
-        overallScore += (pillarScore * weight) / 100;
-    }
-
-    // Determine alignment tier
-    const alignmentTier = getAlignmentTier(overallScore, isHardStop, config.thresholds);
-
-    return {
-        overallScore: Math.round(overallScore),
-        pillarScores,
-        isHardStop,
-        hardStopReasons,
-        alignmentTier,
-    };
-};
-
-/**
- * Async version that loads config from DB before calculating.
- * Use this in API routes where DB access is available.
- */
-export const calculateMatchWithConfig = async (
-    user1: UserAnswers,
-    user2: UserAnswers
-): Promise<MatchResult> => {
-    const config = await loadMatchingConfig();
-    return calculateMatch(user1, user2, config);
-};
-
-// Generate alignment summary for user display (no math shown)
-export const getAlignmentSummary = (result: MatchResult): string => {
-    switch (result.alignmentTier) {
-        case 'excellent':
-            return 'You share strong alignment across all six pillars. This is a highly compatible match worth exploring.';
-        case 'strong':
-            return 'You share solid alignment in the areas that matter most. A few differences add balance to potential relationship dynamics.';
-        case 'moderate':
-            return 'You share some common ground, with notable differences in key areas. Worth a conversation to understand each other better.';
-        case 'low':
-            return 'You have significant differences in important areas. Consider whether these align with your long-term goals.';
-        case 'incompatible':
-            return 'Based on your responses, there are foundational differences that may be difficult to navigate in a relationship.';
-        default:
-            return '';
-    }
-};
-
-// Get pillar-specific insight for display
-export const getPillarInsight = (pillarId: PillarType, score: number): string => {
-    const pillarConfig = PILLAR_CONFIGS.find(p => p.id === pillarId);
-    if (!pillarConfig) return '';
-    
-    if (score >= 85) {
-        return `Strong alignment in ${pillarConfig.name.toLowerCase()}`;
-    } else if (score >= 70) {
-        return `Good alignment in ${pillarConfig.name.toLowerCase()}`;
-    } else if (score >= 50) {
-        return `Some differences in ${pillarConfig.name.toLowerCase()}`;
-    } else {
-        return `Notable differences in ${pillarConfig.name.toLowerCase()}`;
-    }
-};
+export async function loadMatchingConfig() {
+  const { prisma } = await import('@/lib/prisma')
+  const configs = await prisma.systemConfig.findMany({
+    where: { key: { in: ['matching_pillar_weights', 'matching_hard_stops', 'matching_thresholds'] } },
+  })
+  const map = Object.fromEntries(configs.map((c) => [c.key, JSON.parse(c.value)]))
+  return {
+    weights: map['matching_pillar_weights'] ?? PILLAR_WEIGHTS,
+    hardStops: map['matching_hard_stops'] ?? HARD_STOP_QUESTIONS.map((h) => h.questionId),
+    thresholds: map['matching_thresholds'] ?? { excellent: 85, strong: 70, moderate: 50, low: 30 },
+  }
+}
