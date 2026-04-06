@@ -38,7 +38,7 @@ export default function Header() {
                     {/* Logo - left */}
                     <Link href="/" className="header__logo" onClick={closeMenu}>
                         <Image
-                            src="/images/logo.png"
+                            src="/images/logo-v2.png"
                             alt="Align"
                             width={36}
                             height={46}

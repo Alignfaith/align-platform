@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     // 2. Find profile
     let profile
     try {
-      profile = await prisma.profile.findUnique({ where: { userId: session.user.id } })
+      profile = await prisma.profile.findUnique({ where: { userId: session.user.id }, select: { id: true } })
     } catch (e: unknown) {
       console.error('[photo] DB error finding profile:', e)
       return NextResponse.json({ error: 'Database error looking up profile' }, { status: 500 })

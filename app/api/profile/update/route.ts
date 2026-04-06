@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const data = updateSchema.parse(body)
 
-    const existing = await prisma.profile.findUnique({ where: { userId: session.user.id } })
+    const existing = await prisma.profile.findUnique({ where: { userId: session.user.id }, select: { id: true } })
     if (!existing) throw new NotFoundError('Profile not found')
 
     // Only update columns that exist in production DB.

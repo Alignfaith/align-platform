@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) throw new AuthenticationError()
 
-    const profile = await prisma.profile.findUnique({ where: { userId: session.user.id } })
+    const profile = await prisma.profile.findUnique({ where: { userId: session.user.id }, select: { id: true } })
     if (!profile) throw new NotFoundError('Profile not found')
 
     const formData = await req.formData()
