@@ -9,7 +9,6 @@ export default function AboutPage() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
-
         .about-hero {
           background: linear-gradient(160deg, #c0182a 0%, #8b0e1d 100%);
           padding: 80px 40px;
@@ -159,14 +158,12 @@ export default function AboutPage() {
 
       <main style={{ paddingTop: 'var(--header-height)' }}>
 
-        {/* Hero */}
         <div className="about-hero">
           <p className="about-eyebrow">About Align</p>
           <h1>We prepare you<br />to <em>love well.</em></h1>
           <p className="about-hero-sub">A platform built entirely around your growth in faith, character, and readiness.</p>
         </div>
 
-        {/* What We Do */}
         <div className="about-what">
           <span className="about-label">What we do</span>
           <h2 className="about-title">Everything here is<br />built for your growth.</h2>
@@ -206,7 +203,6 @@ export default function AboutPage() {
 
         <div className="about-divider" />
 
-        {/* Six Pillars — reuses your existing component */}
         <div className="about-pillars-wrap">
           <span className="about-label">The Six Pillars</span>
           <h2 className="about-title">Your personal growth<br />framework.</h2>
@@ -214,16 +210,14 @@ export default function AboutPage() {
           <SixPillars />
         </div>
 
-        {/* Quote */}
         <div className="about-quote">
           <div className="about-quote-icon">
             <BookOpen size={40} color="#c0182a" strokeWidth={1.5} />
           </div>
           <p className="about-quote-text">Most relationships do not fall apart because of a lack of love. They fall apart because people enter them unprepared for the weight, responsibility, and spiritual maturity that love requires.</p>
-          <p className="about-quote-attr">Thomas Marks &mdash; Relationship Fitness</p>
+          <p className="about-quote-attr">Thomas Marks — Relationship Fitness</p>
         </div>
 
-        {/* CTA */}
         <div className="about-cta">
           <h2 className="about-cta-title">Preparation comes<br />before connection.</h2>
           <p className="about-cta-sub">Start growing today. The right relationship begins with becoming the right person.</p>
