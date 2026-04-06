@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { User, Heart, MessageCircle, Settings, Crown, Users, Shield, BookOpen, Download } from 'lucide-react'
+import { User, Heart, MessageCircle, Settings, Crown, Users, Shield, BookOpen } from 'lucide-react'
 import Link from 'next/link'
 
 import ReflectionEngine from '@/components/ReflectionEngine'
@@ -171,15 +171,14 @@ export default function DashboardPage() {
                                             <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-slate)', marginBottom: 'var(--space-4)' }}>
                                                 Your free copy is included with your membership.
                                             </p>
-                                            <a
-                                                href="/books/relationship-fitness.pdf"
-                                                download="Relationship-Fitness-Thomas-Marks.pdf"
+                                            <Link
+                                                href="/dashboard/book"
                                                 className="btn btn--primary btn--sm"
                                                 style={{ width: '100%', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
                                             >
-                                                <Download size={15} />
-                                                Download Your Free Copy
-                                            </a>
+                                                <BookOpen size={15} />
+                                                Read the Book
+                                            </Link>
                                         </>
                                     )}
                                 </div>
