@@ -35,7 +35,7 @@ export default function Hero() {
 
                         <p className="hero__subheadline">
                             A faith-based platform helping Christian singles grow spiritually and in every
-                            area of life — so you&apos;re ready for meaningful, no-games relationships.
+                            area of life — so you&apos;re ready for the relationship God intends.
                         </p>
 
                         <div className="hero__actions">
