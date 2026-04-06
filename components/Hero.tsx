@@ -8,7 +8,7 @@ export default function Hero() {
                 style={{
                     backgroundImage: 'url(/images/hero-cross.png)',
                     backgroundSize: 'cover',
-                    backgroundPosition: 'center 20%',
+                    backgroundPosition: 'center 30%',
                     backgroundRepeat: 'no-repeat',
                     backgroundColor: '#1a0a00',
                     width: '100vw',
