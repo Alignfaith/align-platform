@@ -229,6 +229,60 @@ export default function AdminUserDetailPage() {
             </div>
           )}
 
+          {/* Assessment History */}
+          {p && (p as any).assessments?.length > 0 && (
+            <div style={sectionStyle}>
+              <h3 style={sectionTitle}>Assessment History ({(p as any).assessments.length} taken)</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+                {(p as any).assessments.map((assessment: any, idx: number) => {
+                  const byPillar: Record<string, number[]> = {}
+                  for (const r of assessment.responses) {
+                    if (!byPillar[r.pillar]) byPillar[r.pillar] = []
+                    byPillar[r.pillar].push(r.value)
+                  }
+                  const pillarAvgs = Object.entries(byPillar).map(([pillar, vals]) => ({
+                    pillar,
+                    avg: vals.reduce((s: number, v: number) => s + v, 0) / vals.length,
+                    score: Math.round(((5 - vals.reduce((s: number, v: number) => s + v, 0) / vals.length) / 4) * 100),
+                  }))
+                  return (
+                    <details key={assessment.id} open={idx === 0}>
+                      <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', padding: 'var(--space-2) 0', listStyle: 'none' }}>
+                        {idx === 0 ? '★ Latest — ' : ''}{new Date(assessment.completedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                        <span style={{ marginLeft: '8px', fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)' }}>({assessment.responses.length} responses)</span>
+                      </summary>
+                      <div style={{ paddingTop: 'var(--space-3)', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+                        {pillarAvgs.map(({ pillar, score }) => (
+                          <div key={pillar}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', marginBottom: '3px' }}>
+                              <span style={{ color: 'var(--color-text-secondary)' }}>{pillar}</span>
+                              <span style={{ fontWeight: 700, color: 'var(--color-text-primary)' }}>{score}%</span>
+                            </div>
+                            <div style={{ height: '5px', borderRadius: '3px', background: 'var(--color-bg-tertiary)', overflow: 'hidden' }}>
+                              <div style={{ height: '100%', width: `${score}%`, background: 'var(--color-primary)', borderRadius: '3px' }} />
+                            </div>
+                          </div>
+                        ))}
+                        {/* Individual responses */}
+                        <details style={{ marginTop: 'var(--space-2)' }}>
+                          <summary style={{ fontSize: '11px', color: 'var(--color-text-tertiary)', cursor: 'pointer' }}>View individual responses</summary>
+                          <div style={{ marginTop: 'var(--space-2)', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                            {assessment.responses.map((r: any) => (
+                              <div key={r.questionId} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', padding: '3px 0', borderBottom: '1px solid var(--color-border-subtle)' }}>
+                                <span style={{ color: 'var(--color-text-tertiary)' }}>{r.questionId}</span>
+                                <span style={{ fontWeight: 600, color: 'var(--color-text-primary)' }}>{r.value}/5</span>
+                              </div>
+                            ))}
+                          </div>
+                        </details>
+                      </div>
+                    </details>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
           {/* Photos */}
           {p && p.photos.length > 0 && (
             <div style={sectionStyle}>

@@ -2,23 +2,49 @@
 
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { User, Heart, MessageCircle, Settings, Crown, Users, Shield, BookOpen } from 'lucide-react'
+import { User, Heart, MessageCircle, Settings, Crown, Users, Shield, BookOpen, BarChart2 } from 'lucide-react'
 import Link from 'next/link'
 
 import ReflectionEngine from '@/components/ReflectionEngine'
+import { PILLARS, pillarDisplayScore } from '@/lib/pillar-questions'
+import type { PillarKey } from '@/lib/pillar-questions'
+
+const PILLAR_COLORS: Record<PillarKey, string> = {
+    SPIRITUAL: '#E11D48',
+    FINANCIAL: '#F59E0B',
+    PHYSICAL: '#10B981',
+    MENTAL: '#3B82F6',
+    APPEARANCE: '#8B5CF6',
+    INTIMACY: '#EC4899',
+}
+
+interface AssessmentSummary {
+    completedAt: string
+    responses: { pillar: string; value: number }[]
+}
 
 export default function DashboardPage() {
     const { data: session, status } = useSession()
     const router = useRouter()
+    const [latestAssessment, setLatestAssessment] = useState<AssessmentSummary | null | undefined>(undefined)
 
     useEffect(() => {
         if (status === 'unauthenticated') {
             router.push('/login')
         }
     }, [status, router])
+
+    useEffect(() => {
+        if (status === 'authenticated') {
+            fetch('/api/assessment')
+                .then((r) => r.json())
+                .then((d) => setLatestAssessment(d.history?.[0] ?? null))
+                .catch(() => setLatestAssessment(null))
+        }
+    }, [status])
 
     if (status === 'loading') {
         return (
@@ -144,6 +170,60 @@ export default function DashboardPage() {
                                     <Link href="/pricing" className="btn btn--secondary btn--sm" style={{ width: '100%' }}>
                                         {session.user.tier === 'FREE' ? 'Upgrade Training' : 'Manage Subscription'}
                                     </Link>
+                                </div>
+
+                                {/* Six Pillar Assessment */}
+                                <div style={{ backgroundColor: 'white', borderRadius: 'var(--radius-lg)', padding: 'var(--space-6)', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', marginBottom: 'var(--space-4)' }}>
+                                        <BarChart2 size={22} color="var(--color-primary)" />
+                                        <h3 style={{ marginBottom: 0, fontSize: 'var(--text-base)' }}>Six Pillar Assessment</h3>
+                                    </div>
+
+                                    {latestAssessment === undefined && (
+                                        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-slate)', marginBottom: 'var(--space-4)' }}>Loading…</p>
+                                    )}
+
+                                    {latestAssessment === null && (
+                                        <>
+                                            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-slate)', marginBottom: 'var(--space-4)' }}>
+                                                You haven't completed your Six Pillar assessment yet. It takes about 5 minutes.
+                                            </p>
+                                            <Link href="/dashboard/assessment" className="btn btn--primary btn--sm" style={{ width: '100%', textAlign: 'center' }}>
+                                                Take the Assessment
+                                            </Link>
+                                        </>
+                                    )}
+
+                                    {latestAssessment && (() => {
+                                        const date = new Date(latestAssessment.completedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                                        return (
+                                            <>
+                                                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-slate)', marginBottom: 'var(--space-4)' }}>
+                                                    Last taken: {date}
+                                                </p>
+                                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: 'var(--space-4)' }}>
+                                                    {PILLARS.map((p) => {
+                                                        const rs = latestAssessment.responses.filter((r) => r.pillar === p.key)
+                                                        const score = rs.length ? pillarDisplayScore(rs) : 0
+                                                        return (
+                                                            <div key={p.key}>
+                                                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px', fontSize: '11px' }}>
+                                                                    <span style={{ color: 'var(--color-charcoal)' }}>{p.name}</span>
+                                                                    <span style={{ fontWeight: 700, color: PILLAR_COLORS[p.key] }}>{score}%</span>
+                                                                </div>
+                                                                <div style={{ height: '5px', borderRadius: '3px', background: '#f0f0f0', overflow: 'hidden' }}>
+                                                                    <div style={{ height: '100%', width: `${score}%`, background: PILLAR_COLORS[p.key], borderRadius: '3px' }} />
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    })}
+                                                </div>
+                                                <Link href="/dashboard/assessment" className="btn btn--secondary btn--sm" style={{ width: '100%', textAlign: 'center' }}>
+                                                    Retake Assessment
+                                                </Link>
+                                            </>
+                                        )
+                                    })()}
                                 </div>
 
                                 {/* Book Download */}

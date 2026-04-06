@@ -15,9 +15,15 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
           include: {
             photos: { orderBy: { order: 'asc' } },
             pillarScores: true,
-            pillarResponses: true,
-            reflections: true,
+            pillarResponses: { orderBy: { questionId: 'asc' } },
+            reflections: { orderBy: { questionId: 'asc' } },
             growthPosts: { orderBy: { createdAt: 'desc' } },
+            assessments: {
+              orderBy: { completedAt: 'desc' },
+              include: {
+                responses: { orderBy: { questionId: 'asc' } },
+              },
+            },
           },
         },
         sentMatches: {

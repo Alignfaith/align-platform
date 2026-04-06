@@ -242,8 +242,9 @@ model Profile {
   photos Photo[]
 
   // Six Pillars Self-Assessment
-  pillarScores PillarScore[]
+  pillarScores    PillarScore[]
   pillarResponses PillarResponse[]
+  assessments     Assessment[]
 
   // Registration Reflections
   reflections Reflection[]
@@ -323,6 +324,30 @@ model PillarResponse {
   @@unique([profileId, questionId])
   @@index([profileId])
   @@index([pillar])
+}
+
+// Tracks each full assessment session (all 30 responses) for growth-over-time comparison
+model Assessment {
+  id          String               @id @default(cuid())
+  profileId   String
+  profile     Profile              @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  completedAt DateTime             @default(now())
+  responses   AssessmentResponse[]
+
+  @@index([profileId])
+  @@index([completedAt])
+}
+
+model AssessmentResponse {
+  id           String     @id @default(cuid())
+  assessmentId String
+  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  questionId   String     // e.g. "spiritual_1"
+  pillar       Pillar
+  value        Int        // 1-5 (1 = strongest)
+
+  @@unique([assessmentId, questionId])
+  @@index([assessmentId])
 }
 
 model Reflection {
