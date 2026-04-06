@@ -14,6 +14,40 @@ import Image from 'next/image'
 import { US_STATES, COUNTRIES, EDUCATION_OPTIONS } from '@/lib/location-data'
 import CityAutocomplete from '@/components/CityAutocomplete'
 
+// Resize image client-side using canvas, returns a JPEG blob
+async function resizeImageToJpeg(file: File, maxPx = 1200): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    const img = new window.Image()
+    const objectUrl = URL.createObjectURL(file)
+    img.onload = () => {
+      URL.revokeObjectURL(objectUrl)
+      let { width, height } = img
+      if (width > maxPx || height > maxPx) {
+        if (width >= height) {
+          height = Math.round((height * maxPx) / width)
+          width = maxPx
+        } else {
+          width = Math.round((width * maxPx) / height)
+          height = maxPx
+        }
+      }
+      const canvas = document.createElement('canvas')
+      canvas.width = width
+      canvas.height = height
+      const ctx = canvas.getContext('2d')
+      if (!ctx) { reject(new Error('Canvas not supported')); return }
+      ctx.drawImage(img, 0, 0, width, height)
+      canvas.toBlob(
+        (blob) => (blob ? resolve(blob) : reject(new Error('Image conversion failed'))),
+        'image/jpeg',
+        0.88
+      )
+    }
+    img.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error('Could not load image')) }
+    img.src = objectUrl
+  })
+}
+
 export default function ProfileEditPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
@@ -112,14 +146,17 @@ export default function ProfileEditPage() {
   const handlePhotoSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
+    // Reset input so the same file can be re-selected
+    e.target.value = ''
 
-    setPhotoPreview(URL.createObjectURL(file))
     setPhotoError(null)
     setUploadingPhoto(true)
 
     try {
+      const blob = await resizeImageToJpeg(file)
+      setPhotoPreview(URL.createObjectURL(blob))
       const fd = new FormData()
-      fd.append('photo', file)
+      fd.append('photo', blob, 'photo.jpg')
       const res = await fetch('/api/profile/photo', { method: 'POST', body: fd })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Upload failed')
@@ -136,14 +173,16 @@ export default function ProfileEditPage() {
   const handleVerificationSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
+    e.target.value = ''
 
-    setVerificationPreview(URL.createObjectURL(file))
     setVerificationError(null)
     setUploadingVerification(true)
 
     try {
+      const blob = await resizeImageToJpeg(file)
+      setVerificationPreview(URL.createObjectURL(blob))
       const fd = new FormData()
-      fd.append('photo', file)
+      fd.append('photo', blob, 'photo.jpg')
       const res = await fetch('/api/profile/verification', { method: 'POST', body: fd })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Upload failed')
@@ -228,7 +267,7 @@ export default function ProfileEditPage() {
                       <input
                         ref={photoInputRef}
                         type="file"
-                        accept="image/jpeg,image/png,image/webp,image/heic"
+                        accept="image/*"
                         onChange={handlePhotoSelect}
                         style={{ display: 'none' }}
                       />
@@ -298,7 +337,7 @@ export default function ProfileEditPage() {
                         <input
                           ref={verificationInputRef}
                           type="file"
-                          accept="image/jpeg,image/png,image/webp,image/heic"
+                          accept="image/*"
                           onChange={handleVerificationSelect}
                           style={{ display: 'none' }}
                         />
