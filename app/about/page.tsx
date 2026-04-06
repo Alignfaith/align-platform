@@ -2,22 +2,6 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import SixPillars from '@/components/SixPillars'
 import Link from 'next/link'
-import { BookOpen, Heart, Users, Shield, ArrowRight } from 'lucide-react'
-
-export default function AboutPage() {
-    return (
-        <>
-            <Header />
-            <main style={{ paddingTop: 'var(--header-height)' }}>
-                {/* Hero */}
-                <section className="section section--primary">
-                    <div className="container">
-                        <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
-                            <h1 style={{ marginBottom: 'var(--space-4)' }}>About Align</h1>
-                            <p simport Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import SixPillars from '@/components/SixPillars'
-import Link from 'next/link'
 import { BookOpen, Sun, Shield, Heart } from 'lucide-react'
 
 export default function AboutPage() {
@@ -252,4 +236,3 @@ export default function AboutPage() {
     </>
   )
 }
-
