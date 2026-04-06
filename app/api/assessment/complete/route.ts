@@ -99,39 +99,53 @@ export async function POST(req: Request) {
     })
     console.log('[assessment/complete] Step 6 OK: other profiles count =', otherProfiles.length)
 
+    let matchError: string | null = null
     if (otherProfiles.length > 0) {
-      console.log('[assessment/complete] Step 7: calculating and upserting matches')
-      await Promise.all(
-        otherProfiles.map(async (candidate) => {
-          const candidateAnswers: PillarAnswers = Object.fromEntries(
-            candidate.pillarResponses.map((r) => [r.questionId, r.value])
-          )
-          const result = calculateMatch(myAnswers, candidateAnswers)
-          return prisma.match.upsert({
-            where: { senderId_receiverId: { senderId: session.user.id, receiverId: candidate.userId } },
-            update: {
-              alignmentScore: result.score,
-              alignmentTier: result.tier,
-              hardStopTriggered: result.hardStopTriggered,
-              hardStopReason: result.hardStopReason ?? null,
-              pillarBreakdown: result.pillarBreakdown ?? undefined,
-            },
-            create: {
-              senderId: session.user.id,
-              receiverId: candidate.userId,
-              alignmentScore: result.score,
-              alignmentTier: result.tier,
-              hardStopTriggered: result.hardStopTriggered,
-              hardStopReason: result.hardStopReason ?? null,
-              pillarBreakdown: result.pillarBreakdown ?? undefined,
-            },
+      try {
+        console.log('[assessment/complete] Step 7: calculating and upserting matches')
+        await Promise.all(
+          otherProfiles.map(async (candidate) => {
+            const candidateAnswers: PillarAnswers = Object.fromEntries(
+              candidate.pillarResponses.map((r) => [r.questionId, r.value])
+            )
+            const result = calculateMatch(myAnswers, candidateAnswers)
+            console.log('[assessment/complete] Step 7 match result for candidate', candidate.userId, JSON.stringify(result))
+            return prisma.match.upsert({
+              where: { senderId_receiverId: { senderId: session.user.id, receiverId: candidate.userId } },
+              update: {
+                alignmentScore: result.score,
+                alignmentTier: result.tier,
+                hardStopTriggered: result.hardStopTriggered,
+                hardStopReason: result.hardStopReason ?? null,
+                pillarBreakdown: result.pillarBreakdown ?? undefined,
+              },
+              create: {
+                senderId: session.user.id,
+                receiverId: candidate.userId,
+                alignmentScore: result.score,
+                alignmentTier: result.tier,
+                hardStopTriggered: result.hardStopTriggered,
+                hardStopReason: result.hardStopReason ?? null,
+                pillarBreakdown: result.pillarBreakdown ?? undefined,
+              },
+            })
           })
-        })
-      )
-      console.log('[assessment/complete] Step 7 OK: matches upserted')
+        )
+        console.log('[assessment/complete] Step 7 OK: matches upserted')
+      } catch (matchErr) {
+        const msg = matchErr instanceof Error ? matchErr.message : String(matchErr)
+        const stack = matchErr instanceof Error ? matchErr.stack : undefined
+        console.error('[assessment/complete] Step 7 MATCH ERROR:', msg)
+        console.error('[assessment/complete] Step 7 stack:', stack)
+        matchError = msg
+      }
     }
 
-    return NextResponse.json({ success: true, matchesCalculated: otherProfiles.length })
+    return NextResponse.json({
+      success: true,
+      matchesCalculated: otherProfiles.length,
+      ...(matchError ? { matchError } : {}),
+    })
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
     const stack = error instanceof Error ? error.stack : undefined
