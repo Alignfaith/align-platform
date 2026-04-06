@@ -11,7 +11,8 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { US_STATES, CITIES_BY_STATE, COUNTRIES, EDUCATION_OPTIONS } from '@/lib/location-data'
+import { US_STATES, COUNTRIES, EDUCATION_OPTIONS } from '@/lib/location-data'
+import CityAutocomplete from '@/components/CityAutocomplete'
 
 export default function ProfileEditPage() {
   const { data: session, status } = useSession()
@@ -85,7 +86,6 @@ export default function ProfileEditPage() {
   }, [status, session])
 
   const isUS = formData.country === 'United States'
-  const availableCities = isUS && formData.state ? CITIES_BY_STATE[formData.state] ?? [] : []
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -386,28 +386,13 @@ export default function ProfileEditPage() {
 
                         <div className="form-group">
                           <label className="form-label">City</label>
-                          {isUS && availableCities.length > 0 ? (
-                            <select
-                              className="form-input"
-                              value={formData.city}
-                              onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                            >
-                              <option value="">Select a city</option>
-                              {availableCities.map((c) => (
-                                <option key={c} value={c}>{c}</option>
-                              ))}
-                              <option value="Other">Other</option>
-                            </select>
-                          ) : (
-                            <input
-                              type="text"
-                              className="form-input"
-                              value={formData.city}
-                              onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                              placeholder={isUS && !formData.state ? 'Select a state first' : 'Enter your city'}
-                              disabled={isUS && !formData.state}
-                            />
-                          )}
+                          <CityAutocomplete
+                            value={formData.city}
+                            onChange={(city) => setFormData({ ...formData, city })}
+                            state={isUS ? formData.state : ''}
+                            placeholder={isUS && !formData.state ? 'Select a state first' : 'Enter your city'}
+                            disabled={false}
+                          />
                         </div>
                       </div>
                     </div>

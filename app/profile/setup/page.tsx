@@ -7,7 +7,8 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { ArrowLeft, ArrowRight, Check, User, MapPin, Heart, Loader2, Church, Brain, Dumbbell, Wallet, Sparkles, Globe } from 'lucide-react'
 import { PILLAR_CONFIGS, ASSESSMENT_INSTRUCTION, PillarType } from '@/lib/pillarQuestions'
-import { US_STATES, CITIES_BY_STATE, COUNTRIES } from '@/lib/location-data'
+import { US_STATES, COUNTRIES } from '@/lib/location-data'
+import CityAutocomplete from '@/components/CityAutocomplete'
 
 const PILLAR_ICONS: Record<PillarType, any> = {
     SPIRITUAL: Church,
@@ -428,7 +429,6 @@ export default function ProfileSetupPage() {
                                     {/* Step 8: Location */}
                                     {currentStep === 8 && (() => {
                                         const isUS = formData.country === 'United States'
-                                        const availableCities = isUS && formData.state ? CITIES_BY_STATE[formData.state] ?? [] : []
                                         return (
                                             <div>
                                                 <h2 style={{ marginBottom: 'var(--space-6)', textAlign: 'center' }}>
@@ -482,31 +482,14 @@ export default function ProfileSetupPage() {
 
                                                 <div className="form-group">
                                                     <label className="form-label">City</label>
-                                                    {isUS && availableCities.length > 0 ? (
-                                                        <select
-                                                            className="form-input"
-                                                            value={formData.city}
-                                                            onChange={(e) => updateFormData('city', e.target.value)}
-                                                            required
-                                                            disabled={isLoading}
-                                                        >
-                                                            <option value="">Select a city</option>
-                                                            {availableCities.map(c => (
-                                                                <option key={c} value={c}>{c}</option>
-                                                            ))}
-                                                            <option value="Other">Other</option>
-                                                        </select>
-                                                    ) : (
-                                                        <input
-                                                            type="text"
-                                                            className="form-input"
-                                                            value={formData.city}
-                                                            onChange={(e) => updateFormData('city', e.target.value)}
-                                                            placeholder={isUS && !formData.state ? 'Select a state first' : 'Enter your city'}
-                                                            required
-                                                            disabled={isLoading || (isUS && !formData.state)}
-                                                        />
-                                                    )}
+                                                    <CityAutocomplete
+                                                        value={formData.city}
+                                                        onChange={(city) => updateFormData('city', city)}
+                                                        state={isUS ? formData.state : ''}
+                                                        placeholder={isUS && !formData.state ? 'Select a state first' : 'Enter your city'}
+                                                        disabled={isLoading}
+                                                        required
+                                                    />
                                                 </div>
 
                                                 <div className="form-group">
