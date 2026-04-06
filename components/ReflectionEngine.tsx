@@ -60,7 +60,7 @@ export default function ReflectionEngine() {
         <div className="card" style={{ padding: 'var(--space-6)' }}>
             <h3 style={{ marginBottom: 'var(--space-4)', display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
                 <Sparkles size={20} color="var(--color-primary)" />
-                Post a Reflection
+                Weekly Reflections 
             </h3>
 
             <div style={{
