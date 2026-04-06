@@ -106,7 +106,10 @@ function AssessmentPageInner() {
         setSubmitting(true)
         setError('')
         try {
-            const responses = Object.entries(answers).map(([questionId, value]) => ({ questionId, value }))
+            const responses = Object.entries(answers).map(([questionId, value]) => {
+                const pillar = PILLARS.find(p => p.questions.some(q => q.id === questionId))?.key
+                return { questionId, pillar, value }
+            })
             const res = await fetch('/api/assessment/complete', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
