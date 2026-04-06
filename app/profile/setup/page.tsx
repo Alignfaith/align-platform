@@ -5,31 +5,11 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { ArrowLeft, ArrowRight, Check, User, MapPin, Heart, Loader2, Church, Brain, Dumbbell, Wallet, Sparkles, Globe } from 'lucide-react'
-import { PILLAR_CONFIGS, ASSESSMENT_INSTRUCTION, PillarType } from '@/lib/pillarQuestions'
+import { ArrowLeft, ArrowRight, Check, MapPin, Loader2, Globe } from 'lucide-react'
 import { US_STATES, COUNTRIES } from '@/lib/location-data'
 import CityAutocomplete from '@/components/CityAutocomplete'
 
-const PILLAR_ICONS: Record<PillarType, any> = {
-    SPIRITUAL: Church,
-    MENTAL: Brain,
-    PHYSICAL: Dumbbell,
-    FINANCIAL: Wallet,
-    APPEARANCE: Sparkles,
-    INTIMACY: Heart,
-}
-
-const PILLAR_COLORS: Record<PillarType, string> = {
-    SPIRITUAL: '#4F46E5',
-    MENTAL: '#0891B2',
-    PHYSICAL: '#059669',
-    FINANCIAL: '#CA8A04',
-    APPEARANCE: '#D946EF',
-    INTIMACY: '#E11D48',
-}
-
-// Step structure: About You, 6 Pillars, Location, Preferences = 9 steps
-const TOTAL_STEPS = 9
+const TOTAL_STEPS = 3
 
 export default function ProfileSetupPage() {
     const { data: session, status, update } = useSession()
@@ -38,7 +18,6 @@ export default function ProfileSetupPage() {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
-    // Basic info
     const [formData, setFormData] = useState({
         dateOfBirth: '',
         gender: '',
@@ -50,91 +29,40 @@ export default function ProfileSetupPage() {
         relationshipGoal: 'SERIOUS_DATING',
     })
 
-    // Pillar responses: { questionId: value (1-5) }
-    const [pillarResponses, setPillarResponses] = useState<Record<string, number>>({})
-
     useEffect(() => {
         if (status === 'unauthenticated') {
             router.push('/login')
         }
     }, [status, router])
 
-    const updateFormData = (field: string, value: any) => {
+    const updateFormData = (field: string, value: string) => {
         setFormData(prev => ({ ...prev, [field]: value }))
         setError(null)
     }
 
-    const updatePillarResponse = (questionId: string, value: number) => {
-        setPillarResponses(prev => ({ ...prev, [questionId]: value }))
-        setError(null)
-    }
-
-    // Get pillar config for current step (steps 2-7 are pillars)
-    const getCurrentPillar = () => {
-        if (currentStep >= 2 && currentStep <= 7) {
-            return PILLAR_CONFIGS[currentStep - 2]
-        }
-        return null
-    }
-
     const validateStep = (step: number): boolean => {
         switch (step) {
-            case 1: // About You
-                if (!formData.dateOfBirth) {
-                    setError('Date of birth is required')
-                    return false
-                }
-                const age = calculateAge(new Date(formData.dateOfBirth))
-                if (age < 18) {
-                    setError('You must be 18 or older')
-                    return false
-                }
-                if (!formData.gender) {
-                    setError('Please select your gender')
-                    return false
-                }
+            case 1:
+                if (!formData.dateOfBirth) { setError('Date of birth is required'); return false }
+                const dob = new Date(formData.dateOfBirth)
+                const today = new Date()
+                let age = today.getFullYear() - dob.getFullYear()
+                const m = today.getMonth() - dob.getMonth()
+                if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--
+                if (age < 18) { setError('You must be 18 or older'); return false }
+                if (!formData.gender) { setError('Please select your gender'); return false }
                 return true
-            case 2: case 3: case 4: case 5: case 6: case 7: // Pillar steps
-                const pillar = PILLAR_CONFIGS[step - 2]
-                const unanswered = pillar.questions.filter(q => !pillarResponses[q.id])
-                if (unanswered.length > 0) {
-                    setError(`Please answer all questions for ${pillar.name}`)
-                    return false
-                }
+            case 2:
+                if (!formData.state.trim()) { setError('State / Province is required'); return false }
+                if (!formData.city.trim()) { setError('City is required'); return false }
                 return true
-            case 8: // Location
-                if (!formData.state.trim()) {
-                    setError('State / Province is required')
-                    return false
-                }
-                if (!formData.city.trim()) {
-                    setError('City is required')
-                    return false
-                }
-                return true
-            case 9: // Preferences
-                if (!formData.seekingGender) {
-                    setError('Please select who you are looking for')
-                    return false
-                }
-                if (!formData.relationshipGoal) {
-                    setError('Please select your relationship goal')
-                    return false
-                }
+            case 3:
+                if (!formData.seekingGender) { setError('Please select who you are looking for'); return false }
+                if (!formData.relationshipGoal) { setError('Please select your relationship goal'); return false }
                 return true
             default:
                 return true
         }
-    }
-
-    const calculateAge = (birthDate: Date): number => {
-        const today = new Date()
-        let age = today.getFullYear() - birthDate.getFullYear()
-        const m = today.getMonth() - birthDate.getMonth()
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-            age--
-        }
-        return age
     }
 
     const nextStep = () => {
@@ -161,17 +89,6 @@ export default function ProfileSetupPage() {
         setError(null)
 
         try {
-            // Format pillar responses for API
-            const formattedResponses = Object.entries(pillarResponses).map(([questionId, value]) => {
-                // Find which pillar this question belongs to
-                const pillar = PILLAR_CONFIGS.find(p => p.questions.some(q => q.id === questionId))
-                return {
-                    questionId,
-                    pillar: pillar?.id,
-                    value
-                }
-            })
-
             const response = await fetch('/api/profile/complete', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -179,27 +96,23 @@ export default function ProfileSetupPage() {
                     dateOfBirth: formData.dateOfBirth,
                     gender: formData.gender,
                     seekingGender: formData.seekingGender,
+                    country: formData.country,
                     city: formData.city.trim(),
                     state: formData.state.trim(),
                     bio: formData.bio.trim(),
                     relationshipGoal: formData.relationshipGoal,
-                    pillarResponses: formattedResponses,
                 }),
             })
 
             const data = await response.json()
+            if (!response.ok) throw new Error(data.error || 'Failed to save profile')
 
-            if (!response.ok) {
-                throw new Error(data.error || 'Failed to complete profile')
-            }
-
-            // Update session to reflect profile completion
             await update({ profileComplete: true })
 
-            // Redirect to dashboard
-            router.push('/dashboard')
+            // Send user to the Six Pillar Assessment as the next required onboarding step
+            router.push('/dashboard/assessment?onboarding=1')
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to complete profile')
+            setError(err instanceof Error ? err.message : 'Failed to save profile')
         } finally {
             setIsLoading(false)
         }
@@ -218,21 +131,11 @@ export default function ProfileSetupPage() {
         )
     }
 
-    if (!session) {
-        return null
-    }
+    if (!session) return null
 
-    const getStepName = (step: number): string => {
-        if (step === 1) return 'About You'
-        if (step >= 2 && step <= 7) return PILLAR_CONFIGS[step - 2].name
-        if (step === 8) return 'Location'
-        if (step === 9) return 'Preferences'
-        return ''
-    }
+    const stepNames = ['About You', 'Your Location', 'Your Preferences']
 
-    const currentPillar = getCurrentPillar()
-    const PillarIcon = currentPillar ? PILLAR_ICONS[currentPillar.id] : null
-    const pillarColor = currentPillar ? PILLAR_COLORS[currentPillar.id] : '#4F46E5'
+    const isUS = formData.country === 'United States'
 
     return (
         <>
@@ -240,18 +143,13 @@ export default function ProfileSetupPage() {
             <main style={{ paddingTop: 'var(--header-height)' }}>
                 <section className="section section--cream" style={{ minHeight: 'calc(100vh - var(--header-height))' }}>
                     <div className="container">
-                        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                        <div style={{ maxWidth: '640px', margin: '0 auto' }}>
                             <div style={{ textAlign: 'center', marginBottom: 'var(--space-8)' }}>
-                                <h1 style={{
-                                    fontFamily: 'var(--font-heading)',
-                                    fontSize: 'var(--text-4xl)',
-                                    color: 'var(--color-primary)',
-                                    marginBottom: 'var(--space-2)',
-                                }}>
-                                    Six Pillars Assessment
+                                <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 'var(--text-4xl)', color: 'var(--color-primary)', marginBottom: 'var(--space-2)' }}>
+                                    Complete Your Profile
                                 </h1>
                                 <p style={{ color: 'var(--color-slate)' }}>
-                                    {ASSESSMENT_INSTRUCTION}
+                                    Step 2 of 3 in your Align onboarding
                                 </p>
                             </div>
 
@@ -261,20 +159,15 @@ export default function ProfileSetupPage() {
                                     <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-slate)' }}>
                                         Step {currentStep} of {TOTAL_STEPS}
                                     </span>
-                                    <span style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: pillarColor }}>
-                                        {getStepName(currentStep)}
+                                    <span style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-primary)' }}>
+                                        {stepNames[currentStep - 1]}
                                     </span>
                                 </div>
-                                <div style={{
-                                    height: '8px',
-                                    backgroundColor: 'var(--color-rose)',
-                                    borderRadius: 'var(--radius-full)',
-                                    overflow: 'hidden',
-                                }}>
+                                <div style={{ height: '8px', backgroundColor: 'var(--color-rose)', borderRadius: 'var(--radius-full)', overflow: 'hidden' }}>
                                     <div style={{
                                         height: '100%',
                                         width: `${(currentStep / TOTAL_STEPS) * 100}%`,
-                                        backgroundColor: pillarColor,
+                                        backgroundColor: 'var(--color-primary)',
                                         borderRadius: 'var(--radius-full)',
                                         transition: 'width 0.3s ease',
                                     }} />
@@ -284,14 +177,7 @@ export default function ProfileSetupPage() {
                             <div className="card" style={{ marginTop: 'var(--space-4)' }}>
                                 <form onSubmit={handleSubmit}>
                                     {error && (
-                                        <div style={{
-                                            backgroundColor: '#FEE2E2',
-                                            border: '1px solid #F87171',
-                                            borderRadius: 'var(--radius-md)',
-                                            padding: 'var(--space-4)',
-                                            marginBottom: 'var(--space-6)',
-                                            color: '#B91C1C',
-                                        }}>
+                                        <div style={{ backgroundColor: '#FEE2E2', border: '1px solid #F87171', borderRadius: 'var(--radius-md)', padding: 'var(--space-4)', marginBottom: 'var(--space-6)', color: '#B91C1C' }}>
                                             {error}
                                         </div>
                                     )}
@@ -299,9 +185,7 @@ export default function ProfileSetupPage() {
                                     {/* Step 1: About You */}
                                     {currentStep === 1 && (
                                         <div>
-                                            <h2 style={{ marginBottom: 'var(--space-6)', textAlign: 'center' }}>
-                                                About You
-                                            </h2>
+                                            <h2 style={{ marginBottom: 'var(--space-6)', textAlign: 'center' }}>About You</h2>
 
                                             <div className="form-group">
                                                 <label className="form-label">Date of Birth</label>
@@ -321,25 +205,14 @@ export default function ProfileSetupPage() {
                                                 <div style={{ display: 'flex', gap: 'var(--space-4)' }}>
                                                     {['MALE', 'FEMALE'].map(g => (
                                                         <label key={g} style={{
-                                                            flex: 1,
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                            justifyContent: 'center',
-                                                            padding: 'var(--space-4)',
-                                                            borderRadius: 'var(--radius-md)',
+                                                            flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                            padding: 'var(--space-4)', borderRadius: 'var(--radius-md)',
                                                             border: `2px solid ${formData.gender === g ? 'var(--color-primary)' : 'var(--color-rose)'}`,
                                                             backgroundColor: formData.gender === g ? 'var(--color-blush)' : 'transparent',
-                                                            cursor: 'pointer',
-                                                            transition: 'all 0.2s',
+                                                            cursor: 'pointer', transition: 'all 0.2s',
                                                         }}>
-                                                            <input
-                                                                type="radio"
-                                                                name="gender"
-                                                                value={g}
-                                                                checked={formData.gender === g}
-                                                                onChange={(e) => updateFormData('gender', e.target.value)}
-                                                                style={{ display: 'none' }}
-                                                            />
+                                                            <input type="radio" name="gender" value={g} checked={formData.gender === g}
+                                                                onChange={(e) => updateFormData('gender', e.target.value)} style={{ display: 'none' }} />
                                                             {g === 'MALE' ? 'Man' : 'Woman'}
                                                         </label>
                                                     ))}
@@ -348,195 +221,90 @@ export default function ProfileSetupPage() {
                                         </div>
                                     )}
 
-                                    {/* Steps 2-7: Pillar Assessments */}
-                                    {currentPillar && PillarIcon && (
+                                    {/* Step 2: Location */}
+                                    {currentStep === 2 && (
                                         <div>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)', marginBottom: 'var(--space-6)' }}>
-                                                <div style={{
-                                                    width: '60px',
-                                                    height: '60px',
-                                                    borderRadius: 'var(--radius-lg)',
-                                                    backgroundColor: `${pillarColor}15`,
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center',
-                                                    color: pillarColor,
-                                                }}>
-                                                    <PillarIcon size={30} />
-                                                </div>
-                                                <div>
-                                                    <h2 style={{ marginBottom: 'var(--space-1)' }}>{currentPillar.name}</h2>
-                                                    <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-slate)', marginBottom: 0 }}>
-                                                        {currentPillar.description}
-                                                    </p>
-                                                </div>
+                                            <h2 style={{ marginBottom: 'var(--space-6)', textAlign: 'center' }}>Your Location</h2>
+
+                                            <div className="form-group">
+                                                <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                    <Globe size={14} /> Country
+                                                </label>
+                                                <select
+                                                    className="form-input"
+                                                    value={formData.country}
+                                                    onChange={(e) => { updateFormData('country', e.target.value); updateFormData('state', ''); updateFormData('city', '') }}
+                                                    disabled={isLoading}
+                                                >
+                                                    {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
+                                                </select>
                                             </div>
 
-                                            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
-                                                {currentPillar.questions.map((question, qIndex) => (
-                                                    <div key={question.id} style={{
-                                                        padding: 'var(--space-4)',
-                                                        backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                                                        borderRadius: 'var(--radius-lg)',
-                                                        border: pillarResponses[question.id] ? `2px solid ${pillarColor}` : '1px solid var(--color-rose-light)',
-                                                    }}>
-                                                        <p style={{
-                                                            fontWeight: 600,
-                                                            marginBottom: 'var(--space-3)',
-                                                            color: 'var(--color-charcoal)',
-                                                        }}>
-                                                            {qIndex + 1}. {question.title}
-                                                        </p>
-                                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
-                                                            {question.options.map((option) => (
-                                                                <label
-                                                                    key={option.value}
-                                                                    style={{
-                                                                        display: 'flex',
-                                                                        alignItems: 'center',
-                                                                        gap: 'var(--space-3)',
-                                                                        padding: 'var(--space-3)',
-                                                                        borderRadius: 'var(--radius-md)',
-                                                                        backgroundColor: pillarResponses[question.id] === option.value ? `${pillarColor}15` : 'transparent',
-                                                                        border: pillarResponses[question.id] === option.value ? `1px solid ${pillarColor}` : '1px solid transparent',
-                                                                        cursor: 'pointer',
-                                                                        transition: 'all 0.2s',
-                                                                    }}
-                                                                >
-                                                                    <input
-                                                                        type="radio"
-                                                                        name={question.id}
-                                                                        value={option.value}
-                                                                        checked={pillarResponses[question.id] === option.value}
-                                                                        onChange={() => updatePillarResponse(question.id, option.value)}
-                                                                        style={{ accentColor: pillarColor }}
-                                                                    />
-                                                                    <span style={{
-                                                                        fontSize: 'var(--text-sm)',
-                                                                        color: pillarResponses[question.id] === option.value ? pillarColor : 'var(--color-charcoal)',
-                                                                    }}>
-                                                                        {option.label}
-                                                                    </span>
-                                                                </label>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                ))}
+                                            <div className="form-group">
+                                                <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                    <MapPin size={14} /> {isUS ? 'State' : 'State / Province'}
+                                                </label>
+                                                {isUS ? (
+                                                    <select
+                                                        className="form-input"
+                                                        value={formData.state}
+                                                        onChange={(e) => { updateFormData('state', e.target.value); updateFormData('city', '') }}
+                                                        required disabled={isLoading}
+                                                    >
+                                                        <option value="">Select a state</option>
+                                                        {US_STATES.map(s => <option key={s} value={s}>{s}</option>)}
+                                                    </select>
+                                                ) : (
+                                                    <input type="text" className="form-input" value={formData.state}
+                                                        onChange={(e) => updateFormData('state', e.target.value)}
+                                                        placeholder="State / Province" disabled={isLoading} />
+                                                )}
+                                            </div>
+
+                                            <div className="form-group">
+                                                <label className="form-label">City</label>
+                                                <CityAutocomplete
+                                                    value={formData.city}
+                                                    onChange={(city) => updateFormData('city', city)}
+                                                    state={isUS ? formData.state : ''}
+                                                    placeholder={isUS && !formData.state ? 'Select a state first' : 'Enter your city'}
+                                                    disabled={isLoading}
+                                                    required
+                                                />
+                                            </div>
+
+                                            <div className="form-group">
+                                                <label className="form-label">Bio (optional)</label>
+                                                <textarea
+                                                    className="form-input form-textarea"
+                                                    value={formData.bio}
+                                                    onChange={(e) => updateFormData('bio', e.target.value)}
+                                                    placeholder="Tell others a bit about your faith journey..."
+                                                    disabled={isLoading}
+                                                    rows={4}
+                                                />
                                             </div>
                                         </div>
                                     )}
 
-                                    {/* Step 8: Location */}
-                                    {currentStep === 8 && (() => {
-                                        const isUS = formData.country === 'United States'
-                                        return (
-                                            <div>
-                                                <h2 style={{ marginBottom: 'var(--space-6)', textAlign: 'center' }}>
-                                                    Your Location
-                                                </h2>
-
-                                                <div className="form-group">
-                                                    <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                                        <Globe size={14} /> Country
-                                                    </label>
-                                                    <select
-                                                        className="form-input"
-                                                        value={formData.country}
-                                                        onChange={(e) => { updateFormData('country', e.target.value); updateFormData('state', ''); updateFormData('city', '') }}
-                                                        disabled={isLoading}
-                                                    >
-                                                        {COUNTRIES.map(c => (
-                                                            <option key={c} value={c}>{c}</option>
-                                                        ))}
-                                                    </select>
-                                                </div>
-
-                                                <div className="form-group">
-                                                    <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                                        <MapPin size={14} /> {isUS ? 'State' : 'State / Province'}
-                                                    </label>
-                                                    {isUS ? (
-                                                        <select
-                                                            className="form-input"
-                                                            value={formData.state}
-                                                            onChange={(e) => { updateFormData('state', e.target.value); updateFormData('city', '') }}
-                                                            required
-                                                            disabled={isLoading}
-                                                        >
-                                                            <option value="">Select a state</option>
-                                                            {US_STATES.map(s => (
-                                                                <option key={s} value={s}>{s}</option>
-                                                            ))}
-                                                        </select>
-                                                    ) : (
-                                                        <input
-                                                            type="text"
-                                                            className="form-input"
-                                                            value={formData.state}
-                                                            onChange={(e) => updateFormData('state', e.target.value)}
-                                                            placeholder="State / Province"
-                                                            disabled={isLoading}
-                                                        />
-                                                    )}
-                                                </div>
-
-                                                <div className="form-group">
-                                                    <label className="form-label">City</label>
-                                                    <CityAutocomplete
-                                                        value={formData.city}
-                                                        onChange={(city) => updateFormData('city', city)}
-                                                        state={isUS ? formData.state : ''}
-                                                        placeholder={isUS && !formData.state ? 'Select a state first' : 'Enter your city'}
-                                                        disabled={isLoading}
-                                                        required
-                                                    />
-                                                </div>
-
-                                                <div className="form-group">
-                                                    <label className="form-label">Bio (optional)</label>
-                                                    <textarea
-                                                        className="form-input form-textarea"
-                                                        value={formData.bio}
-                                                        onChange={(e) => updateFormData('bio', e.target.value)}
-                                                        placeholder="Tell others a bit about your faith journey..."
-                                                        disabled={isLoading}
-                                                        rows={4}
-                                                    />
-                                                </div>
-                                            </div>
-                                        )
-                                    })()}
-
-                                    {/* Step 9: Preferences */}
-                                    {currentStep === 9 && (
+                                    {/* Step 3: Preferences */}
+                                    {currentStep === 3 && (
                                         <div>
-                                            <h2 style={{ marginBottom: 'var(--space-6)', textAlign: 'center' }}>
-                                                Your Preferences
-                                            </h2>
+                                            <h2 style={{ marginBottom: 'var(--space-6)', textAlign: 'center' }}>Your Preferences</h2>
 
                                             <div className="form-group">
                                                 <label className="form-label">I am looking for a</label>
                                                 <div style={{ display: 'flex', gap: 'var(--space-4)' }}>
                                                     {['MALE', 'FEMALE'].map(g => (
                                                         <label key={g} style={{
-                                                            flex: 1,
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                            justifyContent: 'center',
-                                                            padding: 'var(--space-4)',
-                                                            borderRadius: 'var(--radius-md)',
+                                                            flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                            padding: 'var(--space-4)', borderRadius: 'var(--radius-md)',
                                                             border: `2px solid ${formData.seekingGender === g ? 'var(--color-primary)' : 'var(--color-rose)'}`,
                                                             backgroundColor: formData.seekingGender === g ? 'var(--color-blush)' : 'transparent',
                                                             cursor: 'pointer',
                                                         }}>
-                                                            <input
-                                                                type="radio"
-                                                                name="seekingGender"
-                                                                value={g}
-                                                                checked={formData.seekingGender === g}
-                                                                onChange={(e) => updateFormData('seekingGender', e.target.value)}
-                                                                style={{ display: 'none' }}
-                                                            />
+                                                            <input type="radio" name="seekingGender" value={g} checked={formData.seekingGender === g}
+                                                                onChange={(e) => updateFormData('seekingGender', e.target.value)} style={{ display: 'none' }} />
                                                             {g === 'MALE' ? 'Man' : 'Woman'}
                                                         </label>
                                                     ))}
@@ -549,8 +317,7 @@ export default function ProfileSetupPage() {
                                                     className="form-input"
                                                     value={formData.relationshipGoal}
                                                     onChange={(e) => updateFormData('relationshipGoal', e.target.value)}
-                                                    required
-                                                    disabled={isLoading}
+                                                    required disabled={isLoading}
                                                 >
                                                     <option value="MARRIAGE">Marriage</option>
                                                     <option value="SERIOUS_DATING">Serious Dating</option>
@@ -561,52 +328,23 @@ export default function ProfileSetupPage() {
                                     )}
 
                                     {/* Navigation */}
-                                    <div style={{
-                                        display: 'flex',
-                                        justifyContent: 'space-between',
-                                        marginTop: 'var(--space-8)',
-                                        paddingTop: 'var(--space-6)',
-                                        borderTop: '1px solid var(--color-rose)',
-                                    }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 'var(--space-8)', paddingTop: 'var(--space-6)', borderTop: '1px solid var(--color-rose)' }}>
                                         {currentStep > 1 ? (
-                                            <button
-                                                type="button"
-                                                onClick={prevStep}
-                                                className="btn btn--secondary"
-                                                disabled={isLoading}
-                                            >
-                                                <ArrowLeft size={18} />
-                                                Back
+                                            <button type="button" onClick={prevStep} className="btn btn--secondary" disabled={isLoading}>
+                                                <ArrowLeft size={18} /> Back
                                             </button>
-                                        ) : (
-                                            <div />
-                                        )}
+                                        ) : <div />}
 
                                         {currentStep < TOTAL_STEPS ? (
-                                            <button
-                                                type="button"
-                                                onClick={nextStep}
-                                                className="btn btn--primary"
-                                            >
-                                                Continue
-                                                <ArrowRight size={18} />
+                                            <button type="button" onClick={nextStep} className="btn btn--primary">
+                                                Continue <ArrowRight size={18} />
                                             </button>
                                         ) : (
-                                            <button
-                                                type="submit"
-                                                className="btn btn--primary"
-                                                disabled={isLoading}
-                                            >
+                                            <button type="submit" className="btn btn--primary" disabled={isLoading}>
                                                 {isLoading ? (
-                                                    <>
-                                                        <Loader2 size={18} className="animate-spin" />
-                                                        Saving...
-                                                    </>
+                                                    <><Loader2 size={18} className="animate-spin" /> Saving...</>
                                                 ) : (
-                                                    <>
-                                                        Complete Assessment
-                                                        <Check size={18} />
-                                                    </>
+                                                    <> Continue to Assessment <ArrowRight size={18} /></>
                                                 )}
                                             </button>
                                         )}

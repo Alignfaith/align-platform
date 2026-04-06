@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Header from '@/components/Header'
 import { PILLARS, pillarDisplayScore } from '@/lib/pillar-questions'
@@ -52,8 +52,18 @@ function SummaryChart({ answers }: { answers: Answers }) {
 
 // ── Main page ─────────────────────────────────────────────────────────────────
 export default function AssessmentPage() {
+    return (
+        <Suspense fallback={null}>
+            <AssessmentPageInner />
+        </Suspense>
+    )
+}
+
+function AssessmentPageInner() {
     const { data: session, status } = useSession()
     const router = useRouter()
+    const searchParams = useSearchParams()
+    const isOnboarding = searchParams.get('onboarding') === '1'
 
     const [step, setStep] = useState(0) // 0–5 = pillars, 6 = summary
     const [answers, setAnswers] = useState<Answers>({})
@@ -121,15 +131,19 @@ export default function AssessmentPage() {
                         <div style={{ width: '72px', height: '72px', borderRadius: '50%', background: 'rgba(16,185,129,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto var(--space-6)' }}>
                             <CheckCircle size={40} color="#10B981" />
                         </div>
-                        <h1 style={{ color: 'var(--color-text-primary)', marginBottom: 'var(--space-4)' }}>Assessment Complete</h1>
+                        <h1 style={{ color: 'var(--color-text-primary)', marginBottom: 'var(--space-4)' }}>
+                            {isOnboarding ? 'You\'re All Set!' : 'Assessment Complete'}
+                        </h1>
                         <p style={{ color: 'var(--color-text-secondary)', lineHeight: 'var(--leading-relaxed)', marginBottom: 'var(--space-4)' }}>
-                            Your Six Pillar results have been saved. You can view them on your dashboard and retake the assessment any time to track your growth.
+                            {isOnboarding
+                                ? 'Your Six Pillar scores have been saved. Your profile is complete — welcome to Align.'
+                                : 'Your Six Pillar results have been saved. You can retake the assessment any time to track your growth.'}
                         </p>
                         <div style={{ background: 'var(--color-bg-elevated)', border: '1px solid var(--color-border-subtle)', borderRadius: 'var(--radius-xl)', padding: 'var(--space-8)', marginBottom: 'var(--space-8)' }}>
                             <SummaryChart answers={answers} />
                         </div>
                         <Link href="/dashboard" className="btn btn--primary btn--lg">
-                            Back to Dashboard
+                            {isOnboarding ? 'Go to My Dashboard' : 'Back to Dashboard'}
                         </Link>
                     </div>
                 </main>
@@ -143,10 +157,19 @@ export default function AssessmentPage() {
             <main style={{ paddingTop: 'var(--header-height)', minHeight: '100vh', background: 'var(--color-bg-primary)' }}>
                 <div style={{ maxWidth: '720px', margin: '0 auto', padding: 'var(--space-8) var(--space-6)' }}>
 
-                    {/* Back link */}
-                    <Link href="/dashboard" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', textDecoration: 'none', marginBottom: 'var(--space-6)' }}>
-                        <ChevronLeft size={16} /> Back to Dashboard
-                    </Link>
+                    {/* Back link — hidden during onboarding */}
+                    {!isOnboarding && (
+                        <Link href="/dashboard" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', textDecoration: 'none', marginBottom: 'var(--space-6)' }}>
+                            <ChevronLeft size={16} /> Back to Dashboard
+                        </Link>
+                    )}
+
+                    {/* Onboarding context header */}
+                    {isOnboarding && (
+                        <div style={{ marginBottom: 'var(--space-6)', padding: 'var(--space-3) var(--space-4)', background: 'rgba(225,29,72,0.06)', border: '1px solid rgba(225,29,72,0.15)', borderRadius: 'var(--radius-md)', fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', textAlign: 'center' }}>
+                            <strong style={{ color: 'var(--color-primary)' }}>Step 3 of 3</strong> — Six Pillar Assessment
+                        </div>
+                    )}
 
                     {/* Progress bar */}
                     <div style={{ marginBottom: 'var(--space-8)' }}>

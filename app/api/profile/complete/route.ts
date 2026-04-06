@@ -26,13 +26,14 @@ const profileCompleteSchema = z.object({
   }, 'You must be 18 or older'),
   gender: z.enum(['MALE', 'FEMALE']),
   seekingGender: z.enum(['MALE', 'FEMALE']),
+  country: z.string().max(100).optional(),
   city: z.string().min(1, 'City is required').max(100),
-  state: z.string().min(1, 'State is required').max(50),
+  state: z.string().min(1, 'State is required').max(100),
   bio: z.string().max(1000).optional(),
   relationshipGoal: z.enum(['MARRIAGE', 'SERIOUS_DATING', 'DISCERNING']),
-  // New: Individual question responses (30 questions)
+  // Optional — pillar responses saved here for backward compatibility;
+  // new flow saves them via /api/assessment after profile setup
   pillarResponses: z.array(pillarResponseSchema).optional(),
-  // Legacy: Simple pillar scores (6 scores) - for backwards compatibility
   pillarScores: z.array(legacyPillarScoreSchema).optional(),
 })
 
@@ -46,11 +47,6 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json()
     const data = profileCompleteSchema.parse(body)
-
-    // Validate that we have either pillarResponses or pillarScores
-    if (!data.pillarResponses?.length && !data.pillarScores?.length) {
-      throw new ValidationError('Assessment responses are required')
-    }
 
     // Find existing profile
     const existingProfile = await prisma.profile.findUnique({
@@ -72,6 +68,7 @@ export async function POST(req: NextRequest) {
           seekingGender: data.seekingGender,
           city: data.city,
           state: data.state,
+          country: data.country || 'USA',
           bio: data.bio || null,
           relationshipGoal: data.relationshipGoal,
           isComplete: true,
