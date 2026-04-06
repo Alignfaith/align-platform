@@ -228,8 +228,10 @@ model Profile {
   longitude Float?
 
   // Bio & About
-  bio     String? @db.Text
-  aboutMe String? @db.Text
+  bio       String? @db.Text
+  aboutMe   String? @db.Text
+  profession String?
+  education  String?
 
   // Dating Preferences
   seekingGender    Gender
@@ -261,6 +263,16 @@ model Profile {
   // Profile completion
   isComplete  Boolean   @default(false)
   completedAt DateTime?
+
+  // Identity Photo (internal use only, not shown to members until approved)
+  identityPhotoUrl      String?
+  identityPhotoApproved Boolean @default(false)
+  identityPhotoSubmittedAt DateTime?
+
+  // Human Verification (selfie holding paper with username)
+  humanVerificationPhotoUrl String?
+  humanVerified             Boolean   @default(false)
+  humanVerificationSubmittedAt DateTime?
 
   // Visibility
   isActive   Boolean @default(true)

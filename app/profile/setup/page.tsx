@@ -5,19 +5,9 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { ArrowLeft, ArrowRight, Check, User, MapPin, Heart, Loader2, Church, Brain, Dumbbell, Wallet, Sparkles } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, User, MapPin, Heart, Loader2, Church, Brain, Dumbbell, Wallet, Sparkles, Globe } from 'lucide-react'
 import { PILLAR_CONFIGS, ASSESSMENT_INSTRUCTION, PillarType } from '@/lib/pillarQuestions'
-
-const US_STATES = [
-    'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut',
-    'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa',
-    'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan',
-    'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-    'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio',
-    'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota',
-    'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia',
-    'Wisconsin', 'Wyoming'
-]
+import { US_STATES, CITIES_BY_STATE, COUNTRIES } from '@/lib/location-data'
 
 const PILLAR_ICONS: Record<PillarType, any> = {
     SPIRITUAL: Church,
@@ -52,8 +42,9 @@ export default function ProfileSetupPage() {
         dateOfBirth: '',
         gender: '',
         seekingGender: '',
-        city: '',
+        country: 'United States',
         state: '',
+        city: '',
         bio: '',
         relationshipGoal: 'SERIOUS_DATING',
     })
@@ -111,12 +102,12 @@ export default function ProfileSetupPage() {
                 }
                 return true
             case 8: // Location
-                if (!formData.city.trim()) {
-                    setError('City is required')
+                if (!formData.state.trim()) {
+                    setError('State / Province is required')
                     return false
                 }
-                if (!formData.state) {
-                    setError('State is required')
+                if (!formData.city.trim()) {
+                    setError('City is required')
                     return false
                 }
                 return true
@@ -188,7 +179,7 @@ export default function ProfileSetupPage() {
                     gender: formData.gender,
                     seekingGender: formData.seekingGender,
                     city: formData.city.trim(),
-                    state: formData.state,
+                    state: formData.state.trim(),
                     bio: formData.bio.trim(),
                     relationshipGoal: formData.relationshipGoal,
                     pillarResponses: formattedResponses,
@@ -435,54 +426,103 @@ export default function ProfileSetupPage() {
                                     )}
 
                                     {/* Step 8: Location */}
-                                    {currentStep === 8 && (
-                                        <div>
-                                            <h2 style={{ marginBottom: 'var(--space-6)', textAlign: 'center' }}>
-                                                Your Location
-                                            </h2>
+                                    {currentStep === 8 && (() => {
+                                        const isUS = formData.country === 'United States'
+                                        const availableCities = isUS && formData.state ? CITIES_BY_STATE[formData.state] ?? [] : []
+                                        return (
+                                            <div>
+                                                <h2 style={{ marginBottom: 'var(--space-6)', textAlign: 'center' }}>
+                                                    Your Location
+                                                </h2>
 
-                                            <div className="form-group">
-                                                <label className="form-label">City</label>
-                                                <input
-                                                    type="text"
-                                                    className="form-input"
-                                                    value={formData.city}
-                                                    onChange={(e) => updateFormData('city', e.target.value)}
-                                                    placeholder="Enter your city"
-                                                    required
-                                                    disabled={isLoading}
-                                                />
-                                            </div>
+                                                <div className="form-group">
+                                                    <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                        <Globe size={14} /> Country
+                                                    </label>
+                                                    <select
+                                                        className="form-input"
+                                                        value={formData.country}
+                                                        onChange={(e) => { updateFormData('country', e.target.value); updateFormData('state', ''); updateFormData('city', '') }}
+                                                        disabled={isLoading}
+                                                    >
+                                                        {COUNTRIES.map(c => (
+                                                            <option key={c} value={c}>{c}</option>
+                                                        ))}
+                                                    </select>
+                                                </div>
 
-                                            <div className="form-group">
-                                                <label className="form-label">State</label>
-                                                <select
-                                                    className="form-input"
-                                                    value={formData.state}
-                                                    onChange={(e) => updateFormData('state', e.target.value)}
-                                                    required
-                                                    disabled={isLoading}
-                                                >
-                                                    <option value="">Select a state</option>
-                                                    {US_STATES.map(state => (
-                                                        <option key={state} value={state}>{state}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
+                                                <div className="form-group">
+                                                    <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                        <MapPin size={14} /> {isUS ? 'State' : 'State / Province'}
+                                                    </label>
+                                                    {isUS ? (
+                                                        <select
+                                                            className="form-input"
+                                                            value={formData.state}
+                                                            onChange={(e) => { updateFormData('state', e.target.value); updateFormData('city', '') }}
+                                                            required
+                                                            disabled={isLoading}
+                                                        >
+                                                            <option value="">Select a state</option>
+                                                            {US_STATES.map(s => (
+                                                                <option key={s} value={s}>{s}</option>
+                                                            ))}
+                                                        </select>
+                                                    ) : (
+                                                        <input
+                                                            type="text"
+                                                            className="form-input"
+                                                            value={formData.state}
+                                                            onChange={(e) => updateFormData('state', e.target.value)}
+                                                            placeholder="State / Province"
+                                                            disabled={isLoading}
+                                                        />
+                                                    )}
+                                                </div>
 
-                                            <div className="form-group">
-                                                <label className="form-label">Bio (optional)</label>
-                                                <textarea
-                                                    className="form-input form-textarea"
-                                                    value={formData.bio}
-                                                    onChange={(e) => updateFormData('bio', e.target.value)}
-                                                    placeholder="Tell others a bit about your faith journey..."
-                                                    disabled={isLoading}
-                                                    rows={4}
-                                                />
+                                                <div className="form-group">
+                                                    <label className="form-label">City</label>
+                                                    {isUS && availableCities.length > 0 ? (
+                                                        <select
+                                                            className="form-input"
+                                                            value={formData.city}
+                                                            onChange={(e) => updateFormData('city', e.target.value)}
+                                                            required
+                                                            disabled={isLoading}
+                                                        >
+                                                            <option value="">Select a city</option>
+                                                            {availableCities.map(c => (
+                                                                <option key={c} value={c}>{c}</option>
+                                                            ))}
+                                                            <option value="Other">Other</option>
+                                                        </select>
+                                                    ) : (
+                                                        <input
+                                                            type="text"
+                                                            className="form-input"
+                                                            value={formData.city}
+                                                            onChange={(e) => updateFormData('city', e.target.value)}
+                                                            placeholder={isUS && !formData.state ? 'Select a state first' : 'Enter your city'}
+                                                            required
+                                                            disabled={isLoading || (isUS && !formData.state)}
+                                                        />
+                                                    )}
+                                                </div>
+
+                                                <div className="form-group">
+                                                    <label className="form-label">Bio (optional)</label>
+                                                    <textarea
+                                                        className="form-input form-textarea"
+                                                        value={formData.bio}
+                                                        onChange={(e) => updateFormData('bio', e.target.value)}
+                                                        placeholder="Tell others a bit about your faith journey..."
+                                                        disabled={isLoading}
+                                                        rows={4}
+                                                    />
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
+                                        )
+                                    })()}
 
                                     {/* Step 9: Preferences */}
                                     {currentStep === 9 && (

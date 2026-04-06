@@ -202,6 +202,7 @@ export default function AdminDashboard() {
             { label: 'Tier 2 Members', href: '/admin/users?tier=TIER_2' },
             { label: 'Photo Moderation', href: '/admin/moderation/photos' },
             { label: 'Reports', href: '/admin/moderation/reports' },
+            { label: 'Verifications', href: '/admin/verifications' },
             { label: 'Audit Log', href: '/admin/audit-log' },
           ].map(({ label, href }) => (
             <Link key={href} href={href} style={{ padding: '6px 14px', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border-subtle)', fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', textDecoration: 'none', background: 'var(--color-bg-secondary)', fontWeight: 500 }}>
