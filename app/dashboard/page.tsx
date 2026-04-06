@@ -295,6 +295,16 @@ export default function DashboardPage() {
                                         </div>
                                     </Link>
 
+                                    {/* Six Pillars Assessment */}
+                                    <Link href="/dashboard/assessment" style={{ textDecoration: 'none' }}>
+                                        <div className="card" style={{ padding: 'var(--space-4)', cursor: 'pointer', transition: 'all 0.2s', border: '1px solid var(--color-rose-light)' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+                                                <BarChart2 size={20} color="var(--color-primary)" />
+                                                <span style={{ fontWeight: 600, color: 'var(--color-charcoal)' }}>Six Pillars Assessment</span>
+                                            </div>
+                                        </div>
+                                    </Link>
+
                                     {/* Settings */}
                                     <Link href="/settings" style={{ textDecoration: 'none' }}>
                                         <div className="card" style={{ padding: 'var(--space-4)', cursor: 'pointer', transition: 'all 0.2s', border: '1px solid var(--color-rose-light)' }}>
