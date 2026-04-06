@@ -5,28 +5,25 @@ import { requireAdmin } from '@/lib/admin'
 import { handleApiError } from '@/lib/errors'
 
 const schema = z.object({
-  profileId: z.string(),
+  photoId: z.string(),
   action: z.enum(['approve', 'reject']),
 })
 
 export async function POST(req: NextRequest) {
   try {
-    await requireAdmin()
+    const session = await requireAdmin()
     const body = await req.json()
-    const { profileId, action } = schema.parse(body)
+    const { photoId, action } = schema.parse(body)
 
     if (action === 'approve') {
-      await prisma.profile.update({
-        where: { id: profileId },
-        data: { humanVerified: true },
+      await prisma.photo.update({
+        where: { id: photoId },
+        data: { isApproved: true, moderatedAt: new Date(), moderatedBy: session.user.id },
       })
     } else {
-      await prisma.profile.update({
-        where: { id: profileId },
-        data: {
-          humanVerificationPhotoUrl: null,
-          humanVerificationSubmittedAt: null,
-        },
+      await prisma.photo.update({
+        where: { id: photoId },
+        data: { moderatedAt: new Date(), moderatedBy: session.user.id },
       })
     }
 

@@ -18,18 +18,39 @@ export async function GET() {
         city: true,
         state: true,
         country: true,
-        profession: true,
-        education: true,
         relationshipGoal: true,
-        identityPhotoUrl: true,
-        identityPhotoApproved: true,
-        humanVerified: true,
-        humanVerificationPhotoUrl: true,
-        humanVerificationSubmittedAt: true,
+        // Primary photo via the existing Photo model (no migration needed)
+        photos: {
+          where: { isPrimary: true },
+          select: { url: true, isApproved: true, publicId: true },
+          take: 1,
+        },
       },
     })
 
-    return NextResponse.json(profile ?? {})
+    if (!profile) return NextResponse.json({})
+
+    const primaryPhoto = profile.photos[0] ?? null
+
+    return NextResponse.json({
+      id: profile.id,
+      displayName: profile.displayName,
+      bio: profile.bio,
+      city: profile.city,
+      state: profile.state,
+      country: profile.country,
+      relationshipGoal: profile.relationshipGoal,
+      // Shape expected by profile edit page
+      identityPhotoUrl: primaryPhoto?.url ?? null,
+      identityPhotoApproved: primaryPhoto?.isApproved ?? false,
+      // Human verification: not yet in prod DB — return safe defaults
+      humanVerified: false,
+      humanVerificationPhotoUrl: null,
+      humanVerificationSubmittedAt: null,
+      // profession/education not in prod DB yet — return empty strings
+      profession: '',
+      education: '',
+    })
   } catch (error) {
     return handleApiError(error)
   }

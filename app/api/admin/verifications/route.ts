@@ -7,44 +7,86 @@ export async function GET() {
   try {
     await requireAdmin()
 
+    // Use the existing Photo model.
+    // Identity photos: isPrimary=true, isApproved=false
+    // Verification photos: publicId starts with 'verify_' or 'local_verify_', isApproved=false
     const [pendingPhotos, pendingVerifications] = await Promise.all([
-      // Identity photos awaiting approval
-      prisma.profile.findMany({
+      prisma.photo.findMany({
         where: {
-          identityPhotoUrl: { not: null },
-          identityPhotoApproved: false,
+          isPrimary: true,
+          isApproved: false,
+          moderatedAt: null,
         },
         select: {
           id: true,
-          firstName: true,
-          lastName: true,
-          identityPhotoUrl: true,
-          identityPhotoSubmittedAt: true,
-          userId: true,
-          user: { select: { email: true } },
+          url: true,
+          createdAt: true,
+          profile: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              userId: true,
+              user: { select: { email: true } },
+            },
+          },
         },
-        orderBy: { identityPhotoSubmittedAt: 'asc' },
+        orderBy: { createdAt: 'asc' },
       }),
-      // Human verifications awaiting review
-      prisma.profile.findMany({
+      prisma.photo.findMany({
         where: {
-          humanVerificationPhotoUrl: { not: null },
-          humanVerified: false,
+          isPrimary: false,
+          isApproved: false,
+          moderatedAt: null,
+          publicId: { startsWith: 'verify_' },
         },
         select: {
           id: true,
-          firstName: true,
-          lastName: true,
-          humanVerificationPhotoUrl: true,
-          humanVerificationSubmittedAt: true,
-          userId: true,
-          user: { select: { email: true } },
+          url: true,
+          createdAt: true,
+          profile: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              userId: true,
+              user: { select: { email: true } },
+            },
+          },
         },
-        orderBy: { humanVerificationSubmittedAt: 'asc' },
+        orderBy: { createdAt: 'asc' },
       }),
     ])
 
-    return NextResponse.json({ pendingPhotos, pendingVerifications })
+    // Also pick up local_ prefixed verification photos
+    const localVerifications = await prisma.photo.findMany({
+      where: {
+        isPrimary: false,
+        isApproved: false,
+        moderatedAt: null,
+        publicId: { startsWith: 'local_verify_' },
+      },
+      select: {
+        id: true,
+        url: true,
+        createdAt: true,
+        profile: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            userId: true,
+            user: { select: { email: true } },
+          },
+        },
+      },
+      orderBy: { createdAt: 'asc' },
+    })
+
+    return NextResponse.json({
+      pendingPhotos,
+      pendingVerifications: [...pendingVerifications, ...localVerifications],
+    })
   } catch (error) {
     return handleApiError(error)
   }

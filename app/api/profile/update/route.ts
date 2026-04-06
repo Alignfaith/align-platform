@@ -11,6 +11,7 @@ const updateSchema = z.object({
   city: z.string().min(1).max(100),
   state: z.string().min(1).max(100),
   country: z.string().min(1).max(100),
+  // profession / education accepted from the form but saved only after DB migration
   profession: z.string().max(100).optional(),
   education: z.string().max(100).optional(),
   relationshipGoal: z.enum(['MARRIAGE', 'SERIOUS_DATING', 'DISCERNING']),
@@ -27,6 +28,8 @@ export async function POST(req: NextRequest) {
     const existing = await prisma.profile.findUnique({ where: { userId: session.user.id } })
     if (!existing) throw new NotFoundError('Profile not found')
 
+    // Only update columns that exist in production DB.
+    // profession / education are in the schema but not yet migrated — skip them.
     const updated = await prisma.profile.update({
       where: { userId: session.user.id },
       data: {
@@ -35,8 +38,6 @@ export async function POST(req: NextRequest) {
         city: data.city,
         state: data.state,
         country: data.country,
-        profession: data.profession || null,
-        education: data.education || null,
         relationshipGoal: data.relationshipGoal,
       },
     })

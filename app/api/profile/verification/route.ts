@@ -9,12 +9,8 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) throw new AuthenticationError()
 
-    const existing = await prisma.profile.findUnique({ where: { userId: session.user.id } })
-    if (!existing) throw new NotFoundError('Profile not found')
-
-    if (existing.humanVerified) {
-      return NextResponse.json({ error: 'Already verified' }, { status: 400 })
-    }
+    const profile = await prisma.profile.findUnique({ where: { userId: session.user.id } })
+    if (!profile) throw new NotFoundError('Profile not found')
 
     const formData = await req.formData()
     const file = formData.get('photo') as File | null
@@ -30,23 +26,32 @@ export async function POST(req: NextRequest) {
     const buffer = Buffer.from(bytes)
 
     let url: string
+    let publicId: string
 
     if (process.env.CLOUDINARY_CLOUD_NAME) {
       const { uploadImage } = await import('@/lib/cloudinary')
       const result = await uploadImage(buffer, {
         folder: 'align/human-verification',
-        publicId: `verify_${existing.id}_${Date.now()}`,
+        publicId: `verify_${profile.id}_${Date.now()}`,
       })
       url = result.url
+      publicId = result.publicId
     } else {
       url = `data:image/jpeg;base64,${buffer.toString('base64')}`
+      publicId = `local_verify_${profile.id}_${Date.now()}`
     }
 
-    await prisma.profile.update({
-      where: { userId: session.user.id },
+    // Store verification photo using the existing Photo model.
+    // publicId prefix 'verify_' distinguishes it from identity photos.
+    // isPrimary=false so it doesn't override the profile photo.
+    await prisma.photo.create({
       data: {
-        humanVerificationPhotoUrl: url,
-        humanVerificationSubmittedAt: new Date(),
+        profileId: profile.id,
+        url,
+        publicId,
+        isPrimary: false,
+        isApproved: false,
+        order: 99,
       },
     })
 

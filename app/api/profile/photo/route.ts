@@ -9,8 +9,8 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) throw new AuthenticationError()
 
-    const existing = await prisma.profile.findUnique({ where: { userId: session.user.id } })
-    if (!existing) throw new NotFoundError('Profile not found')
+    const profile = await prisma.profile.findUnique({ where: { userId: session.user.id } })
+    if (!profile) throw new NotFoundError('Profile not found')
 
     const formData = await req.formData()
     const file = formData.get('photo') as File | null
@@ -26,26 +26,37 @@ export async function POST(req: NextRequest) {
     const buffer = Buffer.from(bytes)
 
     let url: string
+    let publicId: string | null = null
 
     if (process.env.CLOUDINARY_CLOUD_NAME) {
-      // Upload to Cloudinary
       const { uploadImage } = await import('@/lib/cloudinary')
       const result = await uploadImage(buffer, {
         folder: 'align/identity-photos',
-        publicId: `identity_${existing.id}`,
+        publicId: `identity_${profile.id}`,
       })
       url = result.url
+      publicId = result.publicId
     } else {
-      // Fallback: store as base64 data URL
+      // Fallback: store as base64 data URL (works on any host without Cloudinary)
       url = `data:image/jpeg;base64,${buffer.toString('base64')}`
+      publicId = `local_identity_${profile.id}`
     }
 
-    await prisma.profile.update({
-      where: { userId: session.user.id },
+    // Use the existing Photo model (available in prod DB — no migration needed).
+    // Mark all current primary photos as non-primary, then upsert the new one.
+    await prisma.photo.updateMany({
+      where: { profileId: profile.id, isPrimary: true },
+      data: { isPrimary: false },
+    })
+
+    await prisma.photo.create({
       data: {
-        identityPhotoUrl: url,
-        identityPhotoApproved: false,
-        identityPhotoSubmittedAt: new Date(),
+        profileId: profile.id,
+        url,
+        publicId,
+        isPrimary: true,
+        isApproved: false,
+        order: 0,
       },
     })
 
