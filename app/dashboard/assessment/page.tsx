@@ -107,7 +107,7 @@ function AssessmentPageInner() {
         setError('')
         try {
             const responses = Object.entries(answers).map(([questionId, value]) => ({ questionId, value }))
-            const res = await fetch('/api/assessment', {
+            const res = await fetch('/api/assessment/complete', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ responses }),
