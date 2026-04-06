@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!page) return {}
 
   return {
-    title: `${page.title} - Rooted`,
+    title: `${page.title} - Align`,
     description: page.description || undefined,
   }
 }

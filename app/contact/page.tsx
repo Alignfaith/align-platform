@@ -68,7 +68,7 @@ export default function ContactPage() {
                                         <div>
                                             <h4 style={{ marginBottom: 0 }}>Email Support</h4>
                                             <p style={{ color: 'var(--color-slate)', marginBottom: 0, fontSize: 'var(--text-sm)' }}>
-                                                support@rootedplatform.com
+                                                support@alignplatform.com
                                             </p>
                                         </div>
                                     </div>
@@ -88,7 +88,7 @@ export default function ContactPage() {
                                         <div>
                                             <h4 style={{ marginBottom: 0 }}>General Inquiries</h4>
                                             <p style={{ color: 'var(--color-slate)', marginBottom: 0, fontSize: 'var(--text-sm)' }}>
-                                                hello@rootedplatform.com
+                                                hello@alignplatform.com
                                             </p>
                                         </div>
                                     </div>

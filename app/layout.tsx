@@ -29,6 +29,10 @@ export const metadata: Metadata = {
     description: 'A Christian-based dating platform where preparation comes before connection. Built on the Six Pillars framework for relationship readiness.',
     keywords: ['Christian dating', 'faith-based dating', 'relationship platform', 'intentional relationships', 'meaningful connection'],
     authors: [{ name: 'Thomas Marks' }],
+    icons: {
+        icon: '/images/logo.png',
+        apple: '/images/logo.png',
+    },
     openGraph: {
         title: 'Align | Find Meaningful Connection',
         description: 'A Christian-based dating platform where preparation comes before connection.',

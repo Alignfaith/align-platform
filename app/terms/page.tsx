@@ -141,7 +141,7 @@ export default function TermsPage() {
                             <h2>12. Contact</h2>
                             <p>
                                 For questions about these Terms of Service, please contact us at:
-                                <strong> legal@rootedplatform.com</strong>
+                                <strong> legal@alignplatform.com</strong>
                             </p>
                         </div>
                     </div>

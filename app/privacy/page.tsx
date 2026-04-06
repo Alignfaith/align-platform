@@ -127,7 +127,7 @@ export default function PrivacyPage() {
                                 <li>Withdraw consent</li>
                             </ul>
                             <p>
-                                To exercise these rights, contact us at <strong>privacy@rootedplatform.com</strong>.
+                                To exercise these rights, contact us at <strong>privacy@alignplatform.com</strong>.
                             </p>
 
                             <h2>9. Cookies</h2>
@@ -160,8 +160,8 @@ export default function PrivacyPage() {
                                 For questions or concerns about this Privacy Policy, contact us at:
                             </p>
                             <ul>
-                                <li>Email: <strong>privacy@rootedplatform.com</strong></li>
-                                <li>Support: <strong>support@rootedplatform.com</strong></li>
+                                <li>Email: <strong>privacy@alignplatform.com</strong></li>
+                                <li>Support: <strong>support@alignplatform.com</strong></li>
                             </ul>
                         </div>
                     </div>
