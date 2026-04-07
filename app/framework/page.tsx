@@ -152,6 +152,65 @@ export default function FrameworkPage() {
                 {/* Six Pillars */}
                 <SixPillars />
 
+                {/* About the Book */}
+                <section className="section section--cream">
+                    <div className="container">
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: '300px 1fr',
+                            gap: 'var(--space-12)',
+                            alignItems: 'center',
+                        }}>
+                            <div style={{
+                                borderRadius: 'var(--radius-xl)',
+                                overflow: 'hidden',
+                                boxShadow: '0 24px 64px rgba(0,0,0,0.22)',
+                                lineHeight: 0,
+                                flexShrink: 0,
+                            }}>
+                                <img
+                                    src="/images/book-cover.png"
+                                    alt="Relationship Fitness book cover"
+                                    style={{ width: '100%', height: 'auto', display: 'block' }}
+                                />
+                            </div>
+                            <div>
+                                <p style={{
+                                    fontSize: 'var(--text-sm)',
+                                    fontWeight: 600,
+                                    color: 'var(--color-primary)',
+                                    letterSpacing: '0.08em',
+                                    textTransform: 'uppercase',
+                                    marginBottom: 'var(--space-3)',
+                                }}>
+                                    The Book
+                                </p>
+                                <h2 style={{ marginBottom: 'var(--space-4)' }}>Relationship Fitness</h2>
+                                <p style={{ fontSize: 'var(--text-lg)', color: 'var(--color-slate)', marginBottom: 'var(--space-4)' }}>
+                                    The framework behind Align began as a book. <em>Relationship Fitness</em> by Thomas Marks
+                                    lays out the complete Six Pillar system — a Christ centered guide for men and women
+                                    who want to stop stumbling into relationships and start preparing for them with
+                                    intention and faith.
+                                </p>
+                                <p style={{ color: 'var(--color-slate)', marginBottom: 'var(--space-6)' }}>
+                                    Whether you are single, healing, or simply wanting to grow — this book will show you
+                                    the path to becoming the person God has called you to be before you pursue the
+                                    relationship He has for you.
+                                </p>
+                                <a
+                                    href="https://a.co/d/0cgkpmBw"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn btn--primary"
+                                >
+                                    Get on Amazon
+                                    <ArrowRight size={18} />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 {/* How Pillars Work */}
                 <section className="section section--white">
                     <div className="container">
