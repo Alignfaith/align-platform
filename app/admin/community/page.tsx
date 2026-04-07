@@ -21,17 +21,6 @@ interface GrowthPost {
   }
 }
 
-interface Reflection {
-  id: string
-  questionId: number
-  answer: string
-  createdAt: string
-  profile: {
-    firstName: string | null
-    lastName: string | null
-    user: { email: string }
-  }
-}
 
 const PILLAR_FILTERS: FilterConfig[] = [
   {
@@ -49,9 +38,7 @@ const PILLAR_FILTERS: FilterConfig[] = [
 ]
 
 export default function CommunityPage() {
-  const [tab, setTab] = useState<'posts' | 'reflections'>('posts')
   const [posts, setPosts] = useState<GrowthPost[]>([])
-  const [reflections, setReflections] = useState<Reflection[]>([])
   const [loading, setLoading] = useState(true)
 
   const [postPage, setPostPage] = useState(1)
@@ -59,11 +46,6 @@ export default function CommunityPage() {
   const [postTotalPages, setPostTotalPages] = useState(1)
   const [postSearch, setPostSearch] = useState('')
   const [postPillar, setPostPillar] = useState('')
-
-  const [refPage, setRefPage] = useState(1)
-  const [refTotal, setRefTotal] = useState(0)
-  const [refTotalPages, setRefTotalPages] = useState(1)
-  const [refSearch, setRefSearch] = useState('')
 
   const [removeTarget, setRemoveTarget] = useState<GrowthPost | null>(null)
 
@@ -82,23 +64,9 @@ export default function CommunityPage() {
     }
   }, [postPage, postSearch, postPillar])
 
-  const fetchReflections = useCallback(async () => {
-    try {
-      const params = new URLSearchParams({ page: String(refPage) })
-      if (refSearch) params.set('search', refSearch)
-      const res = await fetch(`/api/admin/community/reflections?${params}`)
-      const data = await res.json()
-      setReflections(data.items)
-      setRefTotal(data.totalItems)
-      setRefTotalPages(data.totalPages)
-    } catch (err) {
-      console.error(err)
-    }
-  }, [refPage, refSearch])
-
   useEffect(() => {
-    Promise.all([fetchPosts(), fetchReflections()]).finally(() => setLoading(false))
-  }, [fetchPosts, fetchReflections])
+    fetchPosts().finally(() => setLoading(false))
+  }, [fetchPosts])
 
   const removePost = async () => {
     if (!removeTarget) return
@@ -110,17 +78,6 @@ export default function CommunityPage() {
     setRemoveTarget(null)
     await fetchPosts()
   }
-
-  const tabStyle = (active: boolean): React.CSSProperties => ({
-    padding: 'var(--space-2) var(--space-4)',
-    fontSize: 'var(--text-sm)',
-    fontWeight: active ? 'var(--font-semibold)' : 'var(--font-normal)',
-    color: active ? 'var(--color-text-primary)' : 'var(--color-text-tertiary)',
-    backgroundColor: active ? 'var(--color-bg-elevated)' : 'transparent',
-    border: active ? '1px solid var(--color-border-subtle)' : '1px solid transparent',
-    borderRadius: 'var(--radius-md)',
-    cursor: 'pointer',
-  })
 
   const postColumns: Column<GrowthPost>[] = [
     {
@@ -162,67 +119,24 @@ export default function CommunityPage() {
     },
   ]
 
-  const reflectionColumns: Column<Reflection>[] = [
-    {
-      key: 'profile', label: 'Author',
-      render: (r) => (
-        <div>
-          <div style={{ color: 'var(--color-text-primary)', fontSize: 'var(--text-sm)' }}>{r.profile.firstName ?? ''} {r.profile.lastName ?? ''}</div>
-          <div style={{ color: 'var(--color-text-tertiary)', fontSize: 'var(--text-xs)' }}>{r.profile.user.email}</div>
-        </div>
-      ),
-    },
-    { key: 'questionId', label: 'Question ID', render: (r) => <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)' }}>{r.questionId}</span> },
-    {
-      key: 'answer', label: 'Answer',
-      render: (r) => (
-        <div style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', maxWidth: '400px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-          {r.answer}
-        </div>
-      ),
-    },
-    {
-      key: 'createdAt', label: 'Date',
-      render: (r) => <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)' }}>{new Date(r.createdAt).toLocaleDateString()}</span>,
-    },
-  ]
 
   if (loading) return <div style={{ color: 'var(--color-text-tertiary)', padding: 'var(--space-8)' }}>Loading...</div>
 
   return (
     <>
-      <AdminPageHeader title="Community" breadcrumbs={[{ label: 'Community' }]} />
+      <AdminPageHeader title="User Activity" breadcrumbs={[{ label: 'User Activity' }]} />
 
-      <div style={{ display: 'flex', gap: 'var(--space-1)', marginBottom: 'var(--space-6)' }}>
-        <button style={tabStyle(tab === 'posts')} onClick={() => setTab('posts')}>Growth Posts ({postTotal})</button>
-        <button style={tabStyle(tab === 'reflections')} onClick={() => setTab('reflections')}>Reflections ({refTotal})</button>
+      <div style={{ display: 'flex', gap: 'var(--space-3)', marginBottom: 'var(--space-4)', alignItems: 'center' }}>
+        <SearchInput value={postSearch} onChange={(v) => { setPostSearch(v); setPostPage(1) }} placeholder="Search weekly reflections..." />
+        <FilterBar
+          filters={PILLAR_FILTERS}
+          values={{ pillar: postPillar }}
+          onChange={(key, val) => { if (key === 'pillar') { setPostPillar(val); setPostPage(1) } }}
+          onClear={() => { setPostPillar(''); setPostPage(1) }}
+        />
       </div>
-
-      {tab === 'posts' && (
-        <>
-          <div style={{ display: 'flex', gap: 'var(--space-3)', marginBottom: 'var(--space-4)', alignItems: 'center' }}>
-            <SearchInput value={postSearch} onChange={(v) => { setPostSearch(v); setPostPage(1) }} placeholder="Search posts..." />
-            <FilterBar
-              filters={PILLAR_FILTERS}
-              values={{ pillar: postPillar }}
-              onChange={(key, val) => { if (key === 'pillar') { setPostPillar(val); setPostPage(1) } }}
-              onClear={() => { setPostPillar(''); setPostPage(1) }}
-            />
-          </div>
-          <DataTable<GrowthPost> columns={postColumns} data={posts} keyField="id" emptyMessage="No growth posts" />
-          <PaginationControls page={postPage} totalPages={postTotalPages} totalItems={postTotal} onPageChange={setPostPage} />
-        </>
-      )}
-
-      {tab === 'reflections' && (
-        <>
-          <div style={{ marginBottom: 'var(--space-4)' }}>
-            <SearchInput value={refSearch} onChange={(v) => { setRefSearch(v); setRefPage(1) }} placeholder="Search reflections..." />
-          </div>
-          <DataTable<Reflection> columns={reflectionColumns} data={reflections} keyField="id" emptyMessage="No reflections" />
-          <PaginationControls page={refPage} totalPages={refTotalPages} totalItems={refTotal} onPageChange={setRefPage} />
-        </>
-      )}
+      <DataTable<GrowthPost> columns={postColumns} data={posts} keyField="id" emptyMessage="No weekly reflections" />
+      <PaginationControls page={postPage} totalPages={postTotalPages} totalItems={postTotal} onPageChange={setPostPage} />
 
       {removeTarget && (
         <ConfirmDialog
