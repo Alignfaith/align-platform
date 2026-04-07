@@ -89,30 +89,12 @@ export default function BookPage() {
                                 </div>
                             </div>
 
-                            <div style={{
-                                backgroundColor: 'rgba(255,255,255,0.1)',
-                                borderRadius: 'var(--radius-2xl)',
-                                padding: 'var(--space-8)',
-                                textAlign: 'center',
-                            }}>
-                                <div style={{
-                                    backgroundColor: 'var(--color-white)',
-                                    borderRadius: 'var(--radius-xl)',
-                                    padding: 'var(--space-6)',
-                                    boxShadow: 'var(--shadow-xl)',
-                                    display: 'inline-block',
-                                }}>
-                                    <BookOpen size={120} color="var(--color-primary)" />
-                                    <p style={{
-                                        color: 'var(--color-charcoal)',
-                                        fontFamily: 'var(--font-heading)',
-                                        fontSize: 'var(--text-lg)',
-                                        marginTop: 'var(--space-4)',
-                                        marginBottom: 0,
-                                    }}>
-                                        Available Now
-                                    </p>
-                                </div>
+                            <div style={{ textAlign: 'center' }}>
+                                <img
+                                    src="/images/book-cover.png"
+                                    alt="Relationship Fitness by Thomas Marks"
+                                    style={{ width: '280px', borderRadius: '8px' }}
+                                />
                             </div>
                         </div>
                     </div>
