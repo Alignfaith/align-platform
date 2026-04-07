@@ -218,7 +218,7 @@ export default function DashboardPage() {
                                                         )
                                                     })}
                                                 </div>
-                                                <Link href="/dashboard/assessment" className="btn btn--secondary btn--sm" style={{ width: '100%', textAlign: 'center' }}>
+                                                <Link href="/dashboard/assessment" className="btn btn--primary btn--sm" style={{ width: '100%', textAlign: 'center' }}>
                                                     Retake Assessment
                                                 </Link>
                                             </>

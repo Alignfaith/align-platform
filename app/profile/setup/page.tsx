@@ -19,7 +19,9 @@ export default function ProfileSetupPage() {
     const [error, setError] = useState<string | null>(null)
 
     const [formData, setFormData] = useState({
-        dateOfBirth: '',
+        dobMonth: '',
+        dobDay: '',
+        dobYear: '',
         gender: '',
         seekingGender: '',
         country: 'United States',
@@ -43,8 +45,8 @@ export default function ProfileSetupPage() {
     const validateStep = (step: number): boolean => {
         switch (step) {
             case 1:
-                if (!formData.dateOfBirth) { setError('Date of birth is required'); return false }
-                const dob = new Date(formData.dateOfBirth)
+                if (!formData.dobMonth || !formData.dobDay || !formData.dobYear) { setError('Date of birth is required'); return false }
+                const dob = new Date(parseInt(formData.dobYear), parseInt(formData.dobMonth) - 1, parseInt(formData.dobDay))
                 const today = new Date()
                 let age = today.getFullYear() - dob.getFullYear()
                 const m = today.getMonth() - dob.getMonth()
@@ -93,7 +95,7 @@ export default function ProfileSetupPage() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    dateOfBirth: formData.dateOfBirth,
+                    dateOfBirth: `${formData.dobYear}-${formData.dobMonth.padStart(2, '0')}-${formData.dobDay.padStart(2, '0')}`,
                     gender: formData.gender,
                     seekingGender: formData.seekingGender,
                     country: formData.country,
@@ -189,14 +191,44 @@ export default function ProfileSetupPage() {
 
                                             <div className="form-group">
                                                 <label className="form-label">Date of Birth</label>
-                                                <input
-                                                    type="date"
-                                                    className="form-input"
-                                                    value={formData.dateOfBirth}
-                                                    onChange={(e) => updateFormData('dateOfBirth', e.target.value)}
-                                                    required
-                                                    disabled={isLoading}
-                                                />
+                                                <div style={{ display: 'flex', gap: 'var(--space-3)' }}>
+                                                    <select
+                                                        className="form-input"
+                                                        value={formData.dobMonth}
+                                                        onChange={(e) => updateFormData('dobMonth', e.target.value)}
+                                                        disabled={isLoading}
+                                                        style={{ flex: 2 }}
+                                                    >
+                                                        <option value="">Month</option>
+                                                        {['January','February','March','April','May','June','July','August','September','October','November','December'].map((m, i) => (
+                                                            <option key={m} value={String(i + 1)}>{m}</option>
+                                                        ))}
+                                                    </select>
+                                                    <select
+                                                        className="form-input"
+                                                        value={formData.dobDay}
+                                                        onChange={(e) => updateFormData('dobDay', e.target.value)}
+                                                        disabled={isLoading}
+                                                        style={{ flex: 1 }}
+                                                    >
+                                                        <option value="">Day</option>
+                                                        {Array.from({ length: 31 }, (_, i) => i + 1).map(d => (
+                                                            <option key={d} value={String(d)}>{d}</option>
+                                                        ))}
+                                                    </select>
+                                                    <select
+                                                        className="form-input"
+                                                        value={formData.dobYear}
+                                                        onChange={(e) => updateFormData('dobYear', e.target.value)}
+                                                        disabled={isLoading}
+                                                        style={{ flex: 2 }}
+                                                    >
+                                                        <option value="">Year</option>
+                                                        {Array.from({ length: 2006 - 1940 + 1 }, (_, i) => 2006 - i).map(y => (
+                                                            <option key={y} value={String(y)}>{y}</option>
+                                                        ))}
+                                                    </select>
+                                                </div>
                                                 <p className="form-hint">You must be 18 or older</p>
                                             </div>
 

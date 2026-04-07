@@ -551,7 +551,7 @@ export default function RegisterPage() {
                                                     color: 'var(--color-charcoal)',
                                                     fontSize: 'var(--text-sm)',
                                                 }}>
-                                                    <li style={{ marginBottom: 'var(--space-2)' }}>Men and women see the exact same experience</li>
+                                                    <li style={{ marginBottom: 'var(--space-2)' }}>Men and women seek the exact same experience</li>
                                                     <li style={{ marginBottom: 'var(--space-2)' }}>Photos are not shown initially—they unlock after mutual interest</li>
                                                     <li style={{ marginBottom: 'var(--space-2)' }}>No bikini, swimsuit, shirtless, or suggestive photos</li>
                                                     <li style={{ marginBottom: 'var(--space-2)' }}>Participation is a privilege, not a right</li>
