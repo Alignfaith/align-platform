@@ -107,9 +107,12 @@ export async function loadMatchingConfig() {
     where: { key: { in: ['matching_pillar_weights', 'matching_hard_stops', 'matching_thresholds'] } },
   })
   const map = Object.fromEntries(configs.map((c) => [c.key, JSON.parse(c.value)]))
+  const defaultWeights: Record<string, number> = {
+    SPIRITUAL: 30, MENTAL: 20, INTIMACY: 20, FINANCIAL: 15, PHYSICAL: 10, APPEARANCE: 5,
+  }
   return {
-    weights: map['matching_pillar_weights'] ?? PILLAR_WEIGHTS,
-    hardStops: map['matching_hard_stops'] ?? HARD_STOP_QUESTIONS.map((h) => h.questionId),
+    weights: map['matching_pillar_weights'] ?? defaultWeights,
+    hardStopQuestions: map['matching_hard_stops'] ?? HARD_STOP_QUESTIONS.map((h) => h.questionId),
     thresholds: map['matching_thresholds'] ?? { excellent: 85, strong: 70, moderate: 50, low: 30 },
   }
 }
