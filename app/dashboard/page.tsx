@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { User, Heart, MessageCircle, Settings, Crown, Users, Shield, BookOpen, BarChart2 } from 'lucide-react'
+import { User, Heart, MessageCircle, Settings, Crown, Users, Shield, BookOpen, BarChart2, Church, Brain, Dumbbell, Wallet, Sparkles, Clock } from 'lucide-react'
 import Link from 'next/link'
 
 import ReflectionEngine from '@/components/ReflectionEngine'
@@ -21,6 +21,31 @@ const PILLAR_COLORS: Record<PillarKey, string> = {
     INTIMACY: '#EC4899',
 }
 
+const PILLAR_ICONS: Record<string, React.ElementType> = {
+    SPIRITUAL: Church,
+    MENTAL: Brain,
+    PHYSICAL: Dumbbell,
+    FINANCIAL: Wallet,
+    APPEARANCE: Sparkles,
+    INTIMACY: Heart,
+}
+
+const PILLAR_LABELS: Record<string, string> = {
+    SPIRITUAL: 'Spiritual',
+    MENTAL: 'Mental',
+    PHYSICAL: 'Physical',
+    FINANCIAL: 'Financial',
+    APPEARANCE: 'Appearance',
+    INTIMACY: 'Intimacy',
+}
+
+interface GrowthPost {
+    id: string
+    pillar: string
+    content: string
+    createdAt: string
+}
+
 interface AssessmentSummary {
     completedAt: string
     responses: { pillar: string; value: number }[]
@@ -30,6 +55,8 @@ export default function DashboardPage() {
     const { data: session, status } = useSession()
     const router = useRouter()
     const [latestAssessment, setLatestAssessment] = useState<AssessmentSummary | null | undefined>(undefined)
+    const [reflections, setReflections] = useState<GrowthPost[] | null>(null)
+    const [showAllReflections, setShowAllReflections] = useState(false)
 
     useEffect(() => {
         if (status === 'unauthenticated') {
@@ -43,6 +70,10 @@ export default function DashboardPage() {
                 .then((r) => r.json())
                 .then((d) => setLatestAssessment(d.history?.[0] ?? null))
                 .catch(() => setLatestAssessment(null))
+            fetch('/api/growth-posts?limit=11')
+                .then((r) => r.json())
+                .then((d) => setReflections(d.posts ?? []))
+                .catch(() => setReflections([]))
         }
     }, [status])
 
@@ -121,6 +152,83 @@ export default function DashboardPage() {
                         {/* Weekly Reflections — full width */}
                         <div style={{ marginBottom: 'var(--space-8)' }}>
                             <ReflectionEngine />
+                        </div>
+
+                        {/* Reflection History */}
+                        <div className="card" style={{ padding: 'var(--space-6)', marginBottom: 'var(--space-8)' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-5)' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+                                    <Clock size={20} color="var(--color-primary)" />
+                                    <h3 style={{ marginBottom: 0, fontSize: 'var(--text-base)' }}>My Reflections</h3>
+                                </div>
+                                {reflections && reflections.length > 10 && !showAllReflections && (
+                                    <button
+                                        onClick={() => setShowAllReflections(true)}
+                                        style={{ fontSize: 'var(--text-sm)', color: 'var(--color-primary)', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600, padding: 0 }}
+                                    >
+                                        View All
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* Loading */}
+                            {reflections === null && (
+                                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-tertiary)' }}>Loading…</p>
+                            )}
+
+                            {/* Empty state */}
+                            {reflections !== null && reflections.length === 0 && (
+                                <div style={{ textAlign: 'center', padding: 'var(--space-8) var(--space-4)' }}>
+                                    <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-slate)', marginBottom: 0 }}>
+                                        Your reflection history will appear here after your first post. Start with any pillar above.
+                                    </p>
+                                </div>
+                            )}
+
+                            {/* Timeline */}
+                            {reflections !== null && reflections.length > 0 && (() => {
+                                const visible = showAllReflections ? reflections : reflections.slice(0, 10)
+                                return (
+                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                        {visible.map((post, i) => {
+                                            const Icon = PILLAR_ICONS[post.pillar] ?? Clock
+                                            const color = PILLAR_COLORS[post.pillar as PillarKey] ?? 'var(--color-primary)'
+                                            const date = new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                                            const isLast = i === visible.length - 1
+                                            return (
+                                                <div key={post.id} style={{ display: 'flex', gap: 'var(--space-4)', paddingBottom: isLast ? 0 : 'var(--space-4)' }}>
+                                                    {/* Icon + line */}
+                                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+                                                        <div style={{
+                                                            width: '36px', height: '36px', borderRadius: '50%',
+                                                            backgroundColor: `${color}18`,
+                                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                            flexShrink: 0,
+                                                        }}>
+                                                            <Icon size={16} color={color} />
+                                                        </div>
+                                                        {!isLast && (
+                                                            <div style={{ flex: 1, width: '1px', backgroundColor: 'var(--color-border-subtle)', marginTop: '4px' }} />
+                                                        )}
+                                                    </div>
+                                                    {/* Content */}
+                                                    <div style={{ flex: 1, paddingTop: '6px', paddingBottom: isLast ? 0 : 'var(--space-1)' }}>
+                                                        <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-2)', marginBottom: 'var(--space-1)' }}>
+                                                            <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color }}>
+                                                                {PILLAR_LABELS[post.pillar] ?? post.pillar}
+                                                            </span>
+                                                            <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)' }}>{date}</span>
+                                                        </div>
+                                                        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', marginBottom: 0, lineHeight: 1.5 }}>
+                                                            {post.content}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                )
+                            })()}
                         </div>
 
                         {/* Cards row: Tier | Assessment | Book */}
