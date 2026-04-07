@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import { getStripe, PRICE_IDS } from '@/lib/stripe'
+import { getStripe, getPriceId } from '@/lib/stripe'
 
 const BASE_URL = process.env.NEXTAUTH_URL || 'https://rootedalign.fly.dev'
 
@@ -14,10 +14,7 @@ export async function POST(req: NextRequest) {
     }
 
     const { plan } = await req.json() as { plan: 'TIER_1' | 'TIER_2' }
-    const priceId = PRICE_IDS[plan]
-    if (!priceId) {
-      return NextResponse.json({ error: `Invalid plan or STRIPE_PRICE_${plan}_ID not configured` }, { status: 400 })
-    }
+    const priceId = getPriceId(plan)
 
     const stripe = getStripe()
     const user = await prisma.user.findUnique({

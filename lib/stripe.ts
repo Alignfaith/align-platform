@@ -16,13 +16,16 @@ export function getStripe(): Stripe {
   return _stripe
 }
 
-export const PRICE_IDS: Record<'TIER_1' | 'TIER_2', string> = {
-  TIER_1: process.env.STRIPE_PRICE_TIER1_ID ?? '',
-  TIER_2: process.env.STRIPE_PRICE_TIER2_ID ?? '',
+export function getPriceId(plan: 'TIER_1' | 'TIER_2'): string {
+  const id = plan === 'TIER_1'
+    ? process.env.STRIPE_PRICE_TIER1_ID
+    : process.env.STRIPE_PRICE_TIER2_ID
+  if (!id) throw new Error(`${plan === 'TIER_1' ? 'STRIPE_PRICE_TIER1_ID' : 'STRIPE_PRICE_TIER2_ID'} is not set`)
+  return id
 }
 
 export function tierFromPriceId(priceId: string): 'TIER_1' | 'TIER_2' | null {
-  if (priceId === PRICE_IDS.TIER_1) return 'TIER_1'
-  if (priceId === PRICE_IDS.TIER_2) return 'TIER_2'
+  if (priceId === process.env.STRIPE_PRICE_TIER1_ID) return 'TIER_1'
+  if (priceId === process.env.STRIPE_PRICE_TIER2_ID) return 'TIER_2'
   return null
 }
