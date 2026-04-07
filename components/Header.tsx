@@ -18,6 +18,7 @@ export default function Header() {
 
     const baseLinks = [
         { href: '/', label: 'Home' },
+        { href: '/alignment-stories', label: 'Stories' },
         { href: '/pricing', label: 'Membership' },
     ]
 
