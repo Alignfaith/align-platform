@@ -2,7 +2,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import SixPillars from '@/components/SixPillars'
 import Link from 'next/link'
-import { ArrowRight, BookOpen, Target, Compass, Shield, Heart, Zap } from 'lucide-react'
+import { ArrowRight, Target, Compass, Shield, Heart, Zap } from 'lucide-react'
 
 const frameworkPrinciples = [
     {
@@ -81,20 +81,21 @@ export default function FrameworkPage() {
                             </div>
 
                             <div style={{
-                                backgroundColor: 'var(--color-primary)',
                                 borderRadius: 'var(--radius-2xl)',
-                                padding: 'var(--space-10)',
-                                color: 'var(--color-white)',
+                                overflow: 'hidden',
+                                boxShadow: '0 20px 60px rgba(0,0,0,0.20)',
+                                lineHeight: 0,
                             }}>
-                                <BookOpen size={48} style={{ marginBottom: 'var(--space-4)' }} />
-                                <h3 style={{ color: 'var(--color-white)', marginBottom: 'var(--space-4)' }}>
-                                    "Healthy love is not something you stumble into."
-                                </h3>
-                                <p style={{ opacity: 0.9, marginBottom: 0 }}>
-                                    It is something you prepare for with intention and faith. If you are ready to
-                                    break cycles, strengthen your foundation, and step into the version of yourself
-                                    God has called you to be, this framework will show you the path.
-                                </p>
+                                <img
+                                    src="/images/book-cover.png"
+                                    alt="Relationship Fitness book cover"
+                                    style={{
+                                        width: '100%',
+                                        height: 'auto',
+                                        display: 'block',
+                                        borderRadius: 'var(--radius-2xl)',
+                                    }}
+                                />
                             </div>
                         </div>
                     </div>
