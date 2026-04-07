@@ -17,12 +17,11 @@ export default function Header() {
 
     const baseLinks = [
         { href: '/', label: 'Home' },
-        { href: '/pricing', label: 'Pricing' },
+        { href: '/pricing', label: 'Membership' },
     ]
 
     const authLinks = session ? [
         { href: '/dashboard', label: 'Dashboard' },
-        { href: '/matches', label: 'Discovery' },
         { href: '/messages', label: 'Messages' },
     ] : [
         { href: '/about', label: 'About' },
