@@ -13,3 +13,9 @@ build_output.txt
 private/
 .vercel
 .env*.local
+public/*.DS_Store
+public/**/*.DS_Store
+*.tiff
+*.pdf
+public/images/*.tiff
+public/images/*.pdf
