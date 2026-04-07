@@ -104,31 +104,32 @@ export async function POST(req: Request) {
       try {
         console.log('[assessment/complete] Step 7: calculating and upserting matches')
         await Promise.all(
-          otherProfiles.map(async (candidate) => {
+          otherProfiles.flatMap((candidate) => {
             const candidateAnswers: PillarAnswers = Object.fromEntries(
               candidate.pillarResponses.map((r) => [r.questionId, r.value])
             )
             const result = calculateMatch(myAnswers, candidateAnswers)
             console.log('[assessment/complete] Step 7 match result for candidate', candidate.userId, JSON.stringify(result))
-            return prisma.match.upsert({
-              where: { senderId_receiverId: { senderId: session.user.id, receiverId: candidate.userId } },
-              update: {
-                alignmentScore: result.score,
-                alignmentTier: result.tier,
-                hardStopTriggered: result.hardStopTriggered,
-                hardStopReason: result.hardStopReason ?? null,
-                pillarBreakdown: result.pillarBreakdown ?? undefined,
-              },
-              create: {
-                senderId: session.user.id,
-                receiverId: candidate.userId,
-                alignmentScore: result.score,
-                alignmentTier: result.tier,
-                hardStopTriggered: result.hardStopTriggered,
-                hardStopReason: result.hardStopReason ?? null,
-                pillarBreakdown: result.pillarBreakdown ?? undefined,
-              },
-            })
+            const matchData = {
+              alignmentScore: result.score,
+              alignmentTier: result.tier,
+              hardStopTriggered: result.hardStopTriggered,
+              hardStopReason: result.hardStopReason ?? null,
+              pillarBreakdown: result.pillarBreakdown ?? undefined,
+            }
+            // Create A→B and B→A (symmetric score)
+            return [
+              prisma.match.upsert({
+                where: { senderId_receiverId: { senderId: session.user.id, receiverId: candidate.userId } },
+                update: matchData,
+                create: { senderId: session.user.id, receiverId: candidate.userId, ...matchData },
+              }),
+              prisma.match.upsert({
+                where: { senderId_receiverId: { senderId: candidate.userId, receiverId: session.user.id } },
+                update: matchData,
+                create: { senderId: candidate.userId, receiverId: session.user.id, ...matchData },
+              }),
+            ]
           })
         )
         console.log('[assessment/complete] Step 7 OK: matches upserted')

@@ -6,55 +6,39 @@ import { useEffect, useState } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import {
-    Users, Shield, Heart, Info, Lock,
-    ChevronRight, Sparkles, MapPin, Search
+    Users, Lock, ChevronRight, MapPin, Heart, AlertTriangle
 } from 'lucide-react'
 import Link from 'next/link'
 
-// Mock data for Phased Discovery
-const DISCOVERY_PROFILES = [
-    {
-        id: '1',
-        displayName: 'John D.',
-        age: 32,
-        city: 'Nashville',
-        state: 'TN',
-        readinessScore: 88,
-        mainPillar: 'SPIRITUAL',
-        compatibility: 92,
-        phase: 1, // Only basic info revealed
-        blurredImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400&blur=20',
-    },
-    {
-        id: '2',
-        displayName: 'Sarah M.',
-        age: 28,
-        city: 'Atlanta',
-        state: 'GA',
-        readinessScore: 74,
-        mainPillar: 'MENTAL',
-        compatibility: 85,
-        phase: 1,
-        blurredImage: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=400&blur=20',
-    },
-    {
-        id: '3',
-        displayName: 'David K.',
-        age: 35,
-        city: 'Austin',
-        state: 'TX',
-        readinessScore: 91,
-        mainPillar: 'FINANCIAL',
-        compatibility: 78,
-        phase: 1,
-        blurredImage: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400&blur=20',
-    }
-]
+interface MatchData {
+    matchId: string
+    receiverId: string
+    status: string
+    alignmentScore: number | null
+    alignmentTier: string | null
+    hardStopTriggered: boolean
+    hardStopReason: string | null
+    displayName: string
+    age: number | null
+    city: string | null
+    state: string | null
+    bio: string | null
+    photoUrl: string | null
+}
+
+const TIER_COLORS: Record<string, string> = {
+    Excellent: '#16a34a',
+    Strong: '#2563eb',
+    Moderate: '#d97706',
+    Low: '#dc2626',
+    Disqualified: '#6b7280',
+}
 
 export default function MatchesPage() {
     const { data: session, status } = useSession()
     const router = useRouter()
-    const [searchQuery, setSearchQuery] = useState('')
+    const [matches, setMatches] = useState<MatchData[]>([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         if (status === 'unauthenticated') {
@@ -62,13 +46,22 @@ export default function MatchesPage() {
         }
     }, [status, router])
 
+    useEffect(() => {
+        if (status !== 'authenticated') return
+        fetch('/api/matches')
+            .then((r) => r.json())
+            .then((data) => setMatches(data.matches ?? []))
+            .catch(console.error)
+            .finally(() => setLoading(false))
+    }, [status])
+
     if (status === 'loading') {
         return (
             <>
                 <Header />
                 <main style={{ paddingTop: 'var(--header-height)' }}>
                     <div style={{ padding: 'var(--space-20) 0', textAlign: 'center' }}>
-                        <p>Loading your training ground...</p>
+                        <p>Loading your matches...</p>
                     </div>
                 </main>
             </>
@@ -78,6 +71,9 @@ export default function MatchesPage() {
     if (!session) return null
 
     const isFreeTier = session.user.tier === 'FREE'
+
+    const activeMatches = matches.filter((m) => !m.hardStopTriggered)
+    const disqualified = matches.filter((m) => m.hardStopTriggered)
 
     return (
         <>
@@ -90,7 +86,7 @@ export default function MatchesPage() {
                             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-2)' }}>
                                 <Users size={20} color="var(--color-primary)" />
                                 <span style={{ textTransform: 'uppercase', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.05em', color: 'var(--color-primary)' }}>
-                                    The Ecosystem
+                                    Your Matches
                                 </span>
                             </div>
                             <h1 style={{
@@ -99,10 +95,10 @@ export default function MatchesPage() {
                                 color: 'var(--color-primary)',
                                 marginBottom: 'var(--space-2)'
                             }}>
-                                Phased Discovery
+                                Alignment Matches
                             </h1>
                             <p style={{ color: 'var(--color-slate)', maxWidth: '600px' }}>
-                                meaningful connection is earned through growth. Discovery phases reveal more about a person as you both evolve.
+                                Members matched to you based on your Six Pillars assessment. Scores reflect how closely your values and character align.
                             </p>
                         </div>
 
@@ -128,9 +124,9 @@ export default function MatchesPage() {
                                         <Lock size={20} />
                                     </div>
                                     <div>
-                                        <h4 style={{ color: 'white', marginBottom: 'var(--space-1)' }}>Discovery Locked</h4>
+                                        <h4 style={{ color: 'white', marginBottom: 'var(--space-1)' }}>Matches Locked</h4>
                                         <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 'var(--text-sm)', marginBottom: 0 }}>
-                                            Upgrade to Tier 1 to see community profiles and start your Phased Discovery.
+                                            Upgrade to Tier 1 to view your alignment matches and connect with members.
                                         </p>
                                     </div>
                                 </div>
@@ -140,168 +136,144 @@ export default function MatchesPage() {
                             </div>
                         )}
 
-                        {/* Filters & Search */}
-                        <div style={{
-                            display: 'flex',
-                            gap: 'var(--space-4)',
-                            marginBottom: 'var(--space-8)',
-                            flexWrap: 'wrap'
-                        }}>
-                            <div style={{ position: 'relative', flex: 1, minWidth: '280px' }}>
-                                <Search size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-slate)' }} />
-                                <input
-                                    type="text"
-                                    className="form-input"
-                                    placeholder="Search by pillar or growth focus..."
-                                    style={{ paddingLeft: '40px' }}
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    disabled={isFreeTier}
-                                />
+                        {/* Loading */}
+                        {loading && (
+                            <div style={{ textAlign: 'center', padding: 'var(--space-16)', color: 'var(--color-slate)' }}>
+                                Calculating your matches...
                             </div>
-                            <button className="btn btn--outline-primary btn--sm" disabled={isFreeTier}>
-                                Filter by Pillar
-                            </button>
-                            <button className="btn btn--outline-primary btn--sm" disabled={isFreeTier}>
-                                Distance
-                            </button>
-                        </div>
+                        )}
 
-                        {/* Discovery Grid */}
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-                            gap: 'var(--space-6)',
-                            opacity: isFreeTier ? 0.6 : 1,
-                            pointerEvents: isFreeTier ? 'none' : 'auto'
-                        }}>
-                            {DISCOVERY_PROFILES.map((profile) => (
-                                <div key={profile.id} className="card" style={{ padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                                    {/* Profile Image (Blurred) */}
-                                    <div style={{
-                                        height: '240px',
-                                        position: 'relative',
-                                        overflow: 'hidden'
-                                    }}>
-                                        <img
-                                            src={profile.blurredImage}
-                                            alt={profile.displayName}
-                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                        />
-                                        <div style={{
-                                            position: 'absolute',
-                                            inset: 0,
-                                            background: 'linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.6))',
-                                            padding: 'var(--space-4)',
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            justifyContent: 'flex-end'
-                                        }}>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                                                <div>
-                                                    <h3 style={{ color: 'white', marginBottom: 'var(--space-1)' }}>
-                                                        {profile.displayName}, {profile.age}
-                                                    </h3>
-                                                    <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: 'var(--text-sm)', marginBottom: 0, display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                                        <MapPin size={14} /> {profile.city}, {profile.state}
-                                                    </p>
-                                                </div>
-                                                <div style={{
-                                                    backgroundColor: 'var(--color-accent)',
-                                                    color: 'white',
-                                                    padding: 'var(--space-1) var(--space-2)',
-                                                    borderRadius: 'var(--radius-sm)',
-                                                    fontSize: 'var(--text-xs)',
-                                                    fontWeight: 800
-                                                }}>
-                                                    {profile.compatibility}% Align
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div style={{
-                                            position: 'absolute',
-                                            top: 'var(--space-4)',
-                                            right: 'var(--space-4)',
-                                            backgroundColor: 'rgba(255,255,255,0.9)',
-                                            padding: 'var(--space-2) var(--space-3)',
-                                            borderRadius: 'var(--radius-full)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: 'var(--space-2)',
-                                            backdropFilter: 'blur(4px)',
-                                            boxShadow: 'var(--shadow-sm)'
-                                        }}>
-                                            <Sparkles size={14} color="var(--color-primary)" />
-                                            <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--color-primary)' }}>
-                                                Phase {profile.phase}
-                                            </span>
-                                        </div>
-                                    </div>
+                        {/* Empty State */}
+                        {!loading && matches.length === 0 && (
+                            <div style={{
+                                textAlign: 'center',
+                                padding: 'var(--space-16)',
+                                backgroundColor: 'white',
+                                borderRadius: 'var(--radius-xl)',
+                                border: '1px solid var(--color-rose-light)'
+                            }}>
+                                <Heart size={48} color="var(--color-primary)" style={{ marginBottom: 'var(--space-4)', opacity: 0.4 }} />
+                                <h3 style={{ marginBottom: 'var(--space-2)' }}>No matches yet</h3>
+                                <p style={{ color: 'var(--color-slate)', maxWidth: '400px', margin: '0 auto var(--space-6)' }}>
+                                    Complete your Six Pillars assessment to be matched with other members.
+                                </p>
+                                <Link href="/assessment" className="btn btn--primary">
+                                    Take Assessment
+                                </Link>
+                            </div>
+                        )}
 
-                                    {/* Profile Details */}
-                                    <div style={{ padding: 'var(--space-6)', flex: 1 }}>
-                                        <div style={{ marginBottom: 'var(--space-4)' }}>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-2)' }}>
-                                                <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-slate)' }}>Primary Pillar</span>
-                                                <span style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-charcoal)' }}>{profile.mainPillar}</span>
-                                            </div>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-slate)' }}>Readiness Score</span>
-                                                <span style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-primary)' }}>{profile.readinessScore}/100</span>
-                                            </div>
-                                        </div>
-
-                                        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-slate)', fontStyle: 'italic', marginBottom: 'var(--space-6)' }}>
-                                            "Committed to growing in mental discipline and creating a home environment that honors God..."
-                                        </p>
-
-                                        <button className="btn btn--primary btn--sm" style={{ width: '100%' }}>
-                                            Express Interest
-                                            <ChevronRight size={16} />
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Empty/Locked State Info */}
-                        <div style={{
-                            marginTop: 'var(--space-12)',
-                            padding: 'var(--space-8)',
-                            backgroundColor: 'white',
-                            borderRadius: 'var(--radius-xl)',
-                            textAlign: 'center',
-                            border: '1px solid var(--color-rose-light)'
-                        }}>
-                            <Info size={32} color="var(--color-primary)" style={{ marginBottom: 'var(--space-4)' }} />
-                            <h3 style={{ marginBottom: 'var(--space-2)' }}>How Phased Discovery Works</h3>
+                        {/* Active Matches Grid */}
+                        {!loading && activeMatches.length > 0 && (
                             <div style={{
                                 display: 'grid',
-                                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
                                 gap: 'var(--space-6)',
-                                marginTop: 'var(--space-6)',
-                                textAlign: 'left'
+                                marginBottom: 'var(--space-10)',
+                                opacity: isFreeTier ? 0.5 : 1,
+                                pointerEvents: isFreeTier ? 'none' : 'auto',
                             }}>
-                                <div>
-                                    <h5 style={{ color: 'var(--color-primary)' }}>Phase 1: Alignment</h5>
-                                    <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-slate)', marginBottom: 0 }}>
-                                        See basic info, location, and alignment scores. Photos are blurred to keep the focus on character.
-                                    </p>
-                                </div>
-                                <div>
-                                    <h5 style={{ color: 'var(--color-primary)' }}>Phase 2: Engagement</h5>
-                                    <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-slate)', marginBottom: 0 }}>
-                                        Exchange interests and share proof of growth. Photos become slightly clearer as engagement deepens.
-                                    </p>
-                                </div>
-                                <div>
-                                    <h5 style={{ color: 'var(--color-primary)' }}>Phase 3: Connection</h5>
-                                    <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-slate)', marginBottom: 0 }}>
-                                        One-on-one communication unlocked. Full profiles and clear photos are revealed.
-                                    </p>
+                                {activeMatches.map((match) => (
+                                    <div key={match.matchId} className="card" style={{ padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                                        {/* Photo */}
+                                        <div style={{ height: '220px', position: 'relative', backgroundColor: 'var(--color-bg-elevated)' }}>
+                                            {match.photoUrl ? (
+                                                <img
+                                                    src={match.photoUrl}
+                                                    alt={match.displayName}
+                                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                                />
+                                            ) : (
+                                                <div style={{
+                                                    width: '100%', height: '100%',
+                                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                    backgroundColor: 'var(--color-bg-tertiary)',
+                                                    color: 'var(--color-text-tertiary)',
+                                                    fontSize: 'var(--text-4xl)',
+                                                    fontWeight: 700,
+                                                }}>
+                                                    {match.displayName.charAt(0)}
+                                                </div>
+                                            )}
+                                            {/* Score badge */}
+                                            <div style={{
+                                                position: 'absolute',
+                                                top: 'var(--space-3)',
+                                                right: 'var(--space-3)',
+                                                backgroundColor: TIER_COLORS[match.alignmentTier ?? ''] ?? '#6b7280',
+                                                color: 'white',
+                                                padding: 'var(--space-1) var(--space-3)',
+                                                borderRadius: 'var(--radius-full)',
+                                                fontSize: 'var(--text-xs)',
+                                                fontWeight: 700,
+                                            }}>
+                                                {match.alignmentScore != null ? `${match.alignmentScore}%` : '—'} · {match.alignmentTier}
+                                            </div>
+                                            {/* Name overlay */}
+                                            <div style={{
+                                                position: 'absolute',
+                                                bottom: 0,
+                                                left: 0,
+                                                right: 0,
+                                                background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 100%)',
+                                                padding: 'var(--space-4)',
+                                            }}>
+                                                <h3 style={{ color: 'white', margin: 0, fontSize: 'var(--text-lg)' }}>
+                                                    {match.displayName}{match.age ? `, ${match.age}` : ''}
+                                                </h3>
+                                                {(match.city || match.state) && (
+                                                    <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: 'var(--text-sm)', margin: 0, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                        <MapPin size={13} />
+                                                        {[match.city, match.state].filter(Boolean).join(', ')}
+                                                    </p>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {/* Details */}
+                                        <div style={{ padding: 'var(--space-5)', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                                            {match.bio && (
+                                                <p style={{
+                                                    fontSize: 'var(--text-sm)',
+                                                    color: 'var(--color-slate)',
+                                                    fontStyle: 'italic',
+                                                    marginBottom: 'var(--space-4)',
+                                                    overflow: 'hidden',
+                                                    display: '-webkit-box',
+                                                    WebkitLineClamp: 2,
+                                                    WebkitBoxOrient: 'vertical',
+                                                } as React.CSSProperties}>
+                                                    &ldquo;{match.bio}&rdquo;
+                                                </p>
+                                            )}
+                                            <div style={{ marginTop: 'auto' }}>
+                                                <button className="btn btn--primary btn--sm" style={{ width: '100%' }}>
+                                                    View Profile <ChevronRight size={16} />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* Disqualified Matches (collapsed) */}
+                        {!loading && disqualified.length > 0 && (
+                            <div style={{
+                                padding: 'var(--space-4)',
+                                backgroundColor: 'white',
+                                borderRadius: 'var(--radius-lg)',
+                                border: '1px solid #fee2e2',
+                                marginBottom: 'var(--space-8)',
+                            }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', color: '#9ca3af' }}>
+                                    <AlertTriangle size={16} />
+                                    <span style={{ fontSize: 'var(--text-sm)' }}>
+                                        {disqualified.length} member{disqualified.length > 1 ? 's' : ''} not shown — hard stop on a core question ({disqualified[0].hardStopReason ?? 'compatibility issue'})
+                                    </span>
                                 </div>
                             </div>
-                        </div>
+                        )}
                     </div>
                 </section>
             </main>
