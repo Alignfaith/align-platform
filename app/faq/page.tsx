@@ -12,11 +12,11 @@ const faqs = [
         questions: [
             {
                 q: 'What is Align?',
-                a: 'Align is a Christian-based relationship platform built on the Relationship Fitness framework. Unlike traditional dating apps, Align focuses on personal preparation and character development before connection. All interaction is based on the Six Pillars system—not swiping or profile photos.',
+                a: 'Align is a faith-centered relationship platform built on the Relationship Fitness framework. Every connection starts with character, growth, and intentionality — guided by the Six Pillars system.',
             },
             {
-                q: 'How is Align different from other dating apps?',
-                a: 'Align is not a swipe app and not profile-based. Photos are not shown initially—they unlock only after mutual interest and intentional conversation. Everyone sees the same experience regardless of gender. The focus is on growth, faith, and readiness, not transactions.',
+                q: 'What makes Align unique?',
+                a: 'Align is built on a framework, not an algorithm. Connections are guided by the Six Pillars of Relationship Fitness — Spiritual, Mental, Intimacy, Financial, Physical, and Appearance. You grow first, then connect.',
             },
             {
                 q: 'What is the Relationship Fitness framework?',
@@ -63,7 +63,7 @@ const faqs = [
         questions: [
             {
                 q: 'Why aren\'t photos shown initially?',
-                a: 'We believe character matters more than appearance. By hiding photos initially, members connect based on values, faith, and pillar alignment first. This creates more meaningful connections and reduces superficial swiping behavior.',
+                a: 'We believe character matters more than appearance. By hiding photos initially, members connect based on values, faith, and pillar alignment first. This creates more meaningful connections and encourages intentional, character-first connection.',
             },
             {
                 q: 'When are photos unlocked?',

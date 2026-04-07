@@ -15,8 +15,8 @@ export default function PhotoPolicy() {
                             color: 'var(--color-slate)',
                             marginBottom: 'var(--space-6)',
                         }}>
-                            Unlike other platforms, photos are not shown initially on Align.
-                            This is intentional—we want you to connect based on character, values,
+                            Photos are revealed after mutual interest and intentional conversation — because connection starts with character.
+                            We want you to connect based on values
                             and pillar alignment first.
                         </p>
                         <p style={{

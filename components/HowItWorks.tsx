@@ -36,7 +36,7 @@ export default function HowItWorks() {
                         margin: '0 auto',
                         lineHeight: 'var(--leading-relaxed)',
                     }}>
-                        This is not a swipe app. Every feature is built around growth, faith, and readiness.
+                        Every feature is built around growth, faith, and readiness.
                     </p>
                 </div>
 
