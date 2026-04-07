@@ -1,346 +1,305 @@
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import SixPillars from '@/components/SixPillars'
 import Link from 'next/link'
-import { ArrowRight, Target, Compass, Shield, Heart, Zap } from 'lucide-react'
+import { Sun, Brain, Activity, TrendingUp, Sparkles, Heart, BookOpen, ArrowRight } from 'lucide-react'
 
-const frameworkPrinciples = [
+const pillars = [
     {
-        icon: Target,
-        title: 'Preparation Before Pursuit',
-        description: 'Before you pursue anyone else, you must first pursue becoming the person worth pursuing. This is the foundation of Relationship Fitness.',
+        icon: Sun,
+        name: 'Spiritual Fitness',
+        description: 'How your faith shows up in your daily life, decisions, and relationships. This is about belief, practice, community, and direction — not perfection.',
     },
     {
-        icon: Shield,
-        title: 'Faith as Foundation',
-        description: 'Your relationship with God must come first. A Christ centered foundation provides the stability that every lasting relationship requires.',
+        icon: Brain,
+        name: 'Mental Fitness',
+        description: 'How you think, respond, take responsibility, and handle life\'s pressures. This is about perspective, humility, and self-control — not diagnoses.',
     },
     {
-        icon: Compass,
-        title: 'Intentional Growth',
-        description: 'Growth does not happen by accident. The Six Pillars provide a framework for intentional development in every area of life.',
+        icon: Activity,
+        name: 'Physical Fitness',
+        description: 'How you care for your body through movement, health, and daily habits. This is about consistency and effort — not appearance or athleticism.',
+    },
+    {
+        icon: TrendingUp,
+        name: 'Financial Fitness',
+        description: 'How you manage money, responsibility, and stability in your life. This is about stewardship and habits — not income or net worth.',
+    },
+    {
+        icon: Sparkles,
+        name: 'Appearance Fitness',
+        description: 'How you present yourself and the effort you put into showing up well. This is about self-respect and awareness — not fashion or vanity.',
     },
     {
         icon: Heart,
-        title: 'Character Over Chemistry',
-        description: 'Chemistry fades. Character endures. Building character ensures you can sustain a relationship when feelings fluctuate.',
-    },
-    {
-        icon: Zap,
-        title: 'Discipline Creates Freedom',
-        description: 'Self-discipline in the six pillar areas creates the freedom to love without dysfunction, insecurity, or codependency.',
+        name: 'Intimacy Fitness',
+        description: 'How you approach closeness, boundaries, trust, and emotional connection. This is about intention and maturity — not sexual experience or speed.',
     },
 ]
 
 export default function FrameworkPage() {
     return (
         <>
+            <style>{`
+                @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+                .fw-hero {
+                    background: linear-gradient(160deg, #c0182a 0%, #8b0e1d 100%);
+                    padding: 80px 40px;
+                    text-align: center;
+                }
+                .fw-eyebrow {
+                    font-size: 11px;
+                    font-weight: 500;
+                    letter-spacing: 0.2em;
+                    text-transform: uppercase;
+                    color: rgba(255,255,255,0.6);
+                    margin-bottom: 20px;
+                }
+                .fw-hero h1 {
+                    font-family: 'Playfair Display', serif;
+                    font-size: clamp(36px, 6vw, 56px);
+                    font-weight: 700;
+                    color: #fff;
+                    line-height: 1.15;
+                    margin-bottom: 16px;
+                }
+                .fw-hero h1 em { font-style: italic; color: rgba(255,255,255,0.82); }
+                .fw-hero-sub {
+                    font-size: 17px;
+                    color: rgba(255,255,255,0.7);
+                    font-weight: 300;
+                    max-width: 480px;
+                    margin: 0 auto;
+                }
+                .fw-section {
+                    padding: 80px 40px;
+                    max-width: 860px;
+                    margin: 0 auto;
+                }
+                .fw-label {
+                    font-size: 11px;
+                    font-weight: 500;
+                    letter-spacing: 0.18em;
+                    text-transform: uppercase;
+                    color: #c0182a;
+                    margin-bottom: 14px;
+                    display: block;
+                }
+                .fw-title {
+                    font-family: 'Playfair Display', serif;
+                    font-size: clamp(26px, 4vw, 36px);
+                    font-weight: 700;
+                    line-height: 1.2;
+                    color: #1a1512;
+                    margin-bottom: 20px;
+                }
+                .fw-body {
+                    font-size: 16px;
+                    color: #4a3f35;
+                    line-height: 1.8;
+                    max-width: 560px;
+                }
+                .fw-pillar-list { margin-top: 48px; }
+                .fw-pillar-item {
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 24px;
+                    padding: 28px 0;
+                    border-bottom: 1px solid #e8e2d8;
+                }
+                .fw-pillar-item:first-child { border-top: 1px solid #e8e2d8; }
+                .fw-pillar-icon {
+                    width: 40px; height: 40px;
+                    border-radius: 50%;
+                    background: #fdf0f1;
+                    border: 1px solid #f0c8cc;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
+                    margin-top: 2px;
+                }
+                .fw-pillar-name {
+                    font-family: 'Playfair Display', serif;
+                    font-size: 18px;
+                    font-weight: 700;
+                    color: #1a1512;
+                    margin-bottom: 6px;
+                }
+                .fw-pillar-desc { font-size: 15px; color: #5c5047; line-height: 1.7; }
+                .fw-divider { width: 100%; height: 1px; background: #e8e2d8; }
+                .fw-book {
+                    padding: 80px 40px;
+                    max-width: 860px;
+                    margin: 0 auto;
+                    display: grid;
+                    grid-template-columns: 280px 1fr;
+                    gap: 56px;
+                    align-items: center;
+                }
+                @media (max-width: 680px) {
+                    .fw-book { grid-template-columns: 1fr; }
+                    .fw-book img { margin: 0 auto; }
+                }
+                .fw-book-title {
+                    font-family: 'Playfair Display', serif;
+                    font-size: clamp(24px, 3.5vw, 32px);
+                    font-weight: 700;
+                    color: #1a1512;
+                    margin-bottom: 14px;
+                }
+                .fw-book-body { font-size: 15px; color: #5c5047; line-height: 1.75; margin-bottom: 28px; }
+                .fw-amazon-btn {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
+                    background: #c0182a;
+                    color: #fff;
+                    font-size: 14px;
+                    font-weight: 500;
+                    letter-spacing: 0.04em;
+                    padding: 13px 28px;
+                    border-radius: 100px;
+                    text-decoration: none;
+                }
+                .fw-quote {
+                    background: #f5f0e8;
+                    padding: 72px 40px;
+                    text-align: center;
+                    border-top: 1px solid #e8e2d8;
+                    border-bottom: 1px solid #e8e2d8;
+                }
+                .fw-quote-icon { display: flex; justify-content: center; margin-bottom: 28px; }
+                .fw-quote-text {
+                    font-family: 'Playfair Display', serif;
+                    font-size: clamp(18px, 2.8vw, 23px);
+                    font-style: italic;
+                    color: #2a1f18;
+                    max-width: 620px;
+                    margin: 0 auto 24px;
+                    line-height: 1.75;
+                }
+                .fw-quote-attr {
+                    font-size: 12px;
+                    color: #9a8878;
+                    letter-spacing: 0.14em;
+                    text-transform: uppercase;
+                }
+                .fw-cta {
+                    background: #c0182a;
+                    padding: 72px 40px;
+                    text-align: center;
+                }
+                .fw-cta-title {
+                    font-family: 'Playfair Display', serif;
+                    font-size: clamp(28px, 4vw, 42px);
+                    font-weight: 700;
+                    color: #fff;
+                    margin-bottom: 14px;
+                }
+                .fw-cta-sub {
+                    font-size: 16px;
+                    color: rgba(255,255,255,0.72);
+                    margin-bottom: 36px;
+                    font-weight: 300;
+                }
+                .fw-cta-btn {
+                    display: inline-block;
+                    background: #fff;
+                    color: #c0182a;
+                    font-size: 14px;
+                    font-weight: 500;
+                    letter-spacing: 0.06em;
+                    padding: 14px 36px;
+                    border-radius: 100px;
+                    text-decoration: none;
+                }
+            `}</style>
+
             <Header />
+
             <main style={{ paddingTop: 'var(--header-height)' }}>
-                {/* Hero */}
-                <section className="section section--primary">
-                    <div className="container">
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: '1fr auto',
-                            gap: 'var(--space-12)',
-                            alignItems: 'center',
-                        }}>
-                            <div>
-                                <h1 style={{ marginBottom: 'var(--space-4)' }}>The Relationship Fitness Framework</h1>
-                                <p style={{
-                                    fontSize: 'var(--text-xl)',
-                                    opacity: 0.9,
-                                    maxWidth: '600px',
-                                }}>
-                                    A Christ centered framework for personal preparation and relational readiness,
-                                    built on the six pillars that every strong partnership requires.
-                                </p>
-                            </div>
-                            <img
-                                src="/images/book-cover.png"
-                                alt="Relationship Fitness by Thomas Marks"
-                                style={{
-                                    width: '300px',
-                                    maxWidth: '100%',
-                                    borderRadius: '12px',
-                                    boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
-                                    display: 'block',
-                                }}
-                            />
-                        </div>
-                    </div>
-                </section>
 
-                {/* Origin */}
-                <section className="section section--cream">
-                    <div className="container">
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: '1fr 1fr',
-                            gap: 'var(--space-12)',
-                            alignItems: 'center',
-                        }}>
-                            <div>
-                                <h2 style={{ marginBottom: 'var(--space-4)' }}>
-                                    Where It Began
-                                </h2>
-                                <p style={{ fontSize: 'var(--text-lg)', color: 'var(--color-slate)', marginBottom: 'var(--space-4)' }}>
-                                    The Relationship Fitness framework was developed by Thomas Marks through years of
-                                    personal growth, faith, leadership, and real-world experience.
-                                </p>
-                                <p style={{ color: 'var(--color-slate)', marginBottom: 'var(--space-4)' }}>
-                                    After observing countless relationships fail—not from lack of love, but from lack
-                                    of preparation—Thomas identified six core areas that determine relationship success.
-                                </p>
-                                <p style={{ color: 'var(--color-slate)' }}>
-                                    These Six Pillars became the foundation of the Relationship Fitness book and the
-                                    entire Align platform experience.
-                                </p>
-                            </div>
+                <div className="fw-hero">
+                    <p className="fw-eyebrow">The Framework</p>
+                    <h1>The foundation of<br /><em>everything.</em></h1>
+                    <p className="fw-hero-sub">Six areas of your life. One framework for becoming ready. Every part of Align is built on this.</p>
+                </div>
 
-                            <div style={{
-                                borderRadius: 'var(--radius-2xl)',
-                                overflow: 'hidden',
-                                boxShadow: '0 20px 60px rgba(0,0,0,0.20)',
-                                lineHeight: 0,
-                            }}>
-                                <img
-                                    src="/images/book-cover.png"
-                                    alt="Relationship Fitness book cover"
-                                    style={{
-                                        width: '100%',
-                                        height: 'auto',
-                                        display: 'block',
-                                        borderRadius: 'var(--radius-2xl)',
-                                    }}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <div className="fw-section">
+                    <span className="fw-label">What it is</span>
+                    <h2 className="fw-title">Relationship Fitness is not<br />a theory. It is a standard.</h2>
+                    <p className="fw-body">
+                        Developed by Thomas Marks, the Relationship Fitness framework identifies the six core areas
+                        that determine whether a person is truly prepared for the weight of a lasting relationship.
+                        It is not about being perfect. It is about being intentional — growing in every area before
+                        you pursue connection with someone else.
+                    </p>
+                    <p className="fw-body" style={{ marginTop: '16px' }}>
+                        Every question, every reflection, and every connection on Align is organized around these six pillars.
+                    </p>
 
-                {/* Core Principles */}
-                <section className="section section--white">
-                    <div className="container">
-                        <div className="text-center" style={{ marginBottom: 'var(--space-12)' }}>
-                            <h2 style={{ marginBottom: 'var(--space-4)' }}>Core Principles</h2>
-                            <p style={{ fontSize: 'var(--text-lg)', color: 'var(--color-slate)', maxWidth: '600px', margin: '0 auto' }}>
-                                These truths guide the Relationship Fitness framework and everything we do at Align.
-                            </p>
-                        </div>
-
-                        <div style={{
-                            display: 'flex',
-                            flexWrap: 'wrap',
-                            justifyContent: 'center',
-                            gap: 'var(--space-6)',
-                        }}>
-                            {frameworkPrinciples.map((principle) => (
-                                <div key={principle.title} className="card" style={{ flex: '0 1 calc(33.333% - 16px)', minWidth: '280px' }}>
-                                    <div style={{
-                                        display: 'flex',
-                                        alignItems: 'flex-start',
-                                        gap: 'var(--space-4)',
-                                    }}>
-                                        <div style={{
-                                            width: '48px',
-                                            height: '48px',
-                                            borderRadius: 'var(--radius-full)',
-                                            backgroundColor: 'var(--color-blush)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            flexShrink: 0,
-                                        }}>
-                                            <principle.icon size={24} color="var(--color-primary)" />
-                                        </div>
-                                        <div>
-                                            <h4 style={{ marginBottom: 'var(--space-2)' }}>{principle.title}</h4>
-                                            <p style={{ color: 'var(--color-slate)', marginBottom: 0, fontSize: 'var(--text-sm)' }}>
-                                                {principle.description}
-                                            </p>
-                                        </div>
-                                    </div>
+                    <div className="fw-pillar-list">
+                        {pillars.map((pillar) => (
+                            <div key={pillar.name} className="fw-pillar-item">
+                                <div className="fw-pillar-icon">
+                                    <pillar.icon size={18} color="#c0182a" />
                                 </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                {/* Six Pillars */}
-                <SixPillars />
-
-                {/* About the Book */}
-                <section className="section section--cream">
-                    <div className="container">
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: '250px 1fr',
-                            gap: 'var(--space-12)',
-                            alignItems: 'center',
-                        }}>
-                            <div style={{
-                                borderRadius: 'var(--radius-xl)',
-                                overflow: 'hidden',
-                                boxShadow: '0 24px 64px rgba(0,0,0,0.22)',
-                                lineHeight: 0,
-                                flexShrink: 0,
-                            }}>
-                                <img
-                                    src="/images/book-cover.png"
-                                    alt="Relationship Fitness book cover"
-                                    style={{ width: '100%', height: 'auto', display: 'block' }}
-                                />
-                            </div>
-                            <div>
-                                <p style={{
-                                    fontSize: 'var(--text-sm)',
-                                    fontWeight: 600,
-                                    color: 'var(--color-primary)',
-                                    letterSpacing: '0.08em',
-                                    textTransform: 'uppercase',
-                                    marginBottom: 'var(--space-3)',
-                                }}>
-                                    The Book
-                                </p>
-                                <h2 style={{ marginBottom: 'var(--space-4)' }}>Relationship Fitness</h2>
-                                <p style={{ fontSize: 'var(--text-lg)', color: 'var(--color-slate)', marginBottom: 'var(--space-4)' }}>
-                                    The framework behind Align began as a book. <em>Relationship Fitness</em> by Thomas Marks
-                                    lays out the complete Six Pillar system — a Christ centered guide for men and women
-                                    who want to stop stumbling into relationships and start preparing for them with
-                                    intention and faith.
-                                </p>
-                                <p style={{ color: 'var(--color-slate)', marginBottom: 'var(--space-6)' }}>
-                                    Whether you are single, healing, or simply wanting to grow — this book will show you
-                                    the path to becoming the person God has called you to be before you pursue the
-                                    relationship He has for you.
-                                </p>
-                                <a
-                                    href="https://a.co/d/0cgkpmBw"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="btn btn--primary"
-                                >
-                                    Get on Amazon
-                                    <ArrowRight size={18} />
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                {/* How Pillars Work */}
-                <section className="section section--white">
-                    <div className="container">
-                        <div className="text-center" style={{ marginBottom: 'var(--space-12)' }}>
-                            <h2 style={{ marginBottom: 'var(--space-4)' }}>How The Pillars Work on Align</h2>
-                            <p style={{ fontSize: 'var(--text-lg)', color: 'var(--color-slate)', maxWidth: '560px', margin: '0 auto' }}>
-                                The Six Pillars power every part of the platform — from your own growth to how you connect with others.
-                            </p>
-                        </div>
-
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-                            gap: 'var(--space-8)',
-                        }}>
-                            {[
-                                {
-                                    icon: Target,
-                                    number: '01',
-                                    title: 'For Preparation',
-                                    description: 'Use the pillars to assess where you are and where you need to grow. Even free members can engage with pillar-based self-reflection privately.',
-                                },
-                                {
-                                    icon: Compass,
-                                    number: '02',
-                                    title: 'For Discernment',
-                                    description: 'When viewing other members (paid tiers), you see their pillar engagement — not photos or bios. Discern alignment based on values and growth.',
-                                },
-                                {
-                                    icon: Heart,
-                                    number: '03',
-                                    title: 'For Alignment',
-                                    description: 'The pillars are not used for scoring or ranking. They exist to help you find alignment with someone who shares your commitment to growth and faith.',
-                                },
-                            ].map((item) => (
-                                <div key={item.title} style={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'flex-start',
-                                    padding: 'var(--space-8)',
-                                    borderRadius: 'var(--radius-xl)',
-                                    border: '1px solid var(--color-border-subtle)',
-                                    background: 'var(--color-bg-secondary)',
-                                }}>
-                                    <div style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'space-between',
-                                        width: '100%',
-                                        marginBottom: 'var(--space-6)',
-                                    }}>
-                                        <div style={{
-                                            width: '52px',
-                                            height: '52px',
-                                            borderRadius: 'var(--radius-lg)',
-                                            background: 'rgba(225, 29, 72, 0.1)',
-                                            border: '1px solid rgba(225, 29, 72, 0.2)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                        }}>
-                                            <item.icon size={24} color="#E11D48" />
-                                        </div>
-                                        <span style={{
-                                            fontFamily: 'var(--font-heading)',
-                                            fontSize: 'var(--text-3xl)',
-                                            fontWeight: 'var(--font-extrabold)',
-                                            color: 'rgba(225, 29, 72, 0.15)',
-                                            lineHeight: 1,
-                                        }}>
-                                            {item.number}
-                                        </span>
-                                    </div>
-                                    <h3 style={{
-                                        fontSize: 'var(--text-xl)',
-                                        fontWeight: 'var(--font-bold)',
-                                        color: 'var(--color-text-primary)',
-                                        marginBottom: 'var(--space-3)',
-                                    }}>
-                                        {item.title}
-                                    </h3>
-                                    <p style={{
-                                        fontSize: 'var(--text-sm)',
-                                        color: 'var(--color-text-secondary)',
-                                        lineHeight: 'var(--leading-relaxed)',
-                                        margin: 0,
-                                    }}>
-                                        {item.description}
-                                    </p>
+                                <div>
+                                    <p className="fw-pillar-name">{pillar.name}</p>
+                                    <p className="fw-pillar-desc">{pillar.description}</p>
                                 </div>
-                            ))}
-                        </div>
+                            </div>
+                        ))}
                     </div>
-                </section>
+                </div>
 
-                {/* CTA */}
-                <section className="section section--primary">
-                    <div className="container text-center">
-                        <h2 style={{ marginBottom: 'var(--space-4)' }}>Experience the Framework</h2>
-                        <p style={{ fontSize: 'var(--text-lg)', opacity: 0.9, marginBottom: 'var(--space-6)', maxWidth: '600px', margin: '0 auto var(--space-6)' }}>
-                            Join Align and begin your journey of intentional preparation.
+                <div className="fw-divider" />
+
+                <div className="fw-book">
+                    <img
+                        src="/images/book-cover.png"
+                        alt="Relationship Fitness by Thomas Marks"
+                        style={{ width: '100%', maxWidth: '280px', borderRadius: '8px', boxShadow: '0 24px 64px rgba(0,0,0,0.18)' }}
+                    />
+                    <div>
+                        <span className="fw-label">The Book</span>
+                        <h2 className="fw-book-title">Relationship Fitness</h2>
+                        <p className="fw-book-body">
+                            The framework behind Align began as a book. <em>Relationship Fitness</em> by Thomas Marks
+                            lays out the complete Six Pillar system — a Christ-centered guide for men and women who
+                            want to stop stumbling into relationships and start preparing for them with intention and faith.
                         </p>
-                        <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--space-4)', flexWrap: 'wrap' }}>
-                            <Link href="/register" className="btn btn--white btn--lg">
-                                Get Started Free
-                                <ArrowRight size={18} />
-                            </Link>
-                        </div>
+                        <a
+                            href="https://a.co/d/0cgkpmBw"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="fw-amazon-btn"
+                        >
+                            Get on Amazon
+                            <ArrowRight size={16} />
+                        </a>
                     </div>
-                </section>
+                </div>
+
+                <div className="fw-quote">
+                    <div className="fw-quote-icon">
+                        <BookOpen size={40} color="#c0182a" strokeWidth={1.5} />
+                    </div>
+                    <p className="fw-quote-text">
+                        Most relationships do not fall apart because of a lack of love. They fall apart because
+                        people enter them unprepared for the weight, responsibility, and spiritual maturity that love requires.
+                    </p>
+                    <p className="fw-quote-attr">Thomas Marks — Relationship Fitness</p>
+                </div>
+
+                <div className="fw-cta">
+                    <h2 className="fw-cta-title">Begin your journey.</h2>
+                    <p className="fw-cta-sub">Preparation comes before connection. Start growing today.</p>
+                    <Link className="fw-cta-btn" href="/register">Create Your Account</Link>
+                </div>
+
             </main>
+
             <Footer />
         </>
     )

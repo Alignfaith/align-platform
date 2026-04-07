@@ -70,19 +70,19 @@ export default function HowItWorks() {
                                     width: '52px',
                                     height: '52px',
                                     borderRadius: 'var(--radius-lg)',
-                                    background: 'rgba(225, 29, 72, 0.1)',
-                                    border: '1px solid rgba(225, 29, 72, 0.2)',
+                                    background: 'rgba(192, 24, 42, 0.1)',
+                                    border: '1px solid rgba(192, 24, 42, 0.2)',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                 }}>
-                                    <step.icon size={24} color="#E11D48" />
+                                    <step.icon size={24} color="#c0182a" />
                                 </div>
                                 <span style={{
                                     fontFamily: 'var(--font-heading)',
                                     fontSize: 'var(--text-3xl)',
                                     fontWeight: 'var(--font-extrabold)',
-                                    color: 'rgba(225, 29, 72, 0.15)',
+                                    color: 'rgba(192, 24, 42, 0.15)',
                                     lineHeight: 1,
                                 }}>
                                     {step.number}

@@ -104,7 +104,7 @@ export default function BookPage() {
                                 justifyContent: 'center',
                                 margin: '0 auto var(--space-6)',
                             }}>
-                                <Lock size={28} color="#E11D48" />
+                                <Lock size={28} color="#c0182a" />
                             </div>
                             <h2 style={{ marginBottom: 'var(--space-4)', color: 'var(--color-text-primary)' }}>
                                 Member Exclusive

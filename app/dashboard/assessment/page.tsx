@@ -10,7 +10,7 @@ import type { PillarKey } from '@/lib/pillar-questions'
 import { ChevronRight, ChevronLeft, CheckCircle } from 'lucide-react'
 
 const PILLAR_COLORS: Record<PillarKey, string> = {
-    SPIRITUAL: '#E11D48',
+    SPIRITUAL: '#c0182a',
     FINANCIAL: '#F59E0B',
     PHYSICAL: '#10B981',
     MENTAL: '#3B82F6',

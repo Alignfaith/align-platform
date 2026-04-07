@@ -103,17 +103,17 @@ export default function MembershipTiers() {
                                     display: 'flex',
                                     alignItems: 'center',
                                     gap: 'var(--space-3)',
-                                    backgroundColor: tier.featured ? 'rgba(225, 29, 72, 0.15)' : 'rgba(225, 29, 72, 0.1)',
-                                    border: '1px solid rgba(225, 29, 72, 0.2)',
+                                    backgroundColor: tier.featured ? 'rgba(192, 24, 42, 0.15)' : 'rgba(192, 24, 42, 0.1)',
+                                    border: '1px solid rgba(192, 24, 42, 0.2)',
                                     borderRadius: 'var(--radius-md)',
                                     padding: 'var(--space-3)',
                                     marginBottom: 'var(--space-4)',
                                 }}>
-                                    <Gift size={20} color="#FB7185" />
+                                    <Gift size={20} color="#e8536a" />
                                     <span style={{
                                         fontSize: 'var(--text-sm)',
                                         fontWeight: 600,
-                                        color: '#FB7185',
+                                        color: '#e8536a',
                                     }}>
                                         Includes FREE copy of the book!
                                     </span>
@@ -136,7 +136,7 @@ export default function MembershipTiers() {
                                 {tier.includesBook && (
                                     <li className="tier-card__feature" style={{
                                         fontWeight: 600,
-                                        color: '#FB7185',
+                                        color: '#e8536a',
                                     }}>
                                         <span className="tier-card__feature-icon">
                                             <BookOpen size={18} />

@@ -122,7 +122,7 @@ export default function AdminDashboard() {
             {[
               { label: 'Free', count: stats.tierFree, color: 'var(--color-text-tertiary)' },
               { label: 'Tier 1', count: stats.tierOne, color: '#3B82F6' },
-              { label: 'Tier 2', count: stats.tierTwo, color: '#E11D48' },
+              { label: 'Tier 2', count: stats.tierTwo, color: '#c0182a' },
             ].map(({ label, count, color }) => (
               <div key={label}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px', fontSize: 'var(--text-sm)' }}>

@@ -5,7 +5,7 @@ const pillars = [
         icon: Church,
         title: 'Spiritual Fitness',
         description: 'How your faith shows up in your daily life, decisions, and relationships.',
-        color: '#E11D48',
+        color: '#c0182a',
     },
     {
         icon: Brain,

@@ -14,7 +14,7 @@ const PILLARS = [
     { id: 'PHYSICAL', name: 'Physical', icon: Dumbbell, color: '#059669' },
     { id: 'FINANCIAL', name: 'Financial', icon: Wallet, color: '#CA8A04' },
     { id: 'APPEARANCE', name: 'Appearance', icon: Sparkles, color: '#D946EF' },
-    { id: 'INTIMACY', name: 'Intimacy', icon: Heart, color: '#E11D48' },
+    { id: 'INTIMACY', name: 'Intimacy', icon: Heart, color: '#c0182a' },
 ]
 
 export default function ReflectionEngine() {
