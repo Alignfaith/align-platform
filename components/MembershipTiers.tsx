@@ -24,10 +24,9 @@ const tiers = [
     },
     {
         name: 'Tier 1',
-        subtitle: 'Preparation Engagement',
+        subtitle: 'Member Access',
         price: '$29.99',
         period: '/month',
-        saveText: '6-month commitment required',
         features: [
             { text: 'Everything in Free', included: true },
             { text: 'View other members through pillar system', included: true },
@@ -44,10 +43,9 @@ const tiers = [
     },
     {
         name: 'Tier 2',
-        subtitle: 'Connection Plus',
+        subtitle: 'Full Access',
         price: '$39.99',
         period: '/month',
-        saveText: '6-month commitment required',
         features: [
             { text: 'Everything in Tier 1', included: true },
             { text: 'Priority placement in discovery', included: true },
@@ -98,10 +96,6 @@ export default function MembershipTiers() {
                                 {tier.price}
                                 <span className="tier-card__price-period">{tier.period}</span>
                             </div>
-
-                            {tier.saveText && (
-                                <p className="tier-card__save">{tier.saveText}</p>
-                            )}
 
                             {/* Book Bonus for Paid Tiers */}
                             {tier.includesBook && (

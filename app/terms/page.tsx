@@ -61,11 +61,11 @@ export default function TermsPage() {
                             </p>
                             <ul>
                                 <li><strong>Free Tier:</strong> Account creation, onboarding, reflection completion, and private pillar engagement</li>
-                                <li><strong>Tier 1 (Preparation Engagement):</strong> Paid tier allowing member viewing and limited connections</li>
-                                <li><strong>Tier 2 (Connection Plus):</strong> Premium tier with advanced features and priority support</li>
+                                <li><strong>Tier 1:</strong> Paid tier allowing member viewing and limited connections</li>
+                                <li><strong>Tier 2:</strong> Premium tier with advanced features and priority support</li>
                             </ul>
                             <p>
-                                Paid memberships are billed according to the selected plan (monthly or 6-month commitment).
+                                Paid memberships are billed monthly.
                                 Prices are subject to change with notice.
                             </p>
 

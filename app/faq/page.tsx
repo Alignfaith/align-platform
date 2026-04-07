@@ -33,7 +33,7 @@ const faqs = [
             },
             {
                 q: 'What are the paid membership tiers?',
-                a: 'Tier 1 (Preparation Engagement) is $34.99/month ($29.99 with 6-month commitment) and allows viewing members, limited connections, and messaging. Tier 2 (Connection Plus) is $44.99/month ($39.99 with 6-month commitment) and includes priority placement, advanced filters, and access to events.',
+                a: 'Tier 1 is $29.99/month and allows viewing members, limited connections, and messaging. Tier 2 is $39.99/month and includes priority placement, advanced filters, and access to events.',
             },
             {
                 q: 'Can I cancel my membership?',
