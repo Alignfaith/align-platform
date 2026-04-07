@@ -61,10 +61,11 @@ export default function FrameworkPage() {
                                 src="/images/book-cover.png"
                                 alt="Relationship Fitness by Thomas Marks"
                                 style={{
-                                    width: '100%',
-                                    maxWidth: '320px',
+                                    width: '300px',
+                                    maxWidth: '100%',
                                     borderRadius: '12px',
                                     boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
+                                    display: 'block',
                                 }}
                             />
                         </div>
