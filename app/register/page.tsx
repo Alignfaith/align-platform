@@ -6,94 +6,12 @@ import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { ArrowLeft, ArrowRight, Check, BookOpen, Users, FileText, Shield, Loader2, Eye, EyeOff } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, BookOpen, Users, Shield, Loader2, Eye, EyeOff } from 'lucide-react'
 
 const steps = [
     { id: 1, name: 'Account', icon: Users },
-    { id: 2, name: 'Reflections', icon: FileText },
-    { id: 3, name: 'Framework', icon: BookOpen },
-    { id: 4, name: 'Agreement', icon: Shield },
-]
-
-const registrationQuestions = [
-    {
-        id: 1,
-        pillar: 'SPIRITUAL',
-        questionId: 'spiritual_friends_faith',
-        question: 'My closest friends would describe my faith as:',
-        options: [
-            'Deeply rooted. It shows in everything I do',
-            'Active and growing. I am consistent and intentional',
-            'Present but inconsistent. I have room to grow',
-            'Developing. I am still finding my foundation',
-            'Not a current priority in my life',
-        ],
-    },
-    {
-        id: 2,
-        pillar: 'MENTAL',
-        questionId: 'mental_friends_emotional_maturity',
-        question: 'My closest friends would describe my emotional maturity as:',
-        options: [
-            'Grounded and self-aware. I handle hard things well',
-            'Mostly mature. I manage well with occasional struggles',
-            'Growing. I am better than I used to be',
-            'Inconsistent. I am still working through some things',
-            'A work in progress. This is an area I need to develop',
-        ],
-    },
-    {
-        id: 3,
-        pillar: 'PHYSICAL',
-        questionId: 'physical_friends_fitness',
-        question: 'My closest friends would describe my current physical fitness as:',
-        options: [
-            'Disciplined and consistent. I take it seriously',
-            'Active and intentional. I make it a priority',
-            'Somewhat active. I could be more consistent',
-            'Inconsistent. I go through phases',
-            'Not a current focus in my life',
-        ],
-    },
-    {
-        id: 4,
-        pillar: 'FINANCIAL',
-        questionId: 'financial_friends_money',
-        question: 'My closest friends would describe how I handle money as:',
-        options: [
-            'Responsible and intentional. I have a plan',
-            'Generally disciplined. I make mostly good decisions',
-            'Getting better. I am more aware than I used to be',
-            'Inconsistent. I struggle with financial discipline',
-            'A work in progress. This is an area I need to develop',
-        ],
-    },
-    {
-        id: 5,
-        pillar: 'APPEARANCE',
-        questionId: 'appearance_friends_presentation',
-        question: 'My closest friends would describe how I present and carry myself as:',
-        options: [
-            'Polished and intentional. I always show up well',
-            'Put together. I take pride in how I present myself',
-            'Casual but clean. I am aware but relaxed',
-            'Comfortable focused. I prioritize comfort',
-            'Inconsistent. It depends on the day',
-        ],
-    },
-    {
-        id: 6,
-        pillar: 'INTIMACY',
-        questionId: 'intimacy_friends_boundaries',
-        question: 'My closest friends would describe my approach to relationships and boundaries as:',
-        options: [
-            'Intentional and mature. I move with purpose and clarity',
-            'Thoughtful. I value emotional safety and trust',
-            'Still developing. I am learning what healthy looks like',
-            'Inconsistent. I have patterns I am working through',
-            'A work in progress. This is an area I need to grow in',
-        ],
-    },
+    { id: 2, name: 'Framework', icon: BookOpen },
+    { id: 3, name: 'Agreement', icon: Shield },
 ]
 
 export default function RegisterPage() {
@@ -110,7 +28,6 @@ export default function RegisterPage() {
         password: '',
         confirmPassword: '',
         inviteCode: '',
-        reflections: ['', '', '', '', '', ''],
         hasReadBook: false,
         understandsFramework: false,
         agreesToGuidelines: false,
@@ -120,13 +37,6 @@ export default function RegisterPage() {
     const updateFormData = (field: string, value: string | boolean) => {
         setFormData(prev => ({ ...prev, [field]: value }))
         setError(null)
-    }
-
-    const updateReflection = (index: number, value: string) => {
-        const newReflections = [...formData.reflections]
-        newReflections[index] = value
-        updateFormData('reflections', newReflections as unknown as string)
-        setFormData(prev => ({ ...prev, reflections: newReflections }))
     }
 
     const validateStep = (step: number): boolean => {
@@ -166,20 +76,12 @@ export default function RegisterPage() {
                 }
                 return true
             case 2:
-                for (let i = 0; i < formData.reflections.length; i++) {
-                    if (!formData.reflections[i]) {
-                        setError(`Please answer question ${i + 1}`)
-                        return false
-                    }
-                }
-                return true
-            case 3:
                 if (!formData.understandsFramework) {
                     setError('Please confirm you understand the framework')
                     return false
                 }
                 return true
-            case 4:
+            case 3:
                 if (!formData.agreesToGuidelines) {
                     setError('Please agree to the community guidelines')
                     return false
@@ -195,7 +97,7 @@ export default function RegisterPage() {
     }
 
     const nextStep = () => {
-        if (validateStep(currentStep) && currentStep < 4) {
+        if (validateStep(currentStep) && currentStep < 3) {
             setCurrentStep(currentStep + 1)
             setError(null)
         }
@@ -225,11 +127,6 @@ export default function RegisterPage() {
                     password: formData.password,
                     firstName: formData.firstName.trim(),
                     lastName: formData.lastName.trim(),
-                    pillarResponses: registrationQuestions.map((q, i) => ({
-                        questionId: q.questionId,
-                        pillar: q.pillar,
-                        value: parseInt(formData.reflections[i]),
-                    })),
                     hasReadBook: formData.hasReadBook,
                     understandsFramework: formData.understandsFramework,
                     agreesToGuidelines: formData.agreesToGuidelines,
@@ -445,46 +342,8 @@ export default function RegisterPage() {
                                         </div>
                                     )}
 
-                                    {/* Step 2: Reflections */}
+                                    {/* Step 2: Framework */}
                                     {currentStep === 2 && (
-                                        <div>
-                                            <h2 style={{ marginBottom: 'var(--space-2)', textAlign: 'center' }}>
-                                                Reflection Questions
-                                            </h2>
-                                            <p style={{
-                                                textAlign: 'center',
-                                                color: 'var(--color-slate)',
-                                                marginBottom: 'var(--space-8)'
-                                            }}>
-                                                These questions help us understand where you are in your journey.
-                                            </p>
-
-                                            {registrationQuestions.map((q, index) => (
-                                                <div key={q.id} className="form-group">
-                                                    <label className="form-label">
-                                                        {index + 1}. {q.question}
-                                                    </label>
-                                                    <select
-                                                        className="form-input"
-                                                        value={formData.reflections[index]}
-                                                        onChange={(e) => updateReflection(index, e.target.value)}
-                                                        required
-                                                        disabled={isLoading}
-                                                    >
-                                                        <option value="">Select an answer...</option>
-                                                        {q.options.map((option, optIdx) => (
-                                                            <option key={optIdx} value={String(optIdx + 1)}>
-                                                                {option}
-                                                            </option>
-                                                        ))}
-                                                    </select>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-
-                                    {/* Step 3: Framework */}
-                                    {currentStep === 3 && (
                                         <div>
                                             <h2 style={{ marginBottom: 'var(--space-2)', textAlign: 'center' }}>
                                                 The Relationship Fitness Framework
@@ -576,8 +435,8 @@ export default function RegisterPage() {
                                         </div>
                                     )}
 
-                                    {/* Step 4: Agreement */}
-                                    {currentStep === 4 && (
+                                    {/* Step 3: Agreement */}
+                                    {currentStep === 3 && (
                                         <div>
                                             <h2 style={{ marginBottom: 'var(--space-2)', textAlign: 'center' }}>
                                                 Community Agreement
@@ -692,7 +551,7 @@ export default function RegisterPage() {
                                             <div />
                                         )}
 
-                                        {currentStep < 4 ? (
+                                        {currentStep < 3 ? (
                                             <button
                                                 type="button"
                                                 onClick={nextStep}

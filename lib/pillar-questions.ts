@@ -31,7 +31,7 @@ export const PILLARS: PillarDef[] = [
         weight: 30,
         questions: [
             {
-                id: 'spiritual_1',
+                id: 'spiritual_faith_centrality',
                 pillar: 'SPIRITUAL',
                 text: 'My Christian faith is best described as:',
                 options: opts([
@@ -43,7 +43,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'spiritual_2',
+                id: 'spiritual_practice',
                 pillar: 'SPIRITUAL',
                 text: 'My current spiritual practices are best described as:',
                 options: opts([
@@ -55,7 +55,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'spiritual_3',
+                id: 'spiritual_community',
                 pillar: 'SPIRITUAL',
                 text: 'My faith is lived out in community primarily by how I engage with church and others:',
                 options: opts([
@@ -67,7 +67,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'spiritual_4',
+                id: 'spiritual_faith_in_relationships',
                 pillar: 'SPIRITUAL',
                 text: 'My approach to faith within relationships is best described as:',
                 options: opts([
@@ -79,7 +79,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'spiritual_5',
+                id: 'spiritual_direction',
                 pillar: 'SPIRITUAL',
                 text: 'Right now, my spiritual journey is best described as:',
                 options: opts([
@@ -88,6 +88,18 @@ export const PILLARS: PillarDef[] = [
                     'Growing but inconsistent',
                     'Rebuilding after life changes',
                     'Early in my faith journey',
+                ]),
+            },
+            {
+                id: 'spiritual_friends_faith',
+                pillar: 'SPIRITUAL',
+                text: 'My closest friends would describe my faith as:',
+                options: opts([
+                    'Deeply rooted. It shows in everything I do',
+                    'Active and growing. I am consistent and intentional',
+                    'Present but inconsistent. I have room to grow',
+                    'Developing. I am still finding my foundation',
+                    'Not a current priority in my life',
                 ]),
             },
         ],
@@ -99,7 +111,7 @@ export const PILLARS: PillarDef[] = [
         weight: 15,
         questions: [
             {
-                id: 'financial_1',
+                id: 'financial_stability',
                 pillar: 'FINANCIAL',
                 text: 'My current financial stability is best described as:',
                 options: opts([
@@ -111,7 +123,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'financial_2',
+                id: 'financial_discipline',
                 pillar: 'FINANCIAL',
                 text: 'My approach to budgeting and spending is best described as:',
                 options: opts([
@@ -123,7 +135,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'financial_3',
+                id: 'financial_debt',
                 pillar: 'FINANCIAL',
                 text: 'My relationship with debt is best described as:',
                 options: opts([
@@ -135,7 +147,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'financial_4',
+                id: 'financial_mindset',
                 pillar: 'FINANCIAL',
                 text: 'My mindset toward money and responsibility is best described as:',
                 options: opts([
@@ -147,7 +159,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'financial_5',
+                id: 'financial_direction',
                 pillar: 'FINANCIAL',
                 text: 'Right now, my financial journey is best described as:',
                 options: opts([
@@ -156,6 +168,18 @@ export const PILLARS: PillarDef[] = [
                     'Improving but inconsistent',
                     'Rebuilding after setbacks',
                     'Early in learning financial skills',
+                ]),
+            },
+            {
+                id: 'financial_friends_money',
+                pillar: 'FINANCIAL',
+                text: 'My closest friends would describe how I handle money as:',
+                options: opts([
+                    'Responsible and intentional. I have a plan',
+                    'Generally disciplined. I make mostly good decisions',
+                    'Getting better. I am more aware than I used to be',
+                    'Inconsistent. I struggle with financial discipline',
+                    'A work in progress. This is an area I need to develop',
                 ]),
             },
         ],
@@ -167,7 +191,7 @@ export const PILLARS: PillarDef[] = [
         weight: 10,
         questions: [
             {
-                id: 'physical_1',
+                id: 'physical_activity',
                 pillar: 'PHYSICAL',
                 text: 'My current level of physical activity is best described as:',
                 options: opts([
@@ -179,7 +203,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'physical_2',
+                id: 'physical_health_care',
                 pillar: 'PHYSICAL',
                 text: 'My approach to caring for my health is best described as:',
                 options: opts([
@@ -191,7 +215,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'physical_3',
+                id: 'physical_nutrition',
                 pillar: 'PHYSICAL',
                 text: 'My eating habits are best described as:',
                 options: opts([
@@ -203,7 +227,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'physical_4',
+                id: 'physical_consistency',
                 pillar: 'PHYSICAL',
                 text: 'My consistency with health and fitness habits is best described as:',
                 options: opts([
@@ -215,7 +239,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'physical_5',
+                id: 'physical_direction',
                 pillar: 'PHYSICAL',
                 text: 'Right now, my physical fitness journey is best described as:',
                 options: opts([
@@ -224,6 +248,18 @@ export const PILLARS: PillarDef[] = [
                     'Improving but inconsistent',
                     'Rebuilding after injury or life changes',
                     'Early in getting started',
+                ]),
+            },
+            {
+                id: 'physical_friends_fitness',
+                pillar: 'PHYSICAL',
+                text: 'My closest friends would describe my current physical fitness as:',
+                options: opts([
+                    'Disciplined and consistent. I take it seriously',
+                    'Active and intentional. I make it a priority',
+                    'Somewhat active. I could be more consistent',
+                    'Inconsistent. I go through phases',
+                    'Not a current focus in my life',
                 ]),
             },
         ],
@@ -235,7 +271,7 @@ export const PILLARS: PillarDef[] = [
         weight: 20,
         questions: [
             {
-                id: 'mental_1',
+                id: 'mental_perspective',
                 pillar: 'MENTAL',
                 text: 'My overall perspective on life is best described as:',
                 options: opts([
@@ -247,7 +283,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'mental_2',
+                id: 'mental_emotional_response',
                 pillar: 'MENTAL',
                 text: 'My approach to emotional responses is best described as:',
                 options: opts([
@@ -259,7 +295,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'mental_3',
+                id: 'mental_accountability',
                 pillar: 'MENTAL',
                 text: 'My approach to responsibility is best described as:',
                 options: opts([
@@ -271,7 +307,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'mental_4',
+                id: 'mental_conflict',
                 pillar: 'MENTAL',
                 text: 'My approach to conflict is best described as:',
                 options: opts([
@@ -283,7 +319,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'mental_5',
+                id: 'mental_direction',
                 pillar: 'MENTAL',
                 text: 'Right now, my mental and emotional direction is best described as:',
                 options: opts([
@@ -292,6 +328,18 @@ export const PILLARS: PillarDef[] = [
                     'Improving but inconsistent',
                     'Rebuilding after challenges',
                     'Early in developing emotional maturity',
+                ]),
+            },
+            {
+                id: 'mental_friends_emotional_maturity',
+                pillar: 'MENTAL',
+                text: 'My closest friends would describe my emotional maturity as:',
+                options: opts([
+                    'Grounded and self-aware. I handle hard things well',
+                    'Mostly mature. I manage well with occasional struggles',
+                    'Growing. I am better than I used to be',
+                    'Inconsistent. I am still working through some things',
+                    'A work in progress. This is an area I need to develop',
                 ]),
             },
         ],
@@ -303,7 +351,7 @@ export const PILLARS: PillarDef[] = [
         weight: 5,
         questions: [
             {
-                id: 'appearance_1',
+                id: 'appearance_dress',
                 pillar: 'APPEARANCE',
                 text: 'My approach to how I dress is best described as:',
                 options: opts([
@@ -315,7 +363,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'appearance_2',
+                id: 'appearance_grooming',
                 pillar: 'APPEARANCE',
                 text: 'My daily grooming and hygiene are best described as:',
                 options: opts([
@@ -327,7 +375,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'appearance_3',
+                id: 'appearance_effort',
                 pillar: 'APPEARANCE',
                 text: 'The effort I put into my appearance is best described as:',
                 options: opts([
@@ -339,7 +387,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'appearance_4',
+                id: 'appearance_consistency',
                 pillar: 'APPEARANCE',
                 text: 'How consistent I am with my appearance is best described as:',
                 options: opts([
@@ -351,7 +399,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'appearance_5',
+                id: 'appearance_direction',
                 pillar: 'APPEARANCE',
                 text: 'Right now, my appearance is best described as:',
                 options: opts([
@@ -360,6 +408,18 @@ export const PILLARS: PillarDef[] = [
                     'I am improving',
                     'Inconsistent but working on it',
                     'Not currently focused on this area',
+                ]),
+            },
+            {
+                id: 'appearance_friends_presentation',
+                pillar: 'APPEARANCE',
+                text: 'My closest friends would describe how I present and carry myself as:',
+                options: opts([
+                    'Polished and intentional. I always show up well',
+                    'Put together. I take pride in how I present myself',
+                    'Casual but clean. I am aware but relaxed',
+                    'Comfortable focused. I prioritize comfort',
+                    'Inconsistent. It depends on the day',
                 ]),
             },
         ],
@@ -371,7 +431,7 @@ export const PILLARS: PillarDef[] = [
         weight: 20,
         questions: [
             {
-                id: 'intimacy_1',
+                id: 'intimacy_meaning',
                 pillar: 'INTIMACY',
                 text: 'To me, intimacy is best described as:',
                 options: opts([
@@ -383,7 +443,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'intimacy_2',
+                id: 'intimacy_emotional_closeness',
                 pillar: 'INTIMACY',
                 text: 'When it comes to emotional closeness, I:',
                 options: opts([
@@ -395,7 +455,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'intimacy_3',
+                id: 'intimacy_boundaries',
                 pillar: 'INTIMACY',
                 text: 'My approach to physical boundaries is best described as:',
                 options: opts([
@@ -407,7 +467,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'intimacy_4',
+                id: 'intimacy_pace',
                 pillar: 'INTIMACY',
                 text: 'My preferred pace toward intimacy is:',
                 options: opts([
@@ -419,7 +479,7 @@ export const PILLARS: PillarDef[] = [
                 ]),
             },
             {
-                id: 'intimacy_5',
+                id: 'intimacy_direction',
                 pillar: 'INTIMACY',
                 text: 'Right now, my intimacy journey is best described as:',
                 options: opts([
@@ -428,6 +488,18 @@ export const PILLARS: PillarDef[] = [
                     'Improving with awareness',
                     'Rebuilding after past experiences',
                     'Early in developing healthy intimacy',
+                ]),
+            },
+            {
+                id: 'intimacy_friends_boundaries',
+                pillar: 'INTIMACY',
+                text: 'My closest friends would describe my approach to relationships and boundaries as:',
+                options: opts([
+                    'Intentional and mature. I move with purpose and clarity',
+                    'Thoughtful. I value emotional safety and trust',
+                    'Still developing. I am learning what healthy looks like',
+                    'Inconsistent. I have patterns I am working through',
+                    'A work in progress. This is an area I need to grow in',
                 ]),
             },
         ],

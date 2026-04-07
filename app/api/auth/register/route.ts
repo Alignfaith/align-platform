@@ -16,7 +16,7 @@ const registerSchema = z.object({
   password: passwordSchema,
   firstName: nameSchema,
   lastName: nameSchema,
-  pillarResponses: z.array(pillarResponseSchema).length(6, 'Exactly 6 responses required'),
+  pillarResponses: z.array(pillarResponseSchema).optional(),
   hasReadBook: z.boolean(),
   understandsFramework: z.boolean(),
   agreesToGuidelines: z.boolean(),
@@ -93,15 +93,17 @@ export async function POST(req: NextRequest) {
               understandsFramework: data.understandsFramework,
               agreesToGuidelines: data.agreesToGuidelines,
               agreesToTerms: data.agreesToTerms,
-              pillarResponses: {
-                createMany: {
-                  data: data.pillarResponses.map((r) => ({
-                    questionId: r.questionId,
-                    pillar: r.pillar,
-                    value: r.value,
-                  })),
+              ...(data.pillarResponses?.length ? {
+                pillarResponses: {
+                  createMany: {
+                    data: data.pillarResponses.map((r) => ({
+                      questionId: r.questionId,
+                      pillar: r.pillar,
+                      value: r.value,
+                    })),
+                  },
                 },
-              },
+              } : {}),
             },
           },
         },

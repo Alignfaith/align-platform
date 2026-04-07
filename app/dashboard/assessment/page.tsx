@@ -65,6 +65,7 @@ function AssessmentPageInner() {
     const searchParams = useSearchParams()
     const isOnboarding = searchParams.get('onboarding') === '1'
 
+    const totalQuestions = PILLARS.reduce((sum, p) => sum + p.questions.length, 0)
     const [step, setStep] = useState(0) // 0–5 = pillars, 6 = summary
     const [answers, setAnswers] = useState<Answers>({})
     const [submitting, setSubmitting] = useState(false)
@@ -181,7 +182,7 @@ function AssessmentPageInner() {
                                 {isSummary ? 'Summary' : `Pillar ${step + 1} of ${totalPillars}`}
                             </span>
                             <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)' }}>
-                                {isSummary ? '30 / 30 answered' : `${Object.keys(answers).length} / 30 answered`}
+                                {isSummary ? `${totalQuestions} / ${totalQuestions} answered` : `${Object.keys(answers).length} / ${totalQuestions} answered`}
                             </span>
                         </div>
                         <div style={{ height: '6px', borderRadius: '3px', background: 'var(--color-border-subtle)', overflow: 'hidden' }}>
