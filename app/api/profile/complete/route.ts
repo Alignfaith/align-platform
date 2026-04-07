@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { authOptions } from '@/lib/auth'
 import { handleApiError, AuthenticationError, ValidationError } from '@/lib/errors'
+import { moderationGate } from '@/lib/moderation-gate'
 import { calculateAge, isValidAge } from '@/lib/security'
 
 // New schema with pillarResponses (30 individual questions)
@@ -47,6 +48,12 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json()
     const data = profileCompleteSchema.parse(body)
+
+    // AI moderation check on bio if provided
+    if (data.bio) {
+      const mod = await moderationGate(data.bio, 'bio')
+      if (mod.blocked) throw new ValidationError(mod.reason)
+    }
 
     // Find existing profile
     const existingProfile = await prisma.profile.findUnique({

@@ -3,7 +3,8 @@ import { getServerSession } from 'next-auth'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { authOptions } from '@/lib/auth'
-import { handleApiError, AuthenticationError, NotFoundError } from '@/lib/errors'
+import { handleApiError, AuthenticationError, NotFoundError, ValidationError } from '@/lib/errors'
+import { moderationGate } from '@/lib/moderation-gate'
 
 const updateSchema = z.object({
   displayName: z.string().max(60).optional(),
@@ -24,6 +25,12 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json()
     const data = updateSchema.parse(body)
+
+    // AI moderation check on bio if provided
+    if (data.bio) {
+      const mod = await moderationGate(data.bio, 'bio')
+      if (mod.blocked) throw new ValidationError(mod.reason)
+    }
 
     const existing = await prisma.profile.findUnique({ where: { userId: session.user.id }, select: { id: true } })
     if (!existing) throw new NotFoundError('Profile not found')

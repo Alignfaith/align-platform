@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { authOptions } from '@/lib/auth'
 import { handleApiError, AuthenticationError, ValidationError } from '@/lib/errors'
+import { moderationGate } from '@/lib/moderation-gate'
 
 const growthPostSchema = z.object({
     pillar: z.enum(['SPIRITUAL', 'MENTAL', 'PHYSICAL', 'FINANCIAL', 'APPEARANCE', 'INTIMACY']),
@@ -21,6 +22,12 @@ export async function POST(req: NextRequest) {
 
         const body = await req.json()
         const data = growthPostSchema.parse(body)
+
+        // AI moderation check
+        const mod = await moderationGate(data.content, 'reflection')
+        if (mod.blocked) {
+            throw new ValidationError(mod.reason)
+        }
 
         // Find user profile
         const profile = await prisma.profile.findUnique({
