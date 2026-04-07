@@ -15,36 +15,84 @@ const steps = [
     { id: 4, name: 'Agreement', icon: Shield },
 ]
 
-const reflectionQuestions = [
+const registrationQuestions = [
     {
         id: 1,
-        question: 'What does preparation before pursuit mean to you in relationships?',
-        placeholder: 'Share your thoughts on why preparation matters before entering a relationship...',
+        pillar: 'SPIRITUAL',
+        questionId: 'spiritual_daily_disciplines',
+        question: 'My daily spiritual disciplines right now are best described as:',
+        options: [
+            'Daily. Bible, prayer, and worship are part of my routine',
+            'Most days. I am consistent but not perfect',
+            'Several times a week. I am building the habit',
+            'Occasionally. I am working on being more intentional',
+            'Rarely. This is an area I want to grow in',
+        ],
     },
     {
         id: 2,
-        question: 'Which of the Six Pillars do you most need to grow in right now, and why?',
-        placeholder: 'Consider: Spiritual, Mental, Physical, Financial, Appearance, or Intimacy Fitness...',
+        pillar: 'MENTAL',
+        questionId: 'mental_self_awareness',
+        question: 'My level of self-awareness and willingness to receive honest feedback is:',
+        options: [
+            'High. I actively seek feedback and apply it',
+            'Growing. I receive it well most of the time',
+            'Developing. I hear it but struggle to apply it',
+            'Inconsistent. Depends on the source and topic',
+            'Low. This is an area I am working on',
+        ],
     },
     {
         id: 3,
-        question: 'How does your faith, or willingness to grow in Christian faith, influence how you approach relationships?',
-        placeholder: 'Share how your faith journey shapes your perspective on relationships...',
+        pillar: 'INTIMACY',
+        questionId: 'intimacy_what_brought_me',
+        question: 'What brought me to Align at this point in my life:',
+        options: [
+            'I feel ready and prepared for a relationship',
+            'I am in active preparation and growing',
+            'I am rebuilding after a past relationship',
+            'I felt led here and I am trusting the process',
+            'I am exploring what intentional dating looks like',
+        ],
     },
     {
         id: 4,
-        question: 'How do you currently steward your mental and emotional health? What practices help you stay grounded?',
-        placeholder: 'Describe habits like therapy, journaling, prayer, mentorship, or other disciplines you use to maintain mental fitness...',
+        pillar: 'FINANCIAL',
+        questionId: 'financial_goal_progress',
+        question: 'I am actively working toward a specific financial goal:',
+        options: [
+            'Yes. I have a clear plan and I am executing it',
+            'Yes. I have a goal but my plan needs work',
+            'Somewhat. I am moving forward but inconsistently',
+            'Not yet. I am still figuring out my finances',
+            'This is an area I know I need to develop',
+        ],
     },
     {
         id: 5,
-        question: 'Describe your current approach to physical health and self-care. How does honoring your body connect to your faith and relational readiness?',
-        placeholder: 'Share how you steward your physical health through exercise, rest, nutrition, and intentional self-presentation...',
+        pillar: 'PHYSICAL',
+        questionId: 'physical_weekly_routine',
+        question: 'I have a consistent weekly routine I actually follow:',
+        options: [
+            'Yes. I follow it almost every week',
+            'Most weeks. I am consistent more than not',
+            'Sometimes. I go through consistent and inconsistent phases',
+            'Rarely. I have a routine but struggle to stick to it',
+            'Not yet. I am still building one',
+        ],
     },
     {
         id: 6,
-        question: 'Where are you in your financial stewardship journey, and how are you building stability for your future?',
-        placeholder: 'Describe your current financial habits, goals, and how you are preparing financially for a committed relationship...',
+        pillar: 'APPEARANCE',
+        questionId: 'appearance_carry_myself',
+        question: 'The people closest to me would describe how I carry myself as:',
+        options: [
+            'Polished and intentional. I always show up well',
+            'Put together. I take pride in my appearance',
+            'Casual but clean. I am aware but relaxed about it',
+            'Comfortable. I prioritize comfort over appearance',
+            'Inconsistent. It depends on the day',
+        ],
     },
 ]
 
@@ -119,8 +167,8 @@ export default function RegisterPage() {
                 return true
             case 2:
                 for (let i = 0; i < formData.reflections.length; i++) {
-                    if (formData.reflections[i].length < 50) {
-                        setError(`Reflection ${i + 1} must be at least 50 characters`)
+                    if (!formData.reflections[i]) {
+                        setError(`Please answer question ${i + 1}`)
                         return false
                     }
                 }
@@ -177,7 +225,11 @@ export default function RegisterPage() {
                     password: formData.password,
                     firstName: formData.firstName.trim(),
                     lastName: formData.lastName.trim(),
-                    reflections: formData.reflections,
+                    pillarResponses: registrationQuestions.map((q, i) => ({
+                        questionId: q.questionId,
+                        pillar: q.pillar,
+                        value: parseInt(formData.reflections[i]),
+                    })),
                     hasReadBook: formData.hasReadBook,
                     understandsFramework: formData.understandsFramework,
                     agreesToGuidelines: formData.agreesToGuidelines,
@@ -404,26 +456,28 @@ export default function RegisterPage() {
                                                 color: 'var(--color-slate)',
                                                 marginBottom: 'var(--space-8)'
                                             }}>
-                                                These reflections help us understand your readiness and commitment.
+                                                These questions help us understand where you are in your journey.
                                             </p>
 
-                                            {reflectionQuestions.map((q, index) => (
+                                            {registrationQuestions.map((q, index) => (
                                                 <div key={q.id} className="form-group">
                                                     <label className="form-label">
                                                         {index + 1}. {q.question}
                                                     </label>
-                                                    <textarea
-                                                        className="form-input form-textarea"
-                                                        placeholder={q.placeholder}
+                                                    <select
+                                                        className="form-input"
                                                         value={formData.reflections[index]}
                                                         onChange={(e) => updateReflection(index, e.target.value)}
                                                         required
-                                                        minLength={50}
                                                         disabled={isLoading}
-                                                    />
-                                                    <p className="form-hint">
-                                                        {formData.reflections[index].length}/50 characters minimum
-                                                    </p>
+                                                    >
+                                                        <option value="">Select an answer...</option>
+                                                        {q.options.map((option, optIdx) => (
+                                                            <option key={optIdx} value={String(optIdx + 1)}>
+                                                                {option}
+                                                            </option>
+                                                        ))}
+                                                    </select>
                                                 </div>
                                             ))}
                                         </div>

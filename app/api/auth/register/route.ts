@@ -5,14 +5,18 @@ import { Prisma } from '@prisma/client'
 import { hashPassword, emailSchema, passwordSchema, nameSchema, generateInviteCode } from '@/lib/security'
 import { handleApiError, ConflictError, ValidationError } from '@/lib/errors'
 
+const pillarResponseSchema = z.object({
+  questionId: z.string(),
+  pillar: z.enum(['SPIRITUAL', 'MENTAL', 'PHYSICAL', 'FINANCIAL', 'APPEARANCE', 'INTIMACY']),
+  value: z.number().int().min(1).max(5),
+})
+
 const registerSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
   firstName: nameSchema,
   lastName: nameSchema,
-  reflections: z
-    .array(z.string().min(50, 'Each reflection must be at least 50 characters'))
-    .length(6, 'Exactly 6 reflections required'),
+  pillarResponses: z.array(pillarResponseSchema).length(6, 'Exactly 6 responses required'),
   hasReadBook: z.boolean(),
   understandsFramework: z.boolean(),
   agreesToGuidelines: z.boolean(),
@@ -89,11 +93,12 @@ export async function POST(req: NextRequest) {
               understandsFramework: data.understandsFramework,
               agreesToGuidelines: data.agreesToGuidelines,
               agreesToTerms: data.agreesToTerms,
-              reflections: {
+              pillarResponses: {
                 createMany: {
-                  data: data.reflections.map((answer, index) => ({
-                    questionId: index + 1,
-                    answer,
+                  data: data.pillarResponses.map((r) => ({
+                    questionId: r.questionId,
+                    pillar: r.pillar,
+                    value: r.value,
                   })),
                 },
               },
