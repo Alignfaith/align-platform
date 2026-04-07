@@ -110,11 +110,16 @@ export default function ReflectionEngine() {
 
                 {error && <p style={{ color: '#B91C1C', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-4)' }}>{error}</p>}
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <button type="button" className="btn btn--glass btn--sm" style={{ padding: 'var(--space-2) var(--space-4)' }}>
-                        <ImageIcon size={16} />
-                        Add Photo
-                    </button>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div>
+                        <button type="button" className="btn btn--glass btn--sm" style={{ padding: 'var(--space-2) var(--space-4)' }}>
+                            <ImageIcon size={16} />
+                            Add Proof of Growth Photo
+                        </button>
+                        <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)', marginTop: 'var(--space-1)', marginBottom: 0 }}>
+                            Share a photo that shows your growth in action this week.
+                        </p>
+                    </div>
 
                     <button
                         type="submit"
