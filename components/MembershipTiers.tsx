@@ -29,7 +29,7 @@ const tiers = [
         period: '/month',
         features: [
             { text: 'Everything in Free', included: true },
-            { text: 'View other members through pillar system', included: true },
+            { text: 'View other members', included: true },
             { text: 'Limited daily connection requests', included: true },
             { text: 'Messaging after mutual interest', included: true },
             { text: 'Weekly pillar prompts & challenges', included: true },
@@ -48,12 +48,12 @@ const tiers = [
         period: '/month',
         features: [
             { text: 'Everything in Tier 1', included: true },
-            { text: 'Priority placement in discovery', included: true },
+            { text: 'Priority placement', included: true },
             { text: 'Advanced pillar alignment filters', included: true },
             { text: 'Higher daily connection limits', included: true },
             { text: 'Enhanced messaging features', included: true },
             { text: 'Group teachings & live sessions', included: true },
-            { text: 'Access to events (Phase 2)', included: true },
+            { text: 'Access to events', included: true },
             { text: 'Priority support', included: true },
         ],
         cta: 'Choose Tier 2',

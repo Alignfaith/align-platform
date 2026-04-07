@@ -30,21 +30,21 @@ export async function GET() {
         name: 'Free',
         userCount: freeCt,
         price: configMap['tier_free_price'] || '0',
-        features: configMap['tier_free_features'] || 'Basic matching, limited messages',
+        features: configMap['tier_free_features'] || 'Create account, complete onboarding, complete required reflections, access Six Pillars privately, understand the framework',
       },
       {
         id: 'TIER_1',
         name: 'Tier 1',
         userCount: tier1Ct,
-        price: configMap['tier_1_price'] || '9.99',
-        features: configMap['tier_1_features'] || 'Unlimited messages, advanced matching, growth posts',
+        price: configMap['tier_1_price'] || '29.99',
+        features: configMap['tier_1_features'] || 'Everything in Free, view other members, limited daily connection requests, messaging after mutual interest, weekly pillar prompts & challenges, private pillar engagement, FREE copy of Relationship Fitness book',
       },
       {
         id: 'TIER_2',
         name: 'Tier 2',
         userCount: tier2Ct,
-        price: configMap['tier_2_price'] || '19.99',
-        features: configMap['tier_2_features'] || 'All Tier 1 features, priority matching, unlimited photos',
+        price: configMap['tier_2_price'] || '39.99',
+        features: configMap['tier_2_features'] || 'Everything in Tier 1, priority placement, advanced pillar alignment filters, higher daily connection limits, enhanced messaging features, group teachings & live sessions, access to events, priority support, FREE copy of Relationship Fitness book',
       },
     ]
 
