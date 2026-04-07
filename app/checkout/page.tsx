@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Header from '@/components/Header'
 
-export default function CheckoutPage() {
+function CheckoutInner() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -44,26 +44,37 @@ export default function CheckoutPage() {
 
   if (error) {
     return (
-      <>
-        <Header />
-        <main style={{ paddingTop: 'var(--header-height)' }}>
-          <div style={{ padding: 'var(--space-20)', textAlign: 'center' }}>
-            <p style={{ color: 'var(--color-error)', marginBottom: 'var(--space-4)' }}>{error}</p>
-            <a href="/pricing" style={{ color: 'var(--color-primary)' }}>Back to pricing</a>
-          </div>
-        </main>
-      </>
+      <main style={{ paddingTop: 'var(--header-height)' }}>
+        <div style={{ padding: 'var(--space-20)', textAlign: 'center' }}>
+          <p style={{ color: 'var(--color-error)', marginBottom: 'var(--space-4)' }}>{error}</p>
+          <a href="/pricing" style={{ color: 'var(--color-primary)' }}>Back to pricing</a>
+        </div>
+      </main>
     )
   }
 
   return (
+    <main style={{ paddingTop: 'var(--header-height)' }}>
+      <div style={{ padding: 'var(--space-20)', textAlign: 'center', color: 'var(--color-slate)' }}>
+        <p>Redirecting to secure checkout...</p>
+      </div>
+    </main>
+  )
+}
+
+export default function CheckoutPage() {
+  return (
     <>
       <Header />
-      <main style={{ paddingTop: 'var(--header-height)' }}>
-        <div style={{ padding: 'var(--space-20)', textAlign: 'center', color: 'var(--color-slate)' }}>
-          <p>Redirecting to secure checkout...</p>
-        </div>
-      </main>
+      <Suspense fallback={
+        <main style={{ paddingTop: 'var(--header-height)' }}>
+          <div style={{ padding: 'var(--space-20)', textAlign: 'center', color: 'var(--color-slate)' }}>
+            <p>Loading...</p>
+          </div>
+        </main>
+      }>
+        <CheckoutInner />
+      </Suspense>
     </>
   )
 }
