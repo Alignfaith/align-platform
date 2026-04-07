@@ -153,9 +153,11 @@ export default function AlignmentStoriesPage() {
     try {
       const res = await fetch(`/api/alignment-stories?page=${p}`)
       const data = await res.json()
-      setStories(data.stories)
-      setTotal(data.total)
-      setTotalPages(data.totalPages)
+      setStories(data.stories ?? [])
+      setTotal(data.total ?? 0)
+      setTotalPages(data.totalPages ?? 1)
+    } catch {
+      setStories([])
     } finally {
       setLoading(false)
     }
