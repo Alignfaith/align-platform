@@ -108,6 +108,12 @@ enum AnnouncementTarget {
   FEMALE
 }
 
+enum StoryStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 // ==================== USER & AUTH ====================
 
 model User {
@@ -167,6 +173,9 @@ model User {
   // Reports
   reportsSubmitted Report[] @relation("ReportsSubmitted")
   reportsReceived  Report[] @relation("ReportsReceived")
+
+  // Alignment Stories
+  alignmentStories AlignmentStory[]
 
   @@index([email])
   @@index([tier])
@@ -808,4 +817,29 @@ model ModerationQueue {
   @@index([severity])
   @@index([contentType])
   @@index([createdAt])
+}
+
+// ==================== ALIGNMENT STORIES ====================
+
+model AlignmentStory {
+  id          String      @id @default(cuid())
+  userId      String
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  displayName   String      // "First name only" or custom display name
+  photoUrl      String?
+  photoPublicId String?
+  story         String      @db.Text
+
+  status          StoryStatus @default(PENDING)
+  reviewedBy      String?
+  reviewedAt      DateTime?
+  rejectionReason String?     @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+  @@index([userId])
 }

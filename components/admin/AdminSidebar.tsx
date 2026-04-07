@@ -31,6 +31,7 @@ export default function AdminSidebar({ pendingPhotos = 0, openReports = 0, pendi
     { label: 'Pages', href: '/admin/pages', icon: '⊠' },
     { label: 'Communications', href: '/admin/communications', icon: '⊙' },
     { label: 'Community', href: '/admin/community', icon: '⊚' },
+    { label: 'Stories', href: '/admin/alignment-stories', icon: '⊕' },
     { label: 'Settings', href: '/admin/settings', icon: '⊗' },
     { label: 'Audit Log', href: '/admin/audit-log', icon: '⊟' },
   ]
