@@ -18,8 +18,8 @@ export default function Footer() {
                     <div>
                         <h4 className="footer__section-title">Platform</h4>
                         <ul className="footer__links">
-                            <li><Link href="/about" className="footer__link">About</Link></li>
-                            <li><Link href="/framework" className="footer__link">The Framework</Link></li>
+                            <li><Link href="/p/about" className="footer__link">About</Link></li>
+                            <li><Link href="/p/the-framework" className="footer__link">The Framework</Link></li>
                             <li><Link href="/pricing" className="footer__link">Membership</Link></li>
                             <li><Link href="/register" className="footer__link">Get Started</Link></li>
                         </ul>
@@ -30,7 +30,7 @@ export default function Footer() {
                         <ul className="footer__links">
                             <li><Link href="/book" className="footer__link">The Book</Link></li>
                             <li><Link href="/pillars" className="footer__link">Six Pillars</Link></li>
-                            <li><Link href="/faq" className="footer__link">FAQ</Link></li>
+                            <li><Link href="/p/faq" className="footer__link">FAQ</Link></li>
                             <li><Link href="/contact" className="footer__link">Contact</Link></li>
                         </ul>
                     </div>
@@ -38,9 +38,9 @@ export default function Footer() {
                     <div>
                         <h4 className="footer__section-title">Legal</h4>
                         <ul className="footer__links">
-                            <li><Link href="/terms" className="footer__link">Terms of Service</Link></li>
-                            <li><Link href="/privacy" className="footer__link">Privacy Policy</Link></li>
-                            <li><Link href="/guidelines" className="footer__link">Community Guidelines</Link></li>
+                            <li><Link href="/p/terms-of-service" className="footer__link">Terms of Service</Link></li>
+                            <li><Link href="/p/privacy-policy" className="footer__link">Privacy Policy</Link></li>
+                            <li><Link href="/p/community-guidelines" className="footer__link">Community Guidelines</Link></li>
                         </ul>
                     </div>
                 </div>
