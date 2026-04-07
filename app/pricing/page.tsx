@@ -43,7 +43,7 @@ export default function PricingPage() {
                                 justifyContent: 'center',
                             }}>
                                 <a
-                                    href="https://a.co/d/0ga6eAg8"
+                                    href="https://a.co/d/0cgkpmBw"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     style={{ display: 'block' }}

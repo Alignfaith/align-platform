@@ -75,7 +75,7 @@ export default function BookPage() {
                                 </p>
                                 <div style={{ display: 'flex', gap: 'var(--space-4)', flexWrap: 'wrap' }}>
                                     <a
-                                        href="https://www.amazon.com/dp/B0DRNQZZ5M"
+                                        href="https://a.co/d/0cgkpmBw"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="btn btn--white btn--lg"
@@ -248,7 +248,7 @@ export default function BookPage() {
                             Start your journey to becoming relationship-ready.
                         </p>
                         <a
-                            href="https://www.amazon.com/dp/B0DRNQZZ5M"
+                            href="https://a.co/d/0cgkpmBw"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn btn--white btn--lg"
