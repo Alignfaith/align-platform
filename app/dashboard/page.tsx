@@ -128,21 +128,6 @@ export default function DashboardPage() {
                                 {/* Reflection Engine */}
                                 <ReflectionEngine />
 
-                                {/* Growth Feed Placeholder */}
-                                <div className="card" style={{ padding: 'var(--space-6)' }}>
-                                    <h3 style={{ marginBottom: 'var(--space-4)' }}>Weekly Proof of Growth</h3>
-                                    <div style={{
-                                        padding: 'var(--space-12)',
-                                        textAlign: 'center',
-                                        backgroundColor: 'rgba(0,0,0,0.02)',
-                                        borderRadius: 'var(--radius-md)',
-                                        border: '2px dashed var(--color-rose-light)'
-                                    }}>
-                                        <p style={{ color: 'var(--color-slate)', marginBottom: 0 }}>
-                                            Your proof of growth updates will appear here.
-                                        </p>
-                                    </div>
-                                </div>
                             </div>
 
                             {/* Right Column: Status & Navigation */}
