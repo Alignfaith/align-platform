@@ -59,8 +59,8 @@ async function main() {
   console.log(`  User ID:  ${user.id}`)
   console.log(`  Temp PW:  ${tempPassword}`)
   console.log('')
-  console.log('  Login:     https://rootedalign.fly.dev/login')
-  console.log('  Dashboard: https://rootedalign.fly.dev/admin')
+  console.log('  Login:     https://app.alignfaith.com/login')
+  console.log('  Dashboard: https://app.alignfaith.com/admin')
   console.log('')
   console.log('Password change will be required on first login.')
 }
