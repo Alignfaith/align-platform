@@ -285,19 +285,19 @@ export default function MatchesPage() {
                                 <div>
                                     <h5 style={{ color: 'var(--color-primary)' }}>Phase 1: Alignment</h5>
                                     <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-slate)', marginBottom: 0 }}>
-                                        See basic info, location, and alignment scores. Photos are blurred to focus on character.
+                                        See basic info, location, and alignment scores. Photos are blurred to keep the focus on character.
                                     </p>
                                 </div>
                                 <div>
                                     <h5 style={{ color: 'var(--color-primary)' }}>Phase 2: Engagement</h5>
                                     <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-slate)', marginBottom: 0 }}>
-                                        Exchanging interests and sharing proof of growth. Photos become slightly clearer.
+                                        Exchange interests and share proof of growth. Photos become slightly clearer as engagement deepens.
                                     </p>
                                 </div>
                                 <div>
                                     <h5 style={{ color: 'var(--color-primary)' }}>Phase 3: Connection</h5>
                                     <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-slate)', marginBottom: 0 }}>
-                                        One-on-one communication unlocked. Full profiles and clear photos revealed.
+                                        One-on-one communication unlocked. Full profiles and clear photos are revealed.
                                     </p>
                                 </div>
                             </div>

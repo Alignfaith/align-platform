@@ -53,7 +53,7 @@ const tiers = [
             { text: 'Higher daily connection limits', included: true },
             { text: 'Enhanced messaging features', included: true },
             { text: 'Group teachings & live sessions', included: true },
-            { text: 'Access to events (Phase Two)', included: true },
+            { text: 'Access to events (Phase 2)', included: true },
             { text: 'Priority support', included: true },
         ],
         cta: 'Choose Tier 2',
