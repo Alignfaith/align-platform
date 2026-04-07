@@ -1,7 +1,7 @@
 'use client'
 
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -9,6 +9,27 @@ import { User, Heart, MessageCircle, Settings, Crown, Users, Shield, BookOpen, B
 import Link from 'next/link'
 
 import ReflectionEngine from '@/components/ReflectionEngine'
+
+function ManageSubscriptionButton() {
+    const [loading, setLoading] = useState(false)
+    const handleClick = async () => {
+        setLoading(true)
+        const res = await fetch('/api/stripe/portal', { method: 'POST' })
+        const data = await res.json()
+        if (data.url) window.location.href = data.url
+        else setLoading(false)
+    }
+    return (
+        <button
+            onClick={handleClick}
+            disabled={loading}
+            className="btn btn--secondary btn--sm"
+            style={{ width: '100%', textAlign: 'center', cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.6 : 1 }}
+        >
+            {loading ? 'Loading...' : 'Manage Subscription'}
+        </button>
+    )
+}
 import { PILLARS, pillarDisplayScore } from '@/lib/pillar-questions'
 import type { PillarKey } from '@/lib/pillar-questions'
 
@@ -54,6 +75,8 @@ interface AssessmentSummary {
 export default function DashboardPage() {
     const { data: session, status } = useSession()
     const router = useRouter()
+    const searchParams = useSearchParams()
+    const subscriptionSuccess = searchParams.get('subscription') === 'success'
     const [latestAssessment, setLatestAssessment] = useState<AssessmentSummary | null | undefined>(undefined)
     const [reflections, setReflections] = useState<GrowthPost[] | null>(null)
     const [showAllReflections, setShowAllReflections] = useState(false)
@@ -127,6 +150,28 @@ export default function DashboardPage() {
                                 </p>
                             </div>
                         </div>
+
+                        {/* Subscription Success Banner */}
+                        {subscriptionSuccess && (
+                            <div style={{
+                                backgroundColor: '#f0fdf4',
+                                border: '2px solid #16a34a',
+                                borderRadius: 'var(--radius-lg)',
+                                padding: 'var(--space-4) var(--space-6)',
+                                marginBottom: 'var(--space-6)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 'var(--space-3)',
+                            }}>
+                                <span style={{ fontSize: '20px' }}>🎉</span>
+                                <div>
+                                    <strong style={{ color: '#15803d' }}>Welcome to your membership!</strong>
+                                    <p style={{ color: '#166534', fontSize: 'var(--text-sm)', marginBottom: 0 }}>
+                                        Your subscription is now active. Your tier will update shortly — refresh the page if it hasn't updated yet.
+                                    </p>
+                                </div>
+                            </div>
+                        )}
 
                         {/* Profile Incomplete Alert */}
                         {!profileComplete && (
@@ -254,9 +299,13 @@ export default function DashboardPage() {
                                         Free members are welcome to grow privately. Upgrade to unlock community features and discovery.
                                     </p>
                                 )}
-                                <Link href="/pricing" className="btn btn--secondary btn--sm" style={{ width: '100%', textAlign: 'center' }}>
-                                    {session.user.tier === 'FREE' ? 'Upgrade Training' : 'Manage Subscription'}
-                                </Link>
+                                {session.user.tier === 'FREE' ? (
+                                    <Link href="/pricing" className="btn btn--secondary btn--sm" style={{ width: '100%', textAlign: 'center' }}>
+                                        Upgrade Training
+                                    </Link>
+                                ) : (
+                                    <ManageSubscriptionButton />
+                                )}
                             </div>
 
                             {/* Six Pillar Assessment */}

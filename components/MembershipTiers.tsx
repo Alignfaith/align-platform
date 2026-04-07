@@ -27,6 +27,7 @@ const tiers = [
         subtitle: 'Member Access',
         price: '$29.99',
         period: '/month',
+        checkoutPlan: 'TIER_1',
         features: [
             { text: 'Everything in Free', included: true },
             { text: 'View other members', included: true },
@@ -46,6 +47,7 @@ const tiers = [
         subtitle: 'Full Access',
         price: '$39.99',
         period: '/month',
+        checkoutPlan: 'TIER_2',
         features: [
             { text: 'Everything in Tier 1', included: true },
             { text: 'Priority placement', included: true },
@@ -147,7 +149,7 @@ export default function MembershipTiers() {
                             </ul>
 
                             <Link
-                                href="/register"
+                                href={'checkoutPlan' in tier ? `/checkout?plan=${tier.checkoutPlan}` : '/register'}
                                 className={`btn ${tier.featured ? 'btn--primary' : 'btn--secondary'}`}
                                 style={{ width: '100%' }}
                             >
