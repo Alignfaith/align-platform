@@ -1,7 +1,9 @@
 'use client'
 
 import { useSession } from 'next-auth/react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 import { useEffect, useState } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -9,6 +11,31 @@ import { User, Heart, MessageCircle, Settings, Crown, Users, Shield, BookOpen, B
 import Link from 'next/link'
 
 import ReflectionEngine from '@/components/ReflectionEngine'
+
+function SubscriptionSuccessBanner() {
+    const searchParams = useSearchParams()
+    if (searchParams.get('subscription') !== 'success') return null
+    return (
+        <div style={{
+            backgroundColor: '#f0fdf4',
+            border: '2px solid #16a34a',
+            borderRadius: 'var(--radius-lg)',
+            padding: 'var(--space-4) var(--space-6)',
+            marginBottom: 'var(--space-6)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-3)',
+        }}>
+            <span style={{ fontSize: '20px' }}>🎉</span>
+            <div>
+                <strong style={{ color: '#15803d' }}>Welcome to your membership!</strong>
+                <p style={{ color: '#166534', fontSize: 'var(--text-sm)', marginBottom: 0 }}>
+                    Your subscription is now active. Your tier will update shortly — refresh the page if it hasn't updated yet.
+                </p>
+            </div>
+        </div>
+    )
+}
 
 function ManageSubscriptionButton() {
     const [loading, setLoading] = useState(false)
@@ -75,8 +102,6 @@ interface AssessmentSummary {
 export default function DashboardPage() {
     const { data: session, status } = useSession()
     const router = useRouter()
-    const searchParams = useSearchParams()
-    const subscriptionSuccess = searchParams.get('subscription') === 'success'
     const [latestAssessment, setLatestAssessment] = useState<AssessmentSummary | null | undefined>(undefined)
     const [reflections, setReflections] = useState<GrowthPost[] | null>(null)
     const [showAllReflections, setShowAllReflections] = useState(false)
@@ -152,26 +177,9 @@ export default function DashboardPage() {
                         </div>
 
                         {/* Subscription Success Banner */}
-                        {subscriptionSuccess && (
-                            <div style={{
-                                backgroundColor: '#f0fdf4',
-                                border: '2px solid #16a34a',
-                                borderRadius: 'var(--radius-lg)',
-                                padding: 'var(--space-4) var(--space-6)',
-                                marginBottom: 'var(--space-6)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 'var(--space-3)',
-                            }}>
-                                <span style={{ fontSize: '20px' }}>🎉</span>
-                                <div>
-                                    <strong style={{ color: '#15803d' }}>Welcome to your membership!</strong>
-                                    <p style={{ color: '#166534', fontSize: 'var(--text-sm)', marginBottom: 0 }}>
-                                        Your subscription is now active. Your tier will update shortly — refresh the page if it hasn't updated yet.
-                                    </p>
-                                </div>
-                            </div>
-                        )}
+                        <Suspense fallback={null}>
+                            <SubscriptionSuccessBanner />
+                        </Suspense>
 
                         {/* Profile Incomplete Alert */}
                         {!profileComplete && (
