@@ -4,7 +4,7 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { getStripe, getPriceId } from '@/lib/stripe'
 
-const BASE_URL = process.env.NEXTAUTH_URL || 'https://rootedalign.fly.dev'
+const BASE_URL = process.env.NEXTAUTH_URL || 'https://app.alignfaith.com'
 
 export async function POST(req: NextRequest) {
   try {
@@ -65,7 +65,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ url: checkoutSession.url })
   } catch (error) {
-    console.error('[stripe/checkout]', error)
-    return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 })
+    const message = error instanceof Error ? error.message : String(error)
+    console.error('[stripe/checkout]', message)
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }

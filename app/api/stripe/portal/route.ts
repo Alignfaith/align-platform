@@ -4,7 +4,7 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { getStripe } from '@/lib/stripe'
 
-const BASE_URL = process.env.NEXTAUTH_URL || 'https://rootedalign.fly.dev'
+const BASE_URL = process.env.NEXTAUTH_URL || 'https://app.alignfaith.com'
 
 export async function POST() {
   try {
