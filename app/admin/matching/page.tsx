@@ -18,8 +18,14 @@ export default function MatchingConfigPage() {
 
   useEffect(() => {
     fetch('/api/admin/matching/config')
-      .then((r) => r.json())
-      .then(setConfig)
+      .then(async (r) => {
+        if (!r.ok) throw new Error(`Config API returned ${r.status}`)
+        const data = await r.json()
+        if (!data?.weights || !data?.hardStopQuestions || !data?.thresholds) {
+          throw new Error('Invalid config shape')
+        }
+        setConfig(data)
+      })
       .catch(console.error)
       .finally(() => setLoading(false))
   }, [])
