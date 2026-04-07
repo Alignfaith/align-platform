@@ -661,6 +661,16 @@ model Announcement {
   @@index([startsAt])
 }
 
+model AnnouncementRead {
+  id             String   @id @default(cuid())
+  userId         String
+  announcementId String
+  readAt         DateTime @default(now())
+
+  @@unique([userId, announcementId])
+  @@index([userId])
+}
+
 // ==================== FEATURE FLAGS ====================
 
 model FeatureFlag {

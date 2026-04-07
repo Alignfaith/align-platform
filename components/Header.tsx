@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { Menu, X, Sun, Moon } from 'lucide-react'
 import { useTheme } from '@/lib/ThemeContext'
+import NotificationBell from '@/components/NotificationBell'
 
 import { useSession, signOut } from 'next-auth/react'
 
@@ -65,6 +66,12 @@ export default function Header() {
                             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
                         </button>
 
+                        {session && (
+                            <div className="desktop-only">
+                                <NotificationBell />
+                            </div>
+                        )}
+
                         <div className="header__auth desktop-only">
                             {session ? (
                                 <>
@@ -107,6 +114,10 @@ export default function Header() {
                     <div className="header__mobile-auth">
                         {session ? (
                             <>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', marginBottom: 'var(--space-2)' }}>
+                                    <NotificationBell />
+                                    <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)' }}>Announcements</span>
+                                </div>
                                 <Link href="/profile/edit" className="btn btn--secondary" onClick={closeMenu}>
                                     Profile
                                 </Link>
