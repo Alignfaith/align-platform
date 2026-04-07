@@ -7,13 +7,15 @@ export async function POST() {
   try {
     await requireAdmin()
 
-    await prisma.$executeRawUnsafe(`
-      DO $$ BEGIN
-        IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'StoryStatus') THEN
-          CREATE TYPE "StoryStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED');
-        END IF;
-      END $$;
-    `)
+    // Create enum — ignore if it already exists
+    try {
+      await prisma.$executeRawUnsafe(
+        `CREATE TYPE "StoryStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED')`
+      )
+    } catch (e: unknown) {
+      const msg = (e as { message?: string })?.message ?? ''
+      if (!msg.includes('already exists')) throw e
+    }
 
     await prisma.$executeRawUnsafe(`
       CREATE TABLE IF NOT EXISTS "AlignmentStory" (
@@ -32,18 +34,18 @@ export async function POST() {
         CONSTRAINT "AlignmentStory_pkey" PRIMARY KEY ("id"),
         CONSTRAINT "AlignmentStory_userId_fkey" FOREIGN KEY ("userId")
           REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE
-      );
+      )
     `)
 
-    await prisma.$executeRawUnsafe(`
-      CREATE INDEX IF NOT EXISTS "AlignmentStory_status_idx" ON "AlignmentStory"("status");
-    `)
-    await prisma.$executeRawUnsafe(`
-      CREATE INDEX IF NOT EXISTS "AlignmentStory_createdAt_idx" ON "AlignmentStory"("createdAt");
-    `)
-    await prisma.$executeRawUnsafe(`
-      CREATE INDEX IF NOT EXISTS "AlignmentStory_userId_idx" ON "AlignmentStory"("userId");
-    `)
+    await prisma.$executeRawUnsafe(
+      `CREATE INDEX IF NOT EXISTS "AlignmentStory_status_idx" ON "AlignmentStory"("status")`
+    )
+    await prisma.$executeRawUnsafe(
+      `CREATE INDEX IF NOT EXISTS "AlignmentStory_createdAt_idx" ON "AlignmentStory"("createdAt")`
+    )
+    await prisma.$executeRawUnsafe(
+      `CREATE INDEX IF NOT EXISTS "AlignmentStory_userId_idx" ON "AlignmentStory"("userId")`
+    )
 
     return NextResponse.json({ ok: true, message: 'AlignmentStory table created successfully' })
   } catch (error: unknown) {
