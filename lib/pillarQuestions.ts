@@ -104,6 +104,17 @@ export const PILLAR_CONFIGS: PillarConfig[] = [
                     { value: 5, label: 'Early in my faith journey' },
                 ],
             },
+            {
+                id: 'spiritual_friends_faith',
+                title: 'My closest friends would describe my faith as:',
+                options: [
+                    { value: 1, label: 'Deeply rooted. It shows in everything I do' },
+                    { value: 2, label: 'Active and growing. I am consistent and intentional' },
+                    { value: 3, label: 'Present but inconsistent. I have room to grow' },
+                    { value: 4, label: 'Developing. I am still finding my foundation' },
+                    { value: 5, label: 'Not a current priority in my life' },
+                ],
+            },
         ],
     },
 
@@ -167,6 +178,17 @@ export const PILLAR_CONFIGS: PillarConfig[] = [
                     { value: 3, label: 'Improving but inconsistent' },
                     { value: 4, label: 'Rebuilding after challenges' },
                     { value: 5, label: 'Early in developing emotional maturity' },
+                ],
+            },
+            {
+                id: 'mental_friends_emotional_maturity',
+                title: 'My closest friends would describe my emotional maturity as:',
+                options: [
+                    { value: 1, label: 'Grounded and self-aware. I handle hard things well' },
+                    { value: 2, label: 'Mostly mature. I manage well with occasional struggles' },
+                    { value: 3, label: 'Growing. I am better than I used to be' },
+                    { value: 4, label: 'Inconsistent. I am still working through some things' },
+                    { value: 5, label: 'A work in progress. This is an area I need to develop' },
                 ],
             },
         ],
@@ -234,6 +256,17 @@ export const PILLAR_CONFIGS: PillarConfig[] = [
                     { value: 5, label: 'Early in developing healthy intimacy' },
                 ],
             },
+            {
+                id: 'intimacy_friends_boundaries',
+                title: 'My closest friends would describe my approach to relationships and boundaries as:',
+                options: [
+                    { value: 1, label: 'Intentional and mature. I move with purpose and clarity' },
+                    { value: 2, label: 'Thoughtful. I value emotional safety and trust' },
+                    { value: 3, label: 'Still developing. I am learning what healthy looks like' },
+                    { value: 4, label: 'Inconsistent. I have patterns I am working through' },
+                    { value: 5, label: 'A work in progress. This is an area I need to grow in' },
+                ],
+            },
         ],
     },
 
@@ -297,6 +330,17 @@ export const PILLAR_CONFIGS: PillarConfig[] = [
                     { value: 3, label: 'Improving but inconsistent' },
                     { value: 4, label: 'Rebuilding after setbacks' },
                     { value: 5, label: 'Early in learning financial skills' },
+                ],
+            },
+            {
+                id: 'financial_friends_money',
+                title: 'My closest friends would describe how I handle money as:',
+                options: [
+                    { value: 1, label: 'Responsible and intentional. I have a plan' },
+                    { value: 2, label: 'Generally disciplined. I make mostly good decisions' },
+                    { value: 3, label: 'Getting better. I am more aware than I used to be' },
+                    { value: 4, label: 'Inconsistent. I struggle with financial discipline' },
+                    { value: 5, label: 'A work in progress. This is an area I need to develop' },
                 ],
             },
         ],
@@ -364,6 +408,17 @@ export const PILLAR_CONFIGS: PillarConfig[] = [
                     { value: 5, label: 'Early in getting started' },
                 ],
             },
+            {
+                id: 'physical_friends_fitness',
+                title: 'My closest friends would describe my current physical fitness as:',
+                options: [
+                    { value: 1, label: 'Disciplined and consistent. I take it seriously' },
+                    { value: 2, label: 'Active and intentional. I make it a priority' },
+                    { value: 3, label: 'Somewhat active. I could be more consistent' },
+                    { value: 4, label: 'Inconsistent. I go through phases' },
+                    { value: 5, label: 'Not a current focus in my life' },
+                ],
+            },
         ],
     },
 
@@ -427,6 +482,17 @@ export const PILLAR_CONFIGS: PillarConfig[] = [
                     { value: 3, label: 'I am improving' },
                     { value: 4, label: 'Inconsistent but working on it' },
                     { value: 5, label: 'Not currently focused on this area' },
+                ],
+            },
+            {
+                id: 'appearance_friends_presentation',
+                title: 'My closest friends would describe how I present and carry myself as:',
+                options: [
+                    { value: 1, label: 'Polished and intentional. I always show up well' },
+                    { value: 2, label: 'Put together. I take pride in how I present myself' },
+                    { value: 3, label: 'Casual but clean. I am aware but relaxed' },
+                    { value: 4, label: 'Comfortable focused. I prioritize comfort' },
+                    { value: 5, label: 'Inconsistent. It depends on the day' },
                 ],
             },
         ],
