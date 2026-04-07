@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import {
     Church, Brain, Dumbbell, Wallet, Sparkles, Heart,
-    Send, Image as ImageIcon, Loader2, CheckCircle2
+    Send, Image as ImageIcon, Loader2, CheckCircle2, X
 } from 'lucide-react'
 
 import { PillarType } from '@/lib/pillars'
@@ -80,6 +80,42 @@ const PILLAR_QUESTIONS: Record<string, { question: string; options: string[] }> 
     },
 }
 
+async function resizeImageToJpeg(file: File, maxPx = 800): Promise<Blob> {
+    return new Promise((resolve, reject) => {
+        const img = new window.Image()
+        const objectUrl = URL.createObjectURL(file)
+        img.onload = () => {
+            URL.revokeObjectURL(objectUrl)
+            let { width, height } = img
+            if (width > maxPx || height > maxPx) {
+                if (width >= height) {
+                    height = Math.round((height * maxPx) / width)
+                    width = maxPx
+                } else {
+                    width = Math.round((width * maxPx) / height)
+                    height = maxPx
+                }
+            }
+            const canvas = document.createElement('canvas')
+            canvas.width = width
+            canvas.height = height
+            const ctx = canvas.getContext('2d')
+            if (!ctx) { reject(new Error('Canvas not supported')); return }
+            ctx.drawImage(img, 0, 0, width, height)
+            canvas.toBlob(
+                (blob) => {
+                    if (blob) resolve(blob)
+                    else reject(new Error('Failed to convert image'))
+                },
+                'image/jpeg',
+                0.82
+            )
+        }
+        img.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error('Failed to load image')) }
+        img.src = objectUrl
+    })
+}
+
 export default function ReflectionEngine() {
     const [selectedPillar, setSelectedPillar] = useState<PillarType>('SPIRITUAL')
     const [content, setContent] = useState('')
@@ -87,12 +123,50 @@ export default function ReflectionEngine() {
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
+    const [imageUrl, setImageUrl] = useState<string | null>(null)
+    const [imagePreview, setImagePreview] = useState<string | null>(null)
+    const [uploadingPhoto, setUploadingPhoto] = useState(false)
+    const [photoError, setPhotoError] = useState<string | null>(null)
+
+    const photoInputRef = useRef<HTMLInputElement>(null)
+
     const currentQ = PILLAR_QUESTIONS[selectedPillar]
 
     const handlePillarChange = (pillarId: PillarType) => {
         setSelectedPillar(pillarId)
         setContent('')
         setError(null)
+    }
+
+    const handlePhotoSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if (!file) return
+        e.target.value = ''
+
+        setPhotoError(null)
+        setUploadingPhoto(true)
+
+        try {
+            const blob = await resizeImageToJpeg(file)
+            setImagePreview(URL.createObjectURL(blob))
+            const fd = new FormData()
+            fd.append('photo', blob, 'photo.jpg')
+            const res = await fetch('/api/growth-posts/photo', { method: 'POST', body: fd })
+            const data = await res.json()
+            if (!res.ok) throw new Error(data.error || 'Upload failed')
+            setImageUrl(data.url)
+        } catch (err) {
+            setPhotoError(err instanceof Error ? err.message : 'Upload failed')
+            setImagePreview(null)
+        } finally {
+            setUploadingPhoto(false)
+        }
+    }
+
+    const handleRemovePhoto = () => {
+        setImageUrl(null)
+        setImagePreview(null)
+        setPhotoError(null)
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -109,13 +183,15 @@ export default function ReflectionEngine() {
             const response = await fetch('/api/growth-posts', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ pillar: selectedPillar, content })
+                body: JSON.stringify({ pillar: selectedPillar, content, imageUrl: imageUrl || '' })
             })
 
             if (!response.ok) throw new Error('Failed to post reflection')
 
             setSuccess(true)
             setContent('')
+            setImageUrl(null)
+            setImagePreview(null)
             setTimeout(() => setSuccess(false), 3000)
         } catch {
             setError('Something went wrong. Please try again.')
@@ -193,11 +269,51 @@ export default function ReflectionEngine() {
 
                 {error && <p style={{ color: '#B91C1C', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-4)' }}>{error}</p>}
 
+                {/* Photo preview */}
+                {imagePreview && (
+                    <div style={{ position: 'relative', display: 'inline-block', marginBottom: 'var(--space-4)' }}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src={imagePreview}
+                            alt="Proof of growth"
+                            style={{ maxWidth: '200px', maxHeight: '150px', borderRadius: 'var(--radius-md)', objectFit: 'cover', display: 'block' }}
+                        />
+                        <button
+                            type="button"
+                            onClick={handleRemovePhoto}
+                            style={{
+                                position: 'absolute', top: '-8px', right: '-8px',
+                                background: '#B91C1C', color: 'white', border: 'none',
+                                borderRadius: '50%', width: '20px', height: '20px',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                cursor: 'pointer', padding: 0,
+                            }}
+                        >
+                            <X size={12} />
+                        </button>
+                    </div>
+                )}
+
+                {photoError && <p style={{ color: '#B91C1C', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-3)' }}>{photoError}</p>}
+
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <div>
-                        <button type="button" className="btn btn--glass btn--sm" style={{ padding: 'var(--space-2) var(--space-4)' }}>
-                            <ImageIcon size={16} />
-                            Add Proof of Growth Photo
+                        <input
+                            ref={photoInputRef}
+                            type="file"
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            onChange={handlePhotoSelect}
+                        />
+                        <button
+                            type="button"
+                            className="btn btn--glass btn--sm"
+                            style={{ padding: 'var(--space-2) var(--space-4)' }}
+                            onClick={() => photoInputRef.current?.click()}
+                            disabled={uploadingPhoto}
+                        >
+                            {uploadingPhoto ? <Loader2 size={16} className="animate-spin" /> : <ImageIcon size={16} />}
+                            {uploadingPhoto ? 'Uploading…' : imageUrl ? 'Change Photo' : 'Add Proof of Growth Photo'}
                         </button>
                         <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)', marginTop: 'var(--space-1)', marginBottom: 0 }}>
                             Share a photo that shows your growth in action this week.
