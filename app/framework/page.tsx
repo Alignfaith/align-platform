@@ -39,17 +39,35 @@ export default function FrameworkPage() {
             <main style={{ paddingTop: 'var(--header-height)' }}>
                 {/* Hero */}
                 <section className="section section--primary">
-                    <div className="container text-center">
-                        <h1 style={{ marginBottom: 'var(--space-4)' }}>The Relationship Fitness Framework</h1>
-                        <p style={{
-                            fontSize: 'var(--text-xl)',
-                            opacity: 0.9,
-                            maxWidth: '700px',
-                            margin: '0 auto',
+                    <div className="container">
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: '1fr auto',
+                            gap: 'var(--space-12)',
+                            alignItems: 'center',
                         }}>
-                            A Christ centered framework for personal preparation and relational readiness,
-                            built on the six pillars that every strong partnership requires.
-                        </p>
+                            <div>
+                                <h1 style={{ marginBottom: 'var(--space-4)' }}>The Relationship Fitness Framework</h1>
+                                <p style={{
+                                    fontSize: 'var(--text-xl)',
+                                    opacity: 0.9,
+                                    maxWidth: '600px',
+                                }}>
+                                    A Christ centered framework for personal preparation and relational readiness,
+                                    built on the six pillars that every strong partnership requires.
+                                </p>
+                            </div>
+                            <img
+                                src="/images/book-cover.png"
+                                alt="Relationship Fitness by Thomas Marks"
+                                style={{
+                                    width: '100%',
+                                    maxWidth: '320px',
+                                    borderRadius: '12px',
+                                    boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
+                                }}
+                            />
+                        </div>
                     </div>
                 </section>
 
