@@ -526,6 +526,7 @@ model WaitlistEntry {
   email     String  @unique
   firstName String?
   lastName  String?
+  message   String?
 
   // Referral
   referralCode String?
