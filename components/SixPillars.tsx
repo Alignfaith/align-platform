@@ -70,7 +70,7 @@ export default function SixPillars() {
                         margin: '0 auto',
                         lineHeight: 'var(--leading-relaxed)',
                     }}>
-                        Align measures readiness across six areas of life — because lasting relationships
+                        ALIGN measures readiness across six areas of life — because lasting relationships
                         are built on more than attraction.
                     </p>
                 </div>

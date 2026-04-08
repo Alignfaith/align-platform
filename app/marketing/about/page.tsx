@@ -3,11 +3,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'About | Align',
-  description: 'Thomas Marks built Align after years of ministry, counseling, and a conviction that most Christians enter relationships unprepared. Learn the mission behind the platform.',
+  title: 'About | ALIGN',
+  description: 'Thomas Marks built ALIGN after years of ministry, counseling, and a conviction that most Christians enter relationships unprepared. Learn the mission behind the platform.',
   openGraph: {
-    title: 'About Align',
-    description: 'The story behind Align — why preparation matters and what the Six Pillars framework is built to do.',
+    title: 'About ALIGN',
+    description: 'The story behind ALIGN — why preparation matters and what the Six Pillars framework is built to do.',
     url: 'https://alignfaith.com/about',
   },
 }
@@ -18,7 +18,7 @@ const values = [
   { title: 'Preparation First', body: 'You cannot offer someone a version of yourself you have not yet become. We believe every person must do the inner work before pursuing connection.' },
   { title: 'Faith as Foundation', body: 'This platform is built for Christians who take their faith seriously — not as a checkbox, but as the governing principle of their entire life, including relationships.' },
   { title: 'Honest Self-Assessment', body: 'The Six Pillars framework is designed to reveal gaps, not just validate strengths. Growth requires honesty.' },
-  { title: 'Community Over Algorithm', body: 'Align is not a swipe app. Every match decision is rooted in alignment — shared values, readiness, and purpose.' },
+  { title: 'Community Over Algorithm', body: 'ALIGN is not a swipe app. Every match decision is rooted in alignment — shared values, readiness, and purpose.' },
 ]
 
 export default function AboutPage() {
@@ -47,7 +47,7 @@ export default function AboutPage() {
             Built by someone who has seen what unpreparedness costs
           </h1>
           <p style={{ color: '#6B7280', fontSize: '1.1rem', lineHeight: 1.75 }}>
-            Align was born from years of ministry, coaching, and the recurring observation that most relationship pain is rooted in entering partnership before being ready.
+            ALIGN was born from years of ministry, coaching, and the recurring observation that most relationship pain is rooted in entering partnership before being ready.
           </p>
         </div>
       </section>
@@ -73,7 +73,7 @@ export default function AboutPage() {
 
           <div>
             <h2 style={{ fontSize: 'clamp(1.4rem, 3vw, 1.9rem)', fontFamily: 'var(--font-heading)', fontWeight: 700, color: '#111827', marginBottom: '20px', lineHeight: 1.25 }}>
-              The conviction behind Align
+              The conviction behind ALIGN
             </h2>
             <p style={{ color: '#374151', lineHeight: 1.8, marginBottom: '16px', fontSize: '0.975rem' }}>
               After years working with singles and couples in ministry and coaching contexts, Thomas Marks noticed a pattern: the people who struggled most in relationships weren&apos;t lacking in faith — they were lacking in preparation. They hadn&apos;t done the honest self-work required to be a healthy partner.
@@ -82,7 +82,7 @@ export default function AboutPage() {
               That observation led to writing <em style={{ color: '#111827', fontWeight: 600 }}>Relationship Fitness</em> — a framework built on six domains of personal development that form the bedrock of relational health.
             </p>
             <p style={{ color: '#374151', lineHeight: 1.8, fontSize: '0.975rem' }}>
-              Align is the digital home of that framework — a platform where preparation is treated as the first step, not an afterthought.
+              ALIGN is the digital home of that framework — a platform where preparation is treated as the first step, not an afterthought.
             </p>
           </div>
         </div>
@@ -98,7 +98,7 @@ export default function AboutPage() {
             To equip Christians to enter relationships whole — not hoping the relationship will make them whole.
           </h2>
           <p style={{ color: '#374151', lineHeight: 1.8, fontSize: '1rem' }}>
-            The world tells you to find the right person. We believe you must first become the right person. Align exists to help you do that work — honestly, systematically, and in community with others on the same journey.
+            The world tells you to find the right person. We believe you must first become the right person. ALIGN exists to help you do that work — honestly, systematically, and in community with others on the same journey.
           </p>
         </div>
       </section>

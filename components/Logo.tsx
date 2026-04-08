@@ -24,7 +24,7 @@ export default function Logo({ className = '', size = 'md', showText = true }: L
             {/* Logo Image */}
             <Image
                 src="/images/logo.png"
-                alt="Align Logo"
+                alt="ALIGN Logo"
                 width={width}
                 height={height}
                 className="logo__icon"
@@ -51,7 +51,7 @@ export default function Logo({ className = '', size = 'md', showText = true }: L
                         backgroundClip: 'text',
                     }}
                 >
-                    Align
+                    ALIGN
                 </span>
             )}
         </div>

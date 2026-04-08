@@ -79,7 +79,7 @@ export default function GuidelinesPage() {
                     <div className="container text-center">
                         <h1 style={{ marginBottom: 'var(--space-4)' }}>Community Guidelines</h1>
                         <p style={{ fontSize: 'var(--text-xl)', opacity: 0.9, maxWidth: '700px', margin: '0 auto' }}>
-                            Align is a sacred space for intentional, faith based connection. These guidelines
+                            ALIGN is a sacred space for intentional, faith based connection. These guidelines
                             protect our community and ensure a positive experience for everyone.
                         </p>
                     </div>
@@ -91,7 +91,7 @@ export default function GuidelinesPage() {
                         <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', marginBottom: 'var(--space-12)' }}>
                             <h2 style={{ marginBottom: 'var(--space-4)' }}>Our Core Values</h2>
                             <p style={{ fontSize: 'var(--text-lg)', color: 'var(--color-slate)' }}>
-                                Every member of Align commits to uphold these values:
+                                Every member of ALIGN commits to uphold these values:
                             </p>
                         </div>
 
@@ -198,7 +198,7 @@ export default function GuidelinesPage() {
                                 Enforcement Policy
                             </h2>
                             <p style={{ marginBottom: 'var(--space-4)' }}>
-                                <strong>Participation in Align is a privilege, not a right.</strong>
+                                <strong>Participation in ALIGN is a privilege, not a right.</strong>
                             </p>
                             <p style={{ color: 'var(--color-slate)', marginBottom: 'var(--space-4)' }}>
                                 We take violations of our Community Guidelines seriously. Depending on the severity

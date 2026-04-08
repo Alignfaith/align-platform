@@ -8,7 +8,7 @@ export default function Footer() {
             <div className="container">
                 <div className="footer__inner">
                     <div className="footer__brand">
-                        <div className="footer__logo">Align</div>
+                        <div className="footer__logo">ALIGN</div>
                         <p className="footer__tagline">Preparation comes before connection.</p>
                         <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.875rem' }}>
                             A Christian-based relationship platform built on the Relationship Fitness framework by Thomas Marks.
@@ -46,7 +46,7 @@ export default function Footer() {
                 </div>
 
                 <div className="footer__bottom">
-                    <p>&copy; {currentYear} Align. All rights reserved.</p>
+                    <p>&copy; {currentYear} ALIGN. All rights reserved.</p>
                     <p style={{ marginTop: '0.5rem' }}>
                         Built on the Relationship Fitness framework.
                     </p>

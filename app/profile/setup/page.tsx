@@ -151,7 +151,7 @@ export default function ProfileSetupPage() {
                                     Complete Your Profile
                                 </h1>
                                 <p style={{ color: 'var(--color-slate)' }}>
-                                    Step 2 of 3 in your Align onboarding
+                                    Step 2 of 3 in your ALIGN onboarding
                                 </p>
                             </div>
 

@@ -41,14 +41,14 @@ export default function MarketingNav() {
       }}>
         {/* Logo */}
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-          <Image src="/images/logo.png" alt="Align" width={32} height={32} style={{ borderRadius: '6px' }} />
+          <Image src="/images/logo.png" alt="ALIGN" width={32} height={32} style={{ borderRadius: '6px' }} />
           <span style={{
             fontFamily: 'var(--font-heading)',
             fontWeight: 700,
             fontSize: '1.1rem',
             color: '#111827',
             letterSpacing: '-0.01em',
-          }}>Align</span>
+          }}>ALIGN</span>
         </Link>
 
         {/* Desktop nav */}

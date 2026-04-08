@@ -148,7 +148,7 @@ export default function PricingPage() {
                                     }}>
                                         Every paid membership includes a physical copy of &quot;Relationship Fitness&quot;
                                         shipped directly to your door at no extra cost. Start your journey with the
-                                        foundation that makes Align different.
+                                        foundation that makes ALIGN different.
                                     </p>
                                 </div>
                             </div>

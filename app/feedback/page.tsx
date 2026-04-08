@@ -103,7 +103,7 @@ export default function FeedbackPage() {
             <div className="feedback-container">
                 <div className="feedback-header">
                     <h1>Hey Thomas!</h1>
-                    <p>Drop me a message about Align - bugs, ideas, whatever you&apos;re thinking.</p>
+                    <p>Drop me a message about ALIGN - bugs, ideas, whatever you&apos;re thinking.</p>
                 </div>
 
                 <div className="feedback-tabs">
@@ -216,7 +216,7 @@ export default function FeedbackPage() {
                 )}
 
                 <div className="feedback-footer">
-                    <Link href="/">← Back to Align</Link>
+                    <Link href="/">← Back to ALIGN</Link>
                 </div>
             </div>
         </div>

@@ -20,8 +20,8 @@ export default function MarketingFooter() {
           {/* Brand */}
           <div>
             <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', marginBottom: '16px' }}>
-              <Image src="/images/logo.png" alt="Align" width={28} height={28} style={{ borderRadius: '5px' }} />
-              <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1rem', color: '#111827' }}>Align</span>
+              <Image src="/images/logo.png" alt="ALIGN" width={28} height={28} style={{ borderRadius: '5px' }} />
+              <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1rem', color: '#111827' }}>ALIGN</span>
             </Link>
             <p style={{ color: '#6B7280', fontSize: '0.875rem', lineHeight: 1.7, maxWidth: '240px' }}>
               A faith-centered platform for Christians who are serious about preparing for lasting love.
@@ -83,7 +83,7 @@ export default function MarketingFooter() {
           gap: '12px',
         }}>
           <p style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>
-            © {new Date().getFullYear()} Align. All rights reserved.
+            © {new Date().getFullYear()} ALIGN. All rights reserved.
           </p>
           <p style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>
             Built on faith. Grounded in preparation.

@@ -40,7 +40,7 @@ export default function Header() {
                     <Link href="/" className="header__logo" onClick={closeMenu}>
                         <Image
                             src="/images/logo-v2.png"
-                            alt="Align"
+                            alt="ALIGN"
                             width={36}
                             height={46}
                             priority

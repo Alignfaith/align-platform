@@ -8,19 +8,19 @@ import { ChevronDown, ChevronUp } from 'lucide-react'
 
 const faqs = [
     {
-        category: 'About Align',
+        category: 'About ALIGN',
         questions: [
             {
-                q: 'What is Align?',
-                a: 'Align is a faith-centered relationship platform built on the Relationship Fitness framework. Every connection starts with character, growth, and intentionality — guided by the Six Pillars system.',
+                q: 'What is ALIGN?',
+                a: 'ALIGN is a faith-centered relationship platform built on the Relationship Fitness framework. Every connection starts with character, growth, and intentionality — guided by the Six Pillars system.',
             },
             {
-                q: 'What makes Align unique?',
-                a: 'Align is built on a framework, not an algorithm. Connections are guided by the Six Pillars of Relationship Fitness — Spiritual, Mental, Intimacy, Financial, Physical, and Appearance. You grow first, then connect.',
+                q: 'What makes ALIGN unique?',
+                a: 'ALIGN is built on a framework, not an algorithm. Connections are guided by the Six Pillars of Relationship Fitness — Spiritual, Mental, Intimacy, Financial, Physical, and Appearance. You grow first, then connect.',
             },
             {
                 q: 'What is the Relationship Fitness framework?',
-                a: 'Relationship Fitness is a framework developed by Thomas Marks, based on his book of the same name. It identifies Six Pillars essential for healthy relationships: Spiritual, Mental, Physical, Financial, Appearance, and Intimacy Fitness. These pillars guide preparation and discernment on Align.',
+                a: 'Relationship Fitness is a framework developed by Thomas Marks, based on his book of the same name. It identifies Six Pillars essential for healthy relationships: Spiritual, Mental, Physical, Financial, Appearance, and Intimacy Fitness. These pillars guide preparation and discernment on ALIGN.',
             },
         ],
     },
@@ -28,8 +28,8 @@ const faqs = [
         category: 'Membership & Pricing',
         questions: [
             {
-                q: 'Is Align free to join?',
-                a: 'Yes! Joining Align is completely free. Free members can create an account, complete onboarding, answer reflection questions, and engage with the Six Pillars privately for self-growth. However, viewing and connecting with other members requires a paid tier.',
+                q: 'Is ALIGN free to join?',
+                a: 'Yes! Joining ALIGN is completely free. Free members can create an account, complete onboarding, answer reflection questions, and engage with the Six Pillars privately for self-growth. However, viewing and connecting with other members requires a paid tier.',
             },
             {
                 q: 'What are the paid membership tiers?',
@@ -49,12 +49,12 @@ const faqs = [
                 a: 'The Six Pillars are: Spiritual Fitness (faith foundation), Mental Fitness (emotional intelligence), Physical Fitness (body stewardship), Financial Fitness (resource wisdom), Appearance Fitness (intentional presentation), and Intimacy Fitness (healthy boundaries and preparation for covenant).',
             },
             {
-                q: 'How are the pillars used on Align?',
+                q: 'How are the pillars used on ALIGN?',
                 a: 'The pillars are used for three purposes: Preparation (self-assessment and growth), Discernment (understanding potential matches based on their pillar engagement), and Alignment (finding someone whose growth journey aligns with yours). They are NOT used for scoring or ranking.',
             },
             {
                 q: 'Do I need to be perfect in all pillars?',
-                a: 'Absolutely not. The pillars are about growth, not perfection. Align values people who are actively working on themselves and committed to becoming better. Honest self-reflection and genuine effort matter more than having it all together.',
+                a: 'Absolutely not. The pillars are about growth, not perfection. ALIGN values people who are actively working on themselves and committed to becoming better. Honest self-reflection and genuine effort matter more than having it all together.',
             },
         ],
     },
@@ -70,8 +70,8 @@ const faqs = [
                 a: 'Photos are unlocked in Stage Two, after mutual interest has been established and intentional conversation has taken place. This ensures both parties have connected on a deeper level before appearance becomes a factor.',
             },
             {
-                q: 'What photo standards does Align enforce?',
-                a: 'Align prohibits bikini/swimsuit photos, shirtless/topless photos, and any sexually suggestive images. We maintain a modest, respectful environment. Violations result in immediate removal from the platform.',
+                q: 'What photo standards does ALIGN enforce?',
+                a: 'ALIGN prohibits bikini/swimsuit photos, shirtless/topless photos, and any sexually suggestive images. We maintain a modest, respectful environment. Violations result in immediate removal from the platform.',
             },
         ],
     },
@@ -145,7 +145,7 @@ export default function FAQPage() {
                     <div className="container text-center">
                         <h1 style={{ marginBottom: 'var(--space-4)' }}>Frequently Asked Questions</h1>
                         <p style={{ fontSize: 'var(--text-xl)', opacity: 0.9, maxWidth: '600px', margin: '0 auto' }}>
-                            Everything you need to know about Align and the Relationship Fitness framework.
+                            Everything you need to know about ALIGN and the Relationship Fitness framework.
                         </p>
                     </div>
                 </section>

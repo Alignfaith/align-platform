@@ -25,7 +25,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-    title: 'Align | Find Meaningful Connection',
+    title: 'ALIGN | Find Meaningful Connection',
     description: 'A Christian dating platform where preparation comes before connection. Built on the Six Pillars framework for relationship readiness.',
     keywords: ['Christian dating', 'faith based dating', 'relationship platform', 'intentional relationships', 'meaningful connection'],
     authors: [{ name: 'Thomas Marks' }],
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
         apple: { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
     },
     openGraph: {
-        title: 'Align | Find Meaningful Connection',
+        title: 'ALIGN | Find Meaningful Connection',
         description: 'A Christian dating platform where preparation comes before connection.',
         type: 'website',
         locale: 'en_US',

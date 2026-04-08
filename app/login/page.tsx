@@ -219,7 +219,7 @@ function LoginForm() {
                     textAlign: 'center',
                 }}>
                     <p style={{ color: 'var(--color-slate)', marginBottom: 0 }}>
-                        New to Align?{' '}
+                        New to ALIGN?{' '}
                         <Link href="/register" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>
                             Create an account
                         </Link>

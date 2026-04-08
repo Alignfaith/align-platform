@@ -28,7 +28,7 @@ export default function Hero() {
                 <div className="container" style={{ position: 'relative', zIndex: 3, width: '100%' }}>
                     <div className="hero__centered">
                         <h1 className="hero__headline">
-                            Align Your Life.<br />
+                            ALIGN Your Life.<br />
                             Prepare Your Heart.<br />
                             Find God Centered Love.
                         </h1>

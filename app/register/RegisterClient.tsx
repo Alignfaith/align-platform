@@ -85,7 +85,7 @@ export default function RegisterPage() {
                 overflow: 'hidden', boxShadow: '0 0 32px rgba(192,24,42,0.4)',
                 border: '1px solid rgba(255,255,255,0.15)',
               }}>
-                <Image src="/images/logo.png" alt="Align" width={56} height={56} />
+                <Image src="/images/logo.png" alt="ALIGN" width={56} height={56} />
               </div>
             </div>
 
@@ -127,7 +127,7 @@ export default function RegisterPage() {
               maxWidth: '520px',
               margin: '0 auto',
             }}>
-              Align is currently available by invitation only. We are carefully
+              ALIGN is currently available by invitation only. We are carefully
               selecting our founding members.
             </p>
           </div>
@@ -195,7 +195,7 @@ export default function RegisterPage() {
                   You&apos;re on the list
                 </h3>
                 <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem', lineHeight: 1.7 }}>
-                  Thank you for your interest in Align. We&apos;ll be in touch when your
+                  Thank you for your interest in ALIGN. We&apos;ll be in touch when your
                   invitation is ready.
                 </p>
               </div>
@@ -249,7 +249,7 @@ export default function RegisterPage() {
                   </label>
                   <textarea
                     className="form-input"
-                    placeholder="Where are you in your faith journey? What brings you to Align?"
+                    placeholder="Where are you in your faith journey? What brings you to ALIGN?"
                     value={form.message}
                     onChange={e => update('message', e.target.value)}
                     rows={4}

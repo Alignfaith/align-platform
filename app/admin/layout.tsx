@@ -5,7 +5,7 @@ import AdminSidebar from '@/components/admin/AdminSidebar'
 import { prisma } from '@/lib/prisma'
 
 export const metadata = {
-  title: 'Admin - Align',
+  title: 'Admin - ALIGN',
 }
 
 async function getQueueCounts() {

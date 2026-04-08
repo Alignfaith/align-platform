@@ -19,7 +19,7 @@ const EYEBROW_LABELS: Record<string, string> = {
 }
 
 function getEyebrow(slug: string): string {
-  return EYEBROW_LABELS[slug] ?? 'Align'
+  return EYEBROW_LABELS[slug] ?? 'ALIGN'
 }
 
 async function getCmsPage(slug: string) {
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!page) return {}
 
   return {
-    title: `${page.title} | Align`,
+    title: `${page.title} | ALIGN`,
     description: page.description || undefined,
   }
 }

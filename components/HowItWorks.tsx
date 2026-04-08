@@ -16,7 +16,7 @@ const steps = [
     {
         icon: Heart,
         number: '03',
-        title: 'Align With Someone Real',
+        title: 'ALIGN With Someone Real',
         description: 'Get matched with someone who shares your values, faith, and direction — based on character and pillar alignment, not just photos.',
     },
 ]
@@ -27,7 +27,7 @@ export default function HowItWorks() {
             <div className="container">
                 <div className="text-center" style={{ marginBottom: 'var(--space-16)' }}>
                     <h2 style={{ marginBottom: 'var(--space-4)', color: 'var(--color-text-primary)' }}>
-                        How Align Works
+                        How ALIGN Works
                     </h2>
                     <p style={{
                         fontSize: 'var(--text-lg)',

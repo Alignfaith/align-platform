@@ -228,7 +228,7 @@ export default function PillarsPage() {
                     <div className="container text-center">
                         <h2 style={{ marginBottom: 'var(--space-4)' }}>Start Your Pillar Journey</h2>
                         <p style={{ fontSize: 'var(--text-lg)', opacity: 0.9, marginBottom: 'var(--space-6)', maxWidth: '600px', margin: '0 auto var(--space-6)' }}>
-                            Join Align and begin engaging with the Six Pillars—privately for self-growth,
+                            Join ALIGN and begin engaging with the Six Pillars—privately for self-growth,
                             or with other members to find alignment.
                         </p>
                         <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--space-4)', flexWrap: 'wrap' }}>

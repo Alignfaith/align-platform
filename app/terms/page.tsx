@@ -27,18 +27,18 @@ export default function TermsPage() {
                         }}>
                             <h2>1. Acceptance of Terms</h2>
                             <p>
-                                By accessing or using Align ("the Platform"), you agree to be bound by these Terms of Service.
+                                By accessing or using ALIGN ("the Platform"), you agree to be bound by these Terms of Service.
                                 If you do not agree to these terms, you may not use the Platform.
                             </p>
                             <p>
-                                Align is a Christian-based relationship platform built on the Relationship Fitness framework.
+                                ALIGN is a Christian-based relationship platform built on the Relationship Fitness framework.
                                 By using this Platform, you affirm your commitment to engage with the community in accordance
                                 with our Christian values and community guidelines.
                             </p>
 
                             <h2>2. Eligibility</h2>
                             <p>
-                                To use Align, you must:
+                                To use ALIGN, you must:
                             </p>
                             <ul>
                                 <li>Be at least 18 years of age</li>
@@ -57,7 +57,7 @@ export default function TermsPage() {
 
                             <h2>4. Membership Tiers</h2>
                             <p>
-                                Align offers the following membership levels:
+                                ALIGN offers the following membership levels:
                             </p>
                             <ul>
                                 <li><strong>Free Tier:</strong> Account creation, onboarding, reflection completion, and private pillar engagement</li>
@@ -97,8 +97,8 @@ export default function TermsPage() {
 
                             <h2>7. Enforcement and Removal</h2>
                             <p>
-                                Align reserves the right to remove any member who violates these Terms of Service or
-                                Community Guidelines. Participation in Align is a privilege, not a right.
+                                ALIGN reserves the right to remove any member who violates these Terms of Service or
+                                Community Guidelines. Participation in ALIGN is a privilege, not a right.
                             </p>
                             <p>
                                 If removed for policy violations:
@@ -111,8 +111,8 @@ export default function TermsPage() {
 
                             <h2>8. Intellectual Property</h2>
                             <p>
-                                The Align platform, including all content, features, and functionality, is owned by
-                                Align and is protected by copyright, trademark, and other intellectual property laws.
+                                The ALIGN platform, including all content, features, and functionality, is owned by
+                                ALIGN and is protected by copyright, trademark, and other intellectual property laws.
                             </p>
                             <p>
                                 The Relationship Fitness framework and associated materials are the intellectual property
@@ -121,14 +121,14 @@ export default function TermsPage() {
 
                             <h2>9. Disclaimer of Warranties</h2>
                             <p>
-                                Align is provided "as is" without warranties of any kind. We do not guarantee that you
+                                ALIGN is provided "as is" without warranties of any kind. We do not guarantee that you
                                 will find a relationship partner through our Platform. Success depends on individual
                                 effort, growth, and God's timing.
                             </p>
 
                             <h2>10. Limitation of Liability</h2>
                             <p>
-                                Align shall not be liable for any indirect, incidental, special, consequential, or
+                                ALIGN shall not be liable for any indirect, incidental, special, consequential, or
                                 punitive damages arising from your use of the Platform.
                             </p>
 

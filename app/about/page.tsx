@@ -159,7 +159,7 @@ export default function AboutPage() {
       <main style={{ paddingTop: 'var(--header-height)' }}>
 
         <div className="about-hero">
-          <p className="about-eyebrow">About Align</p>
+          <p className="about-eyebrow">About ALIGN</p>
           <h1>We prepare you<br />to <em>love well.</em></h1>
           <p className="about-hero-sub">A platform built entirely around your growth in faith, character, and readiness.</p>
         </div>
@@ -167,14 +167,14 @@ export default function AboutPage() {
         <div className="about-what">
           <span className="about-label">What we do</span>
           <h2 className="about-title">Everything here is<br />built for your growth.</h2>
-          <p className="about-body">Align is a Christian-based relationship platform where every feature, every interaction, and every prompt exists for one reason: to help you become the person a healthy relationship requires.</p>
+          <p className="about-body">ALIGN is a Christian-based relationship platform where every feature, every interaction, and every prompt exists for one reason: to help you become the person a healthy relationship requires.</p>
 
           <div className="about-do-list">
             <div className="about-do-item">
               <div className="about-do-icon"><Sun size={18} color="#c0182a" /></div>
               <div>
                 <p className="about-do-title">We grow you through the Six Pillars</p>
-                <p className="about-do-body">All interaction on Align is organized around six areas of personal development. You grow intentionally, not by accident.</p>
+                <p className="about-do-body">All interaction on ALIGN is organized around six areas of personal development. You grow intentionally, not by accident.</p>
               </div>
             </div>
             <div className="about-do-item">
@@ -195,7 +195,7 @@ export default function AboutPage() {
               <div className="about-do-icon"><BookOpen size={18} color="#c0182a" /></div>
               <div>
                 <p className="about-do-title">We root everything in the Framework</p>
-                <p className="about-do-body">Align is built on <em>Relationship Fitness</em> by Thomas Marks, a proven framework for developing the spiritual maturity and character that love requires.</p>
+                <p className="about-do-body">ALIGN is built on <em>Relationship Fitness</em> by Thomas Marks, a proven framework for developing the spiritual maturity and character that love requires.</p>
               </div>
             </div>
           </div>

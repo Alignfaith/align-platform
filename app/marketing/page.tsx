@@ -3,13 +3,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Align | Faith-Centered Relationships',
+  title: 'ALIGN | Faith-Centered Relationships',
   description: 'A Christian platform for men and women who are serious about preparing for lasting love. Built on the Six Pillars of Relationship Fitness.',
   openGraph: {
-    title: 'Align | Faith-Centered Relationships',
+    title: 'ALIGN | Faith-Centered Relationships',
     description: 'Preparation before connection. Built on the Six Pillars of Relationship Fitness.',
     url: 'https://alignfaith.com',
-    siteName: 'Align',
+    siteName: 'ALIGN',
     type: 'website',
   },
 }
@@ -27,7 +27,7 @@ const pillars = [
 ]
 
 const testimonials = [
-  { quote: "Align helped me realize I wasn't ready for the relationship I was asking God for. Working through the pillars changed everything.", name: 'Marcus T.' },
+  { quote: "ALIGN helped me realize I wasn't ready for the relationship I was asking God for. Working through the pillars changed everything.", name: 'Marcus T.' },
   { quote: "This isn't another dating app. It's a platform that actually helped me grow before trying to connect with someone.", name: 'Jasmine R.' },
   { quote: "The framework is grounded in scripture and practical wisdom. I've recommended it to everyone in my small group.", name: 'David O.' },
 ]
@@ -100,7 +100,7 @@ export default function MarketingHome() {
             marginLeft: 'auto',
             marginRight: 'auto',
           }}>
-            Align is a faith-centered platform for Christians who believe preparation comes before connection. Built on the Six Pillars of Relationship Fitness.
+            ALIGN is a faith-centered platform for Christians who believe preparation comes before connection. Built on the Six Pillars of Relationship Fitness.
           </p>
 
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>

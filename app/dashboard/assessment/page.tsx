@@ -140,7 +140,7 @@ function AssessmentPageInner() {
                         </h1>
                         <p style={{ color: 'var(--color-text-secondary)', lineHeight: 'var(--leading-relaxed)', marginBottom: 'var(--space-4)' }}>
                             {isOnboarding
-                                ? 'Your Six Pillar scores have been saved. Your profile is complete — welcome to Align.'
+                                ? 'Your Six Pillar scores have been saved. Your profile is complete — welcome to ALIGN.'
                                 : 'Your Six Pillar results have been saved. You can retake the assessment any time to track your growth.'}
                         </p>
                         <div style={{ background: 'var(--color-bg-elevated)', border: '1px solid var(--color-border-subtle)', borderRadius: 'var(--radius-xl)', padding: 'var(--space-8)', marginBottom: 'var(--space-8)' }}>

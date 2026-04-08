@@ -101,7 +101,7 @@ function SubmitForm({ onSuccess }: { onSuccess: () => void }) {
           minLength={50}
           maxLength={2000}
           rows={6}
-          placeholder="Tell us how Align helped you on your journey..."
+          placeholder="Tell us how ALIGN helped you on your journey..."
           style={{ width: '100%', background: 'var(--color-bg-elevated)', border: '1px solid var(--color-border-subtle)', borderRadius: 'var(--radius-md)', padding: 'var(--space-3)', color: 'var(--color-text-primary)', fontSize: 'var(--text-sm)', resize: 'vertical', boxSizing: 'border-box', fontFamily: 'inherit' }}
         />
       </div>

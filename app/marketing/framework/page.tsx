@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'The Six Pillars Framework | Align',
+  title: 'The Six Pillars Framework | ALIGN',
   description: 'A deep dive into the Six Pillars of Relationship Fitness — Spiritual, Mental, Physical, Financial, Appearance, and Intimacy.',
   openGraph: {
     title: 'The Six Pillars of Relationship Fitness',

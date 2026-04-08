@@ -153,7 +153,7 @@ export default function SettingsPage() {
                             </div>
 
                             <p style={{ textAlign: 'center', marginTop: 'var(--space-12)', fontSize: 'var(--text-xs)', color: 'var(--color-slate)' }}>
-                                Align v0.1.0-alpha • Nashville, TN • Built for Purpose
+                                ALIGN v0.1.0-alpha • Nashville, TN • Built for Purpose
                             </p>
                         </div>
                     </div>

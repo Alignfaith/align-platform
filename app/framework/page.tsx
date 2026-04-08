@@ -222,7 +222,7 @@ export default function FrameworkPage() {
                 <div className="fw-hero">
                     <p className="fw-eyebrow">The Framework</p>
                     <h1>The foundation of<br /><em>everything.</em></h1>
-                    <p className="fw-hero-sub">Six areas of your life. One framework for becoming ready. Every part of Align is built on this.</p>
+                    <p className="fw-hero-sub">Six areas of your life. One framework for becoming ready. Every part of ALIGN is built on this.</p>
                 </div>
 
                 <div className="fw-section">
@@ -235,7 +235,7 @@ export default function FrameworkPage() {
                         you pursue connection with someone else.
                     </p>
                     <p className="fw-body" style={{ marginTop: '16px' }}>
-                        Every question, every reflection, and every connection on Align is organized around these six pillars.
+                        Every question, every reflection, and every connection on ALIGN is organized around these six pillars.
                     </p>
 
                     <div className="fw-pillar-list">
@@ -265,7 +265,7 @@ export default function FrameworkPage() {
                         <span className="fw-label">The Book</span>
                         <h2 className="fw-book-title">Relationship Fitness</h2>
                         <p className="fw-book-body">
-                            The framework behind Align began as a book. <em>Relationship Fitness</em> by Thomas Marks
+                            The framework behind ALIGN began as a book. <em>Relationship Fitness</em> by Thomas Marks
                             lays out the complete Six Pillar system — a Christ-centered guide for men and women who
                             want to stop stumbling into relationships and start preparing for them with intention and faith.
                         </p>

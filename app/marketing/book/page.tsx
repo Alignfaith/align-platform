@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 
 export const metadata: Metadata = {
-  title: 'Relationship Fitness | Align',
+  title: 'Relationship Fitness | ALIGN',
   description: 'The book that started it all. Thomas Marks walks you through the Six Pillars of Relationship Fitness — preparing you for the love God has for you.',
   openGraph: {
     title: 'Relationship Fitness by Thomas Marks',
