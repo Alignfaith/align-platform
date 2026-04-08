@@ -19,3 +19,4 @@ public/**/*.DS_Store
 *.pdf
 public/images/*.tiff
 public/images/*.pdf
+.env.test.local

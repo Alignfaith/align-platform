@@ -94,6 +94,12 @@ export async function POST(req: NextRequest) {
         break
       }
 
+      case 'invoice.paid': {
+        const invoice = event.data.object as Stripe.Invoice
+        console.log('[webhook] Invoice paid:', invoice.id, 'customer:', invoice.customer, 'amount:', invoice.amount_paid)
+        break
+      }
+
       default:
         console.log('[webhook] Unhandled event type:', event.type)
     }
