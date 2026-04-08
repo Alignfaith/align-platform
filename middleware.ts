@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 const APP_HOST = 'app.alignfaith.com'
-const MARKETING_HOSTS = ['alignfaith.com', 'www.alignfaith.com']
+const MARKETING_HOSTS = ['alignfaith.com', 'www.alignfaith.com', 'alignfaith.local']
 
 // Marketing paths — internal prefix is /marketing
 const MARKETING_ROUTES = ['/', '/about', '/framework', '/book', '/join']

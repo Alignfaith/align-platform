@@ -24,9 +24,9 @@ export default function MarketingNav() {
       right: 0,
       zIndex: 100,
       height: '64px',
-      backgroundColor: 'rgba(10,10,11,0.92)',
+      backgroundColor: 'rgba(255,255,255,0.95)',
       backdropFilter: 'blur(12px)',
-      borderBottom: '1px solid rgba(255,255,255,0.06)',
+      borderBottom: '1px solid #E5E7EB',
       display: 'flex',
       alignItems: 'center',
     }}>
@@ -46,7 +46,7 @@ export default function MarketingNav() {
             fontFamily: 'var(--font-heading)',
             fontWeight: 700,
             fontSize: '1.1rem',
-            color: '#FAFAFA',
+            color: '#111827',
             letterSpacing: '-0.01em',
           }}>Align</span>
         </Link>
@@ -55,14 +55,14 @@ export default function MarketingNav() {
         <nav style={{ display: 'flex', alignItems: 'center', gap: '32px' }} className="marketing-desktop-nav">
           {links.map(l => (
             <Link key={l.href} href={l.href} style={{
-              color: '#A1A1AA',
+              color: '#6B7280',
               textDecoration: 'none',
               fontSize: '0.9rem',
               fontWeight: 500,
               transition: 'color 0.2s',
             }}
-              onMouseEnter={e => (e.currentTarget.style.color = '#FAFAFA')}
-              onMouseLeave={e => (e.currentTarget.style.color = '#A1A1AA')}
+              onMouseEnter={e => (e.currentTarget.style.color = '#111827')}
+              onMouseLeave={e => (e.currentTarget.style.color = '#6B7280')}
             >
               {l.label}
             </Link>
@@ -89,7 +89,7 @@ export default function MarketingNav() {
         {/* Mobile hamburger */}
         <button
           onClick={() => setOpen(!open)}
-          style={{ background: 'none', border: 'none', color: '#FAFAFA', cursor: 'pointer', padding: '4px', display: 'none' }}
+          style={{ background: 'none', border: 'none', color: '#374151', cursor: 'pointer', padding: '4px', display: 'none' }}
           className="marketing-hamburger"
           aria-label="Toggle menu"
         >
@@ -112,8 +112,8 @@ export default function MarketingNav() {
           top: '64px',
           left: 0,
           right: 0,
-          backgroundColor: '#0A0A0B',
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          backgroundColor: '#ffffff',
+          borderBottom: '1px solid #E5E7EB',
           padding: '16px 24px 24px',
           display: 'flex',
           flexDirection: 'column',
@@ -121,12 +121,12 @@ export default function MarketingNav() {
         }}>
           {links.map(l => (
             <Link key={l.href} href={l.href} onClick={() => setOpen(false)} style={{
-              color: '#A1A1AA',
+              color: '#374151',
               textDecoration: 'none',
               fontSize: '1rem',
               fontWeight: 500,
               padding: '12px 0',
-              borderBottom: '1px solid rgba(255,255,255,0.05)',
+              borderBottom: '1px solid #F3F4F6',
             }}>
               {l.label}
             </Link>
