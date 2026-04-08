@@ -33,6 +33,9 @@ export default function AdminSidebar({ pendingPhotos = 0, openReports = 0, pendi
     { label: 'Community', href: '/admin/community', icon: '⊚' },
     { label: 'Stories', href: '/admin/alignment-stories', icon: '⊕' },
     { label: 'Inquiries', href: '/admin/inquiries', icon: '✉' },
+    { label: 'Pro Inquiries', href: '/admin/matching-inquiries', icon: '◈' },
+    { label: 'Pro Interviews', href: '/admin/matching-interviews', icon: '◈' },
+    { label: 'Pro Matches', href: '/admin/matching-matches', icon: '◈' },
     { label: 'Settings', href: '/admin/settings', icon: '⊗' },
     { label: 'Audit Log', href: '/admin/audit-log', icon: '⊟' },
   ]

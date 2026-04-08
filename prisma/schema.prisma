@@ -865,3 +865,56 @@ model AlignmentStory {
   @@index([createdAt])
   @@index([userId])
 }
+
+// ==================== PROFESSIONAL MATCHING SERVICE ====================
+
+enum InterviewStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum MatchingMatchStatus {
+  INTRODUCED
+  DATING
+  ENGAGED
+  MARRIED
+  DECLINED
+  ARCHIVED
+}
+
+model MatchingInterview {
+  id          String          @id @default(cuid())
+  clientName  String
+  clientEmail String
+  clientPhone String?
+  scheduledAt DateTime?
+  status      InterviewStatus @default(SCHEDULED)
+  notes       String?         @db.Text
+  inquiryId   String?         // optional link to Inquiry
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([scheduledAt])
+}
+
+model MatchingServiceMatch {
+  id           String              @id @default(cuid())
+  client1Name  String
+  client1Email String
+  client2Name  String
+  client2Email String
+  matchedAt    DateTime            @default(now())
+  status       MatchingMatchStatus @default(INTRODUCED)
+  notes        String?             @db.Text
+  outcome      String?             @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([matchedAt])
+}
