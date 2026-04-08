@@ -568,17 +568,228 @@ function QuestionsTab() {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-type Tab = 'inquiries' | 'interviews' | 'matches' | 'questions'
+// ─── Applications tab ────────────────────────────────────────────────────────
+
+interface Application {
+  id: string
+  status: 'PENDING' | 'REVIEWED' | 'ACCEPTED' | 'REJECTED'
+  submittedAt: string
+  age: number
+  city: string
+  state: string
+  maritalStatus: string
+  profession: string
+  incomeRange: string
+  isChristian: boolean
+  denomination: string | null
+  churchFrequency: string
+  hasChildren: boolean
+  childrenCount: number | null
+  children: { sex: string; age: string }[] | null
+  openToPartnerChildren: string
+  willingToRelocate: string
+  homeOwnership: string
+  householdMembers: string[]
+  pets: string
+  fitnessLevel: string
+  lookingToMarry: string
+  marriageTimeline: string
+  appearanceDescription: string
+  partnerPhysicalAttrs: string
+  nonNegotiables: string
+  conflictHandling: string
+  idealPartnership: string
+  photoUrl: string | null
+  adminNotes: string | null
+  user: { email: string }
+}
+
+const APP_STATUS_STYLE: Record<string, { bg: string; color: string }> = {
+  PENDING:  { bg: 'rgba(59,130,246,0.12)',  color: '#2563eb' },
+  REVIEWED: { bg: 'rgba(234,179,8,0.12)',   color: '#ca8a04' },
+  ACCEPTED: { bg: 'rgba(34,197,94,0.12)',   color: '#16a34a' },
+  REJECTED: { bg: 'rgba(239,68,68,0.12)',   color: '#dc2626' },
+}
+
+function ApplicationsTab() {
+  const [items, setItems] = useState<Application[]>([])
+  const [loading, setLoading] = useState(true)
+  const [page, setPage] = useState(1)
+  const [totalItems, setTotalItems] = useState(0)
+  const [totalPages, setTotalPages] = useState(1)
+  const [statusFilter, setStatusFilter] = useState('PENDING')
+  const [selected, setSelected] = useState<Application | null>(null)
+  const [adminNotes, setAdminNotes] = useState('')
+  const [saving, setSaving] = useState(false)
+
+  const fetch_ = useCallback(async () => {
+    const params = new URLSearchParams({ page: String(page), status: statusFilter })
+    const res = await fetch(`/api/admin/matching-applications?${params}`)
+    const d = await res.json()
+    setItems(d.items ?? [])
+    setTotalItems(d.totalItems ?? 0)
+    setTotalPages(d.totalPages ?? 1)
+  }, [page, statusFilter])
+
+  useEffect(() => { fetch_().finally(() => setLoading(false)) }, [fetch_])
+
+  const openApp = (a: Application) => { setSelected(a); setAdminNotes(a.adminNotes ?? '') }
+
+  const updateStatus = async (status: string) => {
+    if (!selected) return
+    setSaving(true)
+    try {
+      await fetch('/api/admin/matching-applications', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: selected.id, status, adminNotes }),
+      })
+      setSelected(p => p ? { ...p, status: status as Application['status'], adminNotes } : null)
+      fetch_()
+    } finally { setSaving(false) }
+  }
+
+  const saveNotes = async () => {
+    if (!selected) return
+    setSaving(true)
+    try {
+      await fetch('/api/admin/matching-applications', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: selected.id, adminNotes }),
+      })
+      setSelected(p => p ? { ...p, adminNotes } : null)
+    } finally { setSaving(false) }
+  }
+
+  const appFilters: FilterConfig[] = [{ key: 'status', label: 'Status', options: [
+    { value: 'PENDING', label: 'Pending' }, { value: 'REVIEWED', label: 'Reviewed' },
+    { value: 'ACCEPTED', label: 'Accepted' }, { value: 'REJECTED', label: 'Rejected' }, { value: 'ALL', label: 'All' },
+  ] }]
+
+  const columns: Column<Application>[] = [
+    { key: 'user', label: 'Applicant', render: a => (
+      <div>
+        <div style={{ color: 'var(--color-text-primary)', fontSize: 'var(--text-sm)', fontWeight: 'var(--font-semibold)' }}>{a.user.email}</div>
+        <div style={{ color: 'var(--color-text-tertiary)', fontSize: 'var(--text-xs)' }}>{a.city}, {a.state} · Age {a.age}</div>
+      </div>
+    )},
+    { key: 'profession', label: 'Profession', render: a => <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)' }}>{a.profession}</span> },
+    { key: 'lookingToMarry', label: 'Marriage', render: a => <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)' }}>{a.lookingToMarry}</span> },
+    { key: 'status', label: 'Status', render: a => {
+      const s = APP_STATUS_STYLE[a.status]
+      return <span style={{ fontSize: 'var(--text-xs)', padding: '2px 8px', backgroundColor: s.bg, color: s.color, borderRadius: 'var(--radius-sm)', fontWeight: 'var(--font-semibold)' }}>{a.status}</span>
+    }},
+    { key: 'submittedAt', label: 'Submitted', render: a => <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)' }}>{new Date(a.submittedAt).toLocaleDateString()}</span> },
+  ]
+
+  const Row = ({ label, value }: { label: string; value: React.ReactNode }) => (
+    <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: '8px', paddingBottom: '10px', borderBottom: '1px solid var(--color-border-subtle)' }}>
+      <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)', paddingTop: '2px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{label}</span>
+      <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', lineHeight: 1.6 }}>{value ?? '—'}</span>
+    </div>
+  )
+
+  return (
+    <>
+      <div style={{ display: 'flex', gap: 'var(--space-3)', marginBottom: 'var(--space-4)', alignItems: 'center' }}>
+        <FilterBar filters={appFilters} values={{ status: statusFilter }} onChange={(k, v) => { if (k === 'status') { setStatusFilter(v); setPage(1) } }} onClear={() => { setStatusFilter('PENDING'); setPage(1) }} />
+        <span style={{ marginLeft: 'auto', color: 'var(--color-text-tertiary)', fontSize: 'var(--text-sm)' }}>{totalItems} total</span>
+      </div>
+      {loading ? <div style={{ color: 'var(--color-text-tertiary)', padding: 'var(--space-8)' }}>Loading…</div> : (
+        <>
+          <DataTable<Application> columns={columns} data={items} keyField="id" emptyMessage="No applications" onRowClick={openApp} />
+          <PaginationControls page={page} totalPages={totalPages} totalItems={totalItems} onPageChange={setPage} />
+        </>
+      )}
+
+      {selected && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.65)', zIndex: 1000, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: 'var(--space-4)', overflowY: 'auto' }}
+          onClick={e => { if (e.target === e.currentTarget) setSelected(null) }}>
+          <div style={{ background: 'var(--color-bg-secondary)', border: '1px solid var(--color-border-subtle)', borderRadius: 'var(--radius-xl)', padding: 'var(--space-6)', maxWidth: '680px', width: '100%', margin: '32px auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-5)' }}>
+              <div>
+                <h2 style={{ margin: 0, fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)', fontSize: 'var(--text-xl)' }}>Application</h2>
+                <p style={{ margin: '4px 0 0', color: 'var(--color-text-tertiary)', fontSize: 'var(--text-sm)' }}>{selected.user.email} · Submitted {new Date(selected.submittedAt).toLocaleDateString()}</p>
+              </div>
+              <button onClick={() => setSelected(null)} style={{ background: 'none', border: 'none', color: 'var(--color-text-tertiary)', cursor: 'pointer', fontSize: 'var(--text-lg)' }}>✕</button>
+            </div>
+
+            {selected.photoUrl && (
+              <img src={selected.photoUrl} alt="" style={{ width: '120px', height: '120px', objectFit: 'cover', borderRadius: '10px', marginBottom: 'var(--space-5)', border: '1px solid var(--color-border-subtle)' }} />
+            )}
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: 'var(--space-6)' }}>
+              <Row label="Age" value={selected.age} />
+              <Row label="City / State" value={`${selected.city}, ${selected.state}`} />
+              <Row label="Marital Status" value={selected.maritalStatus} />
+              <Row label="Christian" value={selected.isChristian ? 'Yes' : 'No'} />
+              {selected.denomination && <Row label="Denomination" value={selected.denomination} />}
+              <Row label="Church Frequency" value={selected.churchFrequency} />
+              <Row label="Has Children" value={selected.hasChildren ? `Yes (${selected.childrenCount})` : 'No'} />
+              {selected.children && selected.children.length > 0 && (
+                <Row label="Children" value={selected.children.map((c, i) => `Child ${i+1}: ${c.sex}, age ${c.age}`).join(' · ')} />
+              )}
+              <Row label="Open to Partner's Children" value={`${selected.openToPartnerChildren}${selected.openToPartnerChildren === 'Other' ? '' : ''}`} />
+              <Row label="Willing to Relocate" value={selected.willingToRelocate} />
+              <Row label="Home Ownership" value={selected.homeOwnership} />
+              <Row label="Household Members" value={(selected.householdMembers as string[]).join(', ')} />
+              <Row label="Pets" value={selected.pets} />
+              <Row label="Profession" value={selected.profession} />
+              <Row label="Income Range" value={selected.incomeRange} />
+              <Row label="Fitness Level" value={selected.fitnessLevel} />
+              <Row label="Looking to Marry" value={selected.lookingToMarry} />
+              <Row label="Marriage Timeline" value={<span style={{ whiteSpace: 'pre-wrap' }}>{selected.marriageTimeline}</span>} />
+              <Row label="Appearance" value={<span style={{ whiteSpace: 'pre-wrap' }}>{selected.appearanceDescription}</span>} />
+              <Row label="Partner Physical Attrs" value={<span style={{ whiteSpace: 'pre-wrap' }}>{selected.partnerPhysicalAttrs}</span>} />
+              <Row label="Non-Negotiables" value={<span style={{ whiteSpace: 'pre-wrap' }}>{selected.nonNegotiables}</span>} />
+              <Row label="Conflict Handling" value={<span style={{ whiteSpace: 'pre-wrap' }}>{selected.conflictHandling}</span>} />
+              <Row label="Ideal Partnership" value={<span style={{ whiteSpace: 'pre-wrap' }}>{selected.idealPartnership}</span>} />
+            </div>
+
+            {/* Admin notes */}
+            <div style={{ marginBottom: 'var(--space-4)' }}>
+              <label style={{ display: 'block', fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)', marginBottom: 'var(--space-1)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Admin Notes</label>
+              <textarea value={adminNotes} onChange={e => setAdminNotes(e.target.value)} rows={3} placeholder="Internal notes about this applicant…"
+                style={{ width: '100%', padding: 'var(--space-2) var(--space-3)', background: 'var(--color-bg-elevated)', border: '1px solid var(--color-border-subtle)', borderRadius: 'var(--radius-md)', color: 'var(--color-text-primary)', fontSize: 'var(--text-sm)', resize: 'vertical', boxSizing: 'border-box', fontFamily: 'inherit' }} />
+              <button onClick={saveNotes} disabled={saving} style={{ marginTop: '6px', padding: '4px 14px', background: 'var(--color-bg-elevated)', border: '1px solid var(--color-border-subtle)', color: 'var(--color-text-secondary)', borderRadius: 'var(--radius-sm)', fontSize: 'var(--text-xs)', cursor: 'pointer' }}>
+                {saving ? 'Saving…' : 'Save Notes'}
+              </button>
+            </div>
+
+            {/* Status actions */}
+            <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
+              {(['REVIEWED', 'ACCEPTED', 'REJECTED'] as const).map(s => {
+                const c = APP_STATUS_STYLE[s]
+                return (
+                  <button key={s} onClick={() => updateStatus(s)} disabled={saving || selected.status === s}
+                    style={{ flex: 1, minWidth: '90px', padding: 'var(--space-2) var(--space-3)', background: c.bg, border: `1px solid ${c.color}40`, color: c.color, borderRadius: 'var(--radius-md)', fontSize: 'var(--text-sm)', fontWeight: 'var(--font-semibold)', cursor: selected.status === s ? 'default' : 'pointer', opacity: selected.status === s ? 0.5 : 1 }}>
+                    {s}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
+
+type Tab = 'applications' | 'inquiries' | 'interviews' | 'matches' | 'questions'
 
 const TABS: { id: Tab; label: string }[] = [
-  { id: 'inquiries',  label: 'Inquiries' },
-  { id: 'interviews', label: 'Interviews' },
-  { id: 'matches',    label: 'Matches' },
-  { id: 'questions',  label: 'Questions' },
+  { id: 'applications', label: 'Applications' },
+  { id: 'inquiries',    label: 'Inquiries' },
+  { id: 'interviews',   label: 'Interviews' },
+  { id: 'matches',      label: 'Matches' },
+  { id: 'questions',    label: 'Questions' },
 ]
 
 export default function ProfessionalPage() {
-  const [activeTab, setActiveTab] = useState<Tab>('inquiries')
+  const [activeTab, setActiveTab] = useState<Tab>('applications')
 
   return (
     <>
@@ -608,10 +819,11 @@ export default function ProfessionalPage() {
         ))}
       </div>
 
-      {activeTab === 'inquiries'  && <InquiriesTab />}
-      {activeTab === 'interviews' && <InterviewsTab />}
-      {activeTab === 'matches'    && <MatchesTab />}
-      {activeTab === 'questions'  && <QuestionsTab />}
+      {activeTab === 'applications' && <ApplicationsTab />}
+      {activeTab === 'inquiries'    && <InquiriesTab />}
+      {activeTab === 'interviews'   && <InterviewsTab />}
+      {activeTab === 'matches'      && <MatchesTab />}
+      {activeTab === 'questions'    && <QuestionsTab />}
     </>
   )
 }
