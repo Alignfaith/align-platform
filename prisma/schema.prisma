@@ -817,6 +817,30 @@ model ModerationQueue {
   @@index([createdAt])
 }
 
+// ==================== INQUIRIES ====================
+
+enum InquiryStatus {
+  NEW
+  READ
+  REPLIED
+  ARCHIVED
+}
+
+model Inquiry {
+  id      String        @id @default(cuid())
+  name    String
+  email   String
+  phone   String?
+  message String        @db.Text
+  status  InquiryStatus @default(NEW)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}
+
 // ==================== ALIGNMENT STORIES ====================
 
 model AlignmentStory {
