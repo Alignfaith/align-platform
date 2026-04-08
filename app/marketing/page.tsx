@@ -56,7 +56,7 @@ export default function MarketingHome() {
           <div style={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(to bottom, rgba(10,4,6,0.45) 0%, rgba(10,4,6,0.35) 60%, rgba(10,4,6,0.7) 100%)',
+            background: 'linear-gradient(to bottom, rgba(10,4,6,0.05) 0%, rgba(10,4,6,0.25) 50%, rgba(10,4,6,0.65) 100%)',
           }} />
         </div>
 
