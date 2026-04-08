@@ -276,11 +276,11 @@ export default function PricingPage() {
                     </div>
                 </section>
 
-                {/* Matching Service CTA */}
+                {/* Professional Matching Service */}
                 <section className="section section--white">
                     <div className="container">
                         <div style={{
-                            maxWidth: '700px',
+                            maxWidth: '600px',
                             margin: '0 auto',
                             textAlign: 'center',
                             padding: 'var(--space-10) var(--space-8)',
@@ -288,28 +288,15 @@ export default function PricingPage() {
                             border: '2px solid var(--color-primary)',
                             backgroundColor: 'var(--color-blush)',
                         }}>
-                            <h2 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-charcoal)', marginBottom: 'var(--space-3)' }}>
-                                Looking for a More Personal Touch?
+                            <h2 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-charcoal)', marginBottom: 'var(--space-4)' }}>
+                                Professional Matching Service
                             </h2>
-                            <p style={{ color: 'var(--color-slate)', fontSize: 'var(--text-lg)', lineHeight: 1.7, marginBottom: 'var(--space-6)', maxWidth: '520px', margin: '0 auto var(--space-6)' }}>
-                                Our concierge matching service pairs you with carefully vetted, faith-aligned partners — with personal guidance every step of the way.
+                            <p style={{ fontSize: 'var(--text-xl)', fontWeight: 700, color: 'var(--color-primary)', marginBottom: 'var(--space-3)' }}>
+                                Coming Soon
                             </p>
-                            <span
-                                style={{
-                                    display: 'inline-block',
-                                    padding: 'var(--space-3) var(--space-6)',
-                                    background: 'var(--color-slate)',
-                                    color: 'var(--color-white)',
-                                    borderRadius: 'var(--radius-md)',
-                                    fontSize: 'var(--text-base)',
-                                    fontWeight: 700,
-                                    opacity: 0.7,
-                                    cursor: 'default',
-                                    letterSpacing: '0.04em',
-                                }}
-                            >
-                                Matching Service — Coming Soon
-                            </span>
+                            <p style={{ color: 'var(--color-slate)', fontSize: 'var(--text-base)', margin: 0 }}>
+                                Contact us for details
+                            </p>
                         </div>
                     </div>
                 </section>
