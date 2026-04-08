@@ -157,6 +157,65 @@ export default function MembershipTiers() {
                             </Link>
                         </div>
                     ))}
+
+                    {/* Professional Matching Service card */}
+                    <div className="tier-card" style={{ borderColor: 'var(--color-primary)', position: 'relative' }}>
+                        <div style={{
+                            position: 'absolute',
+                            top: '-12px',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
+                            background: 'var(--color-primary)',
+                            color: '#fff',
+                            fontSize: 'var(--text-xs)',
+                            fontWeight: 700,
+                            padding: '3px 14px',
+                            borderRadius: 'var(--radius-full)',
+                            letterSpacing: '0.08em',
+                            textTransform: 'uppercase',
+                            whiteSpace: 'nowrap',
+                        }}>
+                            Coming Soon
+                        </div>
+
+                        <h3 className="tier-card__name">Professional</h3>
+                        <p className="tier-card__subtitle">Matching Service</p>
+
+                        <div className="tier-card__price" style={{ opacity: 0.5 }}>
+                            —
+                        </div>
+
+                        <ul className="tier-card__features">
+                            {[
+                                'Concierge intake interview',
+                                'Personally vetted candidates',
+                                'Faith-aligned compatibility review',
+                                'Guided introduction process',
+                                'Ongoing support & feedback',
+                            ].map((text, i) => (
+                                <li key={i} className="tier-card__feature">
+                                    <span className="tier-card__feature-icon">
+                                        <Check size={18} />
+                                    </span>
+                                    <span>{text}</span>
+                                </li>
+                            ))}
+                        </ul>
+
+                        <div style={{
+                            width: '100%',
+                            padding: 'var(--space-3)',
+                            background: 'rgba(185,28,28,0.08)',
+                            border: '1px solid rgba(185,28,28,0.25)',
+                            borderRadius: 'var(--radius-md)',
+                            textAlign: 'center',
+                            fontSize: 'var(--text-sm)',
+                            color: 'var(--color-primary)',
+                            fontWeight: 600,
+                        }}>
+                            Contact us for details
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
