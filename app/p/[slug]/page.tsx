@@ -8,6 +8,20 @@ interface PageProps {
   params: Promise<{ slug: string }>
 }
 
+// Slug → human-readable category label for the eyebrow
+const EYEBROW_LABELS: Record<string, string> = {
+  'about':                 'Our Story',
+  'faq':                   'Support',
+  'privacy-policy':        'Legal',
+  'terms-of-service':      'Legal',
+  'community-guidelines':  'Community',
+  'the-framework':         'The Framework',
+}
+
+function getEyebrow(slug: string): string {
+  return EYEBROW_LABELS[slug] ?? 'Align'
+}
+
 async function getCmsPage(slug: string) {
   return prisma.cmsPage.findUnique({
     where: { slug, status: 'PUBLISHED' },
@@ -20,7 +34,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!page) return {}
 
   return {
-    title: `${page.title} - Align`,
+    title: `${page.title} | Align`,
     description: page.description || undefined,
   }
 }
@@ -33,25 +47,33 @@ export default async function CmsPageView({ params }: PageProps) {
     notFound()
   }
 
+  // Strip any leading <h1>…</h1> from content — the hero banner renders the title
+  const content = page.content.replace(/^\s*<h1[^>]*>[\s\S]*?<\/h1>\s*/i, '')
+
   return (
     <>
       {page.showHeader && <Header />}
       <main style={{ paddingTop: page.showHeader ? 'var(--header-height)' : undefined }}>
-        <section className="section section--white">
+
+        {/* Hero banner */}
+        <section className="cms-hero">
           <div className="container">
-            <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-              <h1 style={{ marginBottom: 'var(--space-6)' }}>{page.title}</h1>
-              <div
-                style={{
-                  fontSize: 'var(--text-base)',
-                  lineHeight: 'var(--leading-relaxed)',
-                  color: 'var(--color-text-primary)',
-                }}
-                dangerouslySetInnerHTML={{ __html: page.content }}
-              />
-            </div>
+            <p className="cms-hero__eyebrow">{getEyebrow(slug)}</p>
+            <h1 className="cms-hero__title">{page.title}</h1>
           </div>
         </section>
+
+        {/* Prose content */}
+        <section className="section section--cream">
+          <div className="container">
+            <div
+              className="cms-prose"
+              style={{ maxWidth: '760px', margin: '0 auto' }}
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
+          </div>
+        </section>
+
       </main>
       {page.showFooter && <Footer />}
     </>
