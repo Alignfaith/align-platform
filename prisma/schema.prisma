@@ -918,3 +918,16 @@ model MatchingServiceMatch {
   @@index([status])
   @@index([matchedAt])
 }
+
+model MatchingQuestion {
+  id        String   @id @default(cuid())
+  text      String   @db.Text
+  category  String?
+  isActive  Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([category])
+}
