@@ -19,7 +19,7 @@ Review any new feedback entries and address bugs, feature requests, or design is
 
 - Next.js 14 (App Router)
 - TypeScript
-- Prisma + PostgreSQL (Fly Postgres — database only, app is on Vercel)
+- Prisma + PostgreSQL (**Supabase** — `vxavxntyoyjangiuyqzy.supabase.co`)
 - NextAuth.js
 - Deployed on **Vercel** (git push origin main → auto-deploys)
 
@@ -29,10 +29,16 @@ Review any new feedback entries and address bugs, feature requests, or design is
 # Deploy to production
 git push origin main
 
-# Push schema changes to production DB (requires Fly CLI login)
-~/.fly/bin/fly proxy 15433:5432 -a rootedalign-db &
-DATABASE_URL="postgres://rootedalign:G6EsHWNx5Y6AXVA@localhost:15433/rootedalign" npx prisma db push
+# Push schema changes to production DB (Supabase direct connection)
+DATABASE_URL="postgresql://postgres:Kel452657190@db.vxavxntyoyjangiuyqzy.supabase.co:5432/postgres" npx prisma db push
 
 # Check Vercel logs
 npx vercel logs app.alignfaith.com
 ```
+
+## Database
+
+- **Provider:** Supabase (AWS us-east-2)
+- **Pooler (app use):** `postgresql://postgres.vxavxntyoyjangiuyqzy:...@aws-1-us-east-2.pooler.supabase.com:6543/postgres`
+- **Direct (migrations):** `postgresql://postgres:...@db.vxavxntyoyjangiuyqzy.supabase.co:5432/postgres`
+- Fly.io Postgres (`rootedalign-db`) has been decommissioned.
