@@ -82,7 +82,7 @@ export default function MarketingNav() {
             onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#a01524')}
             onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#c0182a')}
           >
-            Join Free
+            Request Invite
           </a>
         </nav>
 
@@ -145,7 +145,7 @@ export default function MarketingNav() {
               marginTop: '12px',
             }}
           >
-            Join Free
+            Request Invite
           </a>
         </div>
       )}

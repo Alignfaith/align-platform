@@ -24,7 +24,7 @@ export default function MarketingFooter() {
               <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1rem', color: '#111827' }}>ALIGN</span>
             </Link>
             <p style={{ color: '#6B7280', fontSize: '0.875rem', lineHeight: 1.7, maxWidth: '240px' }}>
-              A faith-centered platform for Christians who are serious about preparing for lasting love.
+              Grow before you go.
             </p>
           </div>
 
@@ -86,7 +86,7 @@ export default function MarketingFooter() {
             © {new Date().getFullYear()} ALIGN. All rights reserved.
           </p>
           <p style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>
-            Built on faith. Grounded in preparation.
+            Grow before you go.
           </p>
         </div>
       </div>

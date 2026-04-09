@@ -3,11 +3,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'ALIGN | Faith-Centered Relationships',
-  description: 'A Christian platform for men and women who are serious about preparing for lasting love. Built on the Six Pillars of Relationship Fitness.',
+  title: 'ALIGN | Grow Before You Go · The Ultimate Christian Relationship Platform',
+  description: 'ALIGN is the ultimate Christian relationship platform. Grow across the Six Pillars of Relationship Fitness before you start looking for love. Invitation only.',
   openGraph: {
-    title: 'ALIGN | Faith-Centered Relationships',
-    description: 'Preparation before connection. Built on the Six Pillars of Relationship Fitness.',
+    title: 'ALIGN | Grow Before You Go',
+    description: 'The Ultimate Christian Relationship Platform. Grow before you go.',
     url: 'https://alignfaith.com',
     siteName: 'ALIGN',
     type: 'website',
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 }
 
 const APP_URL = 'https://app.alignfaith.com'
-const BOOK_URL = 'https://a.co/d/00YpCAUt'
+const BOOK_URL = 'https://a.co/d/09qpJCAh'
 
 const pillars = [
   { icon: '✦', name: 'Spiritual', color: '#c0182a', bg: '#FEF2F2', desc: 'How your faith shows up in daily life, decisions, and relationships.' },
@@ -32,10 +32,28 @@ const testimonials = [
   { quote: "The framework is grounded in scripture and practical wisdom. I've recommended it to everyone in my small group.", name: 'David O.' },
 ]
 
+const steps = [
+  {
+    num: '01',
+    title: 'Request Your Invitation',
+    desc: 'ALIGN is invitation only. Submit your request and we will review your profile to ensure a strong, intentional community.',
+  },
+  {
+    num: '02',
+    title: 'Complete Your Assessment',
+    desc: 'Work through the Six Pillars self-assessment to get an honest picture of where you stand and where you need to grow.',
+  },
+  {
+    num: '03',
+    title: 'Grow, Then Connect',
+    desc: 'Build your profile, engage the framework, and connect with others who are serious about preparation before partnership.',
+  },
+]
+
 export default function MarketingHome() {
   return (
     <>
-      {/* Hero — dark with image, lightened overlay */}
+      {/* ── Hero ──────────────────────────────────────────────────── */}
       <section style={{
         position: 'relative',
         minHeight: '92vh',
@@ -60,7 +78,8 @@ export default function MarketingHome() {
           }} />
         </div>
 
-        <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '80px 24px', maxWidth: '760px', margin: '0 auto' }}>
+        <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '80px 24px 72px', maxWidth: '780px', margin: '0 auto' }}>
+          {/* Eyebrow pill */}
           <div style={{
             display: 'inline-block',
             backgroundColor: 'rgba(255,255,255,0.12)',
@@ -74,36 +93,52 @@ export default function MarketingHome() {
             textTransform: 'uppercase',
             marginBottom: '28px',
           }}>
-            Faith · Preparation · Connection
+            The Ultimate Christian Relationship Platform
           </div>
 
+          {/* Headline */}
           <h1 style={{
-            fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+            fontSize: 'clamp(2.75rem, 7vw, 5rem)',
             fontFamily: 'var(--font-heading)',
             fontWeight: 800,
             color: '#ffffff',
-            lineHeight: 1.1,
-            letterSpacing: '-0.02em',
-            marginBottom: '24px',
+            lineHeight: 1.05,
+            letterSpacing: '-0.03em',
+            marginBottom: '20px',
             textShadow: '0 2px 20px rgba(0,0,0,0.4)',
           }}>
-            Prepare yourself for<br />
-            <span style={{ color: '#f87171' }}>the love you desire</span>
+            Grow Before You Go.
           </h1>
 
+          {/* Subheadline */}
           <p style={{
-            fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
-            color: 'rgba(255,255,255,0.85)',
+            fontSize: 'clamp(1rem, 2vw, 1.15rem)',
+            color: 'rgba(255,255,255,0.6)',
+            fontWeight: 500,
+            letterSpacing: '0.04em',
+            textTransform: 'uppercase',
+            marginBottom: '24px',
+          }}>
+            The Ultimate Christian Relationship Platform
+          </p>
+
+          {/* Body */}
+          <p style={{
+            fontSize: 'clamp(1rem, 2.5vw, 1.15rem)',
+            color: 'rgba(255,255,255,0.82)',
             lineHeight: 1.75,
             marginBottom: '40px',
-            maxWidth: '560px',
+            maxWidth: '580px',
             marginLeft: 'auto',
             marginRight: 'auto',
           }}>
-            ALIGN is a faith-centered platform for Christians who believe preparation comes before connection. Built on the Six Pillars of Relationship Fitness.
+            We believe the person you become determines the relationship you attract.
+            Before you start looking for love, ALIGN helps you grow across the Six Pillars
+            of Relationship Fitness.
           </p>
 
-          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          {/* CTAs */}
+          <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '32px' }}>
             <a href={`${APP_URL}/register`} style={{
               backgroundColor: '#c0182a',
               color: '#fff',
@@ -112,11 +147,11 @@ export default function MarketingHome() {
               fontSize: '1rem',
               fontWeight: 700,
               textDecoration: 'none',
-              boxShadow: '0 4px 20px rgba(192,24,42,0.4)',
+              boxShadow: '0 4px 20px rgba(192,24,42,0.45)',
             }}>
-              Join the Platform — Free
+              Request Your Invite →
             </a>
-            <a href={BOOK_URL} target="_blank" rel="noopener noreferrer" style={{
+            <Link href="/framework" style={{
               backgroundColor: 'rgba(255,255,255,0.15)',
               border: '1px solid rgba(255,255,255,0.35)',
               color: '#fff',
@@ -126,9 +161,28 @@ export default function MarketingHome() {
               fontWeight: 600,
               textDecoration: 'none',
             }}>
-              Get the Book
-            </a>
+              Explore the Six Pillars
+            </Link>
           </div>
+
+          {/* Trust line */}
+          <p style={{
+            color: 'rgba(255,255,255,0.45)',
+            fontSize: '0.75rem',
+            letterSpacing: '0.08em',
+            marginBottom: '10px',
+          }}>
+            100% Faith-Based · Built on Biblical Principles · Invitation Only
+          </p>
+
+          {/* Book italic */}
+          <p style={{
+            color: 'rgba(255,255,255,0.35)',
+            fontSize: '0.75rem',
+            fontStyle: 'italic',
+          }}>
+            Based on the book <em>Relationship Fitness</em> by Thomas Marks
+          </p>
         </div>
 
         <div style={{
@@ -138,7 +192,42 @@ export default function MarketingHome() {
         }} />
       </section>
 
-      {/* Six Pillars */}
+      {/* ── Ticker Bar ────────────────────────────────────────────── */}
+      <div style={{
+        backgroundColor: '#c0182a',
+        overflow: 'hidden',
+        padding: '12px 0',
+        borderTop: '1px solid rgba(0,0,0,0.1)',
+      }}>
+        <style>{`
+          @keyframes ticker {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .ticker-track {
+            display: flex;
+            white-space: nowrap;
+            animation: ticker 28s linear infinite;
+          }
+        `}</style>
+        <div className="ticker-track">
+          {[...Array(6)].map((_, i) => (
+            <span key={i} style={{
+              color: '#fff',
+              fontSize: '0.75rem',
+              fontWeight: 700,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              padding: '0 40px',
+              flexShrink: 0,
+            }}>
+              Grow Before You Go&nbsp;&nbsp;·&nbsp;&nbsp;Faith-Based&nbsp;&nbsp;·&nbsp;&nbsp;Invitation Only&nbsp;&nbsp;·&nbsp;&nbsp;Six Pillars of Relationship Fitness
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Six Pillars ───────────────────────────────────────────── */}
       <section style={{ backgroundColor: '#ffffff', padding: '96px 24px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '56px' }}>
@@ -189,8 +278,75 @@ export default function MarketingHome() {
         </div>
       </section>
 
-      {/* Social Proof */}
-      <section style={{ backgroundColor: '#F9FAFB', padding: '96px 24px', borderTop: '1px solid #E5E7EB', borderBottom: '1px solid #E5E7EB' }}>
+      {/* ── How It Works ──────────────────────────────────────────── */}
+      <section style={{ backgroundColor: '#F9FAFB', padding: '96px 24px', borderTop: '1px solid #E5E7EB' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '56px' }}>
+            <p style={{ color: '#c0182a', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '12px' }}>
+              How It Works
+            </p>
+            <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontFamily: 'var(--font-heading)', fontWeight: 700, color: '#111827', marginBottom: '16px' }}>
+              Grow first. Connect after.
+            </h2>
+            <p style={{ color: '#6B7280', fontSize: '1.05rem', maxWidth: '520px', margin: '0 auto', lineHeight: 1.7 }}>
+              ALIGN is not a swipe app. It is a preparation platform built for Christians who are serious about becoming the right person before finding one.
+            </p>
+          </div>
+
+          {/* Invitation-only notice */}
+          <div style={{
+            backgroundColor: '#FFF7F7',
+            border: '1px solid #FECACA',
+            borderLeft: '4px solid #c0182a',
+            borderRadius: '10px',
+            padding: '16px 20px',
+            marginBottom: '48px',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '12px',
+          }}>
+            <span style={{ color: '#c0182a', fontSize: '1rem', flexShrink: 0, marginTop: '1px' }}>🔒</span>
+            <p style={{ color: '#374151', fontSize: '0.9rem', lineHeight: 1.7, margin: 0 }}>
+              <strong style={{ color: '#111827' }}>ALIGN is currently invitation only.</strong>{' '}
+              We are carefully selecting founding members who are genuinely committed to the Six Pillars framework and to building a high-integrity community.
+            </p>
+          </div>
+
+          {/* Steps */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px' }}>
+            {steps.map((s) => (
+              <div key={s.num} style={{
+                backgroundColor: '#ffffff',
+                border: '1px solid #E5E7EB',
+                borderRadius: '14px',
+                padding: '28px',
+                boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
+              }}>
+                <span style={{
+                  display: 'inline-block',
+                  fontSize: '0.7rem',
+                  fontWeight: 800,
+                  color: '#c0182a',
+                  letterSpacing: '0.1em',
+                  backgroundColor: '#FEF2F2',
+                  padding: '3px 10px',
+                  borderRadius: '6px',
+                  marginBottom: '16px',
+                }}>
+                  {s.num}
+                </span>
+                <h3 style={{ color: '#111827', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.05rem', marginBottom: '10px' }}>
+                  {s.title}
+                </h3>
+                <p style={{ color: '#6B7280', fontSize: '0.9rem', lineHeight: 1.65, margin: 0 }}>{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Social Proof ──────────────────────────────────────────── */}
+      <section style={{ backgroundColor: '#ffffff', padding: '96px 24px', borderTop: '1px solid #E5E7EB', borderBottom: '1px solid #E5E7EB' }}>
         <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontFamily: 'var(--font-heading)', fontWeight: 700, color: '#111827', marginBottom: '12px' }}>
@@ -200,7 +356,7 @@ export default function MarketingHome() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
             {testimonials.map((t) => (
               <div key={t.name} style={{
-                backgroundColor: '#ffffff',
+                backgroundColor: '#F9FAFB',
                 border: '1px solid #E5E7EB',
                 borderRadius: '14px',
                 padding: '28px',
@@ -219,7 +375,7 @@ export default function MarketingHome() {
         </div>
       </section>
 
-      {/* Book Banner */}
+      {/* ── Book Banner ───────────────────────────────────────────── */}
       <section style={{ backgroundColor: '#ffffff', padding: '96px 24px' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           <div style={{
@@ -251,19 +407,29 @@ export default function MarketingHome() {
               <p style={{ color: '#374151', lineHeight: 1.75, fontSize: '0.95rem', marginBottom: '28px' }}>
                 The book that started it all. Thomas Marks walks you through each pillar with scripture, practical exercises, and honest self-assessment tools to prepare you for the relationship God has for you.
               </p>
-              <a href={BOOK_URL} target="_blank" rel="noopener noreferrer" style={{
-                backgroundColor: '#c0182a', color: '#fff', padding: '12px 28px',
-                borderRadius: '8px', fontSize: '0.9rem', fontWeight: 700, textDecoration: 'none',
-                display: 'inline-block',
-              }}>
-                Get it on Amazon →
-              </a>
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <a href={BOOK_URL} target="_blank" rel="noopener noreferrer" style={{
+                  backgroundColor: '#c0182a', color: '#fff', padding: '12px 24px',
+                  borderRadius: '8px', fontSize: '0.9rem', fontWeight: 700, textDecoration: 'none',
+                  display: 'inline-block',
+                }}>
+                  Get it on Amazon →
+                </a>
+                <a href={`${APP_URL}/register`} style={{
+                  backgroundColor: '#ffffff', border: '1px solid #FECACA',
+                  color: '#c0182a', padding: '12px 24px',
+                  borderRadius: '8px', fontSize: '0.9rem', fontWeight: 700, textDecoration: 'none',
+                  display: 'inline-block',
+                }}>
+                  Request Your Invite →
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Final CTA */}
+      {/* ── Final CTA ─────────────────────────────────────────────── */}
       <section style={{
         background: 'linear-gradient(135deg, #c0182a 0%, #7a0f1a 100%)',
         padding: '96px 24px',
@@ -271,17 +437,17 @@ export default function MarketingHome() {
       }}>
         <div style={{ maxWidth: '600px', margin: '0 auto' }}>
           <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.75rem)', fontFamily: 'var(--font-heading)', fontWeight: 800, color: '#fff', marginBottom: '16px', lineHeight: 1.15 }}>
-            Start your preparation today
+            Grow before you go.
           </h2>
           <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '1.1rem', lineHeight: 1.7, marginBottom: '36px' }}>
-            Create your free account, take the Six Pillars assessment, and begin the work that leads to the love you desire.
+            The person you become determines the relationship you attract. Start your preparation today.
           </p>
           <a href={`${APP_URL}/register`} style={{
             backgroundColor: '#fff', color: '#c0182a', padding: '14px 36px',
             borderRadius: '10px', fontSize: '1rem', fontWeight: 700, textDecoration: 'none',
             display: 'inline-block', boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
           }}>
-            Create Free Account
+            Request Your Invite →
           </a>
         </div>
       </section>
