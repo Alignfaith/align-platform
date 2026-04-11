@@ -25,9 +25,11 @@ export default function Header() {
     const authLinks = session ? [
         { href: '/dashboard', label: 'Dashboard' },
         { href: '/messages', label: 'Messages' },
-    ] : [
+   } : [
         { href: '/about', label: 'About' },
         { href: '/framework', label: 'The Framework' },
+        { href: '/founder', label: 'Become a Founder' },
+    ]
     ]
 
     const navLinks = [...baseLinks, ...authLinks]
