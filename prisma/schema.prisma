@@ -1007,3 +1007,27 @@ model MatchingApplication {
   @@index([status])
   @@index([submittedAt])
 }
+// ==================== FOUNDER APPLICATIONS ====================
+
+enum FounderStatus {
+  PENDING
+  APPROVED
+  DENIED
+}
+
+model FounderApplication {
+  id     String        @id @default(cuid())
+  name   String
+  email  String        @unique
+  phone  String
+  gender String
+  city   String
+  state  String
+  status FounderStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}
