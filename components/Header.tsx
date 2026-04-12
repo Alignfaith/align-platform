@@ -27,7 +27,7 @@ export default function Header() {
         { href: '/messages', label: 'Messages' },
     ] : [
         { href: '/about', label: 'About' },
-        { href: '/framework', label: 'The Framework' },
+        { href: '/framework', label: 'Framework' },
         { href: '/founder', label: 'Become a Founder' },
     ]
 
