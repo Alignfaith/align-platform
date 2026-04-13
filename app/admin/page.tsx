@@ -21,6 +21,7 @@ interface DashboardData {
     activeMatches: number
     waitlistSize: number
     unreadFeedback: number
+    pendingFounders: number
   }
   recentActions: {
     id: string
@@ -110,6 +111,7 @@ export default function AdminDashboard() {
         <MetricCard label="Pending Photos" value={stats.pendingPhotos} href="/admin/moderation/photos" />
         <MetricCard label="Pending Appeals" value={stats.pendingAppeals} />
         <MetricCard label="Active Matches" value={stats.activeMatches} />
+        <MetricCard label="Pending Founders" value={stats.pendingFounders} href="/admin/founder-applications" />
       </div>
 
       {/* ── Tier breakdown + Alerts + Activity ── */}
