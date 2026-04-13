@@ -64,22 +64,10 @@ export default async function CmsPageView({ params }: PageProps) {
           </div>
         </section>
 
-        {/* Prose content */}
-        <section className="section section--cream">
-          <div className="container">
-            <div
-              className="cms-prose"
-              style={{ maxWidth: '760px', margin: '0 auto' }}
-              dangerouslySetInnerHTML={{ __html: content }}
-            />
-          </div>
-        </section>
-
         {/* Meet the Founder — only on /p/about */}
         {slug === 'about' && (
           <section style={{
             backgroundColor: 'var(--color-bg-secondary)',
-            borderTop: '1px solid var(--color-border-subtle)',
             padding: '80px 24px',
           }}>
             <div style={{ maxWidth: '900px', margin: '0 auto' }}>
@@ -173,6 +161,17 @@ export default async function CmsPageView({ params }: PageProps) {
             </div>
           </section>
         )}
+
+        {/* Prose content */}
+        <section className="section section--cream">
+          <div className="container">
+            <div
+              className="cms-prose"
+              style={{ maxWidth: '760px', margin: '0 auto' }}
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
+          </div>
+        </section>
 
       </main>
       {page.showFooter && <Footer />}
