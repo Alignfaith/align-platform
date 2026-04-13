@@ -5,6 +5,15 @@ interface RouteParams {
   params: Promise<{ id: string }>
 }
 
+function generateInviteCode(): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
+  let code = 'FOUNDER-'
+  for (let i = 0; i < 6; i++) {
+    code += chars[Math.floor(Math.random() * chars.length)]
+  }
+  return code
+}
+
 export async function POST(_req: NextRequest, { params }: RouteParams) {
   const { id } = await params
 
@@ -14,9 +23,19 @@ export async function POST(_req: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: 'Application not found' }, { status: 404 })
     }
 
+    // Generate a unique invite code
+    let inviteCode = generateInviteCode()
+    let attempts = 0
+    while (attempts < 10) {
+      const existing = await prisma.founderApplication.findFirst({ where: { inviteCode } })
+      if (!existing) break
+      inviteCode = generateInviteCode()
+      attempts++
+    }
+
     await prisma.founderApplication.update({
       where: { id },
-      data: { status: 'APPROVED' },
+      data: { status: 'APPROVED', inviteCode },
     })
 
     if (process.env.RESEND_API_KEY) {
@@ -39,6 +58,12 @@ export async function POST(_req: NextRequest, { params }: RouteParams) {
                 <p style="font-size: 16px; line-height: 1.7;">
                   Your application to join ALIGN as a Founding Member has been approved. We are honored to have you as one of the first members of this community.
                 </p>
+
+                <div style="background: #fff7f7; border: 1px solid #fecaca; border-radius: 8px; padding: 20px 24px; margin: 24px 0; text-align: center;">
+                  <p style="margin: 0 0 6px; font-size: 12px; color: #9ca3af; letter-spacing: 0.1em; text-transform: uppercase;">Your Invite Code</p>
+                  <p style="margin: 0; font-size: 24px; font-weight: 700; color: #c0182a; letter-spacing: 0.08em; font-family: monospace;">${inviteCode}</p>
+                </div>
+
                 <p style="font-size: 16px; line-height: 1.7;">Here is what to expect next:</p>
                 <ul style="font-size: 15px; line-height: 1.9; padding-left: 20px; color: #374151;">
                   <li><strong>3 months of free access</strong> — your membership will begin the moment you log in, at no charge for your first three months.</li>
@@ -70,13 +95,14 @@ export async function POST(_req: NextRequest, { params }: RouteParams) {
                 <h2 style="color: #c0182a;">Founding Member Approved</h2>
                 <p>A new founding member has been approved. Please arrange to send them a copy of <em>Relationship Fitness</em>.</p>
                 <table style="width: 100%; border-collapse: collapse; margin-top: 16px;">
-                  <tr><td style="padding: 8px 0; color: #6b7280; width: 80px;">Name</td><td style="padding: 8px 0; font-weight: 600;">${application.name}</td></tr>
+                  <tr><td style="padding: 8px 0; color: #6b7280; width: 100px;">Name</td><td style="padding: 8px 0; font-weight: 600;">${application.name}</td></tr>
                   <tr><td style="padding: 8px 0; color: #6b7280;">Phone</td><td style="padding: 8px 0;">${application.phone}</td></tr>
                   <tr><td style="padding: 8px 0; color: #6b7280;">Email</td><td style="padding: 8px 0;"><a href="mailto:${application.email}">${application.email}</a></td></tr>
                   <tr><td style="padding: 8px 0; color: #6b7280;">Location</td><td style="padding: 8px 0;">${application.city}, ${application.state}</td></tr>
+                  <tr><td style="padding: 8px 0; color: #6b7280;">Invite Code</td><td style="padding: 8px 0; font-family: monospace; font-weight: 700; color: #c0182a;">${inviteCode}</td></tr>
                 </table>
                 <p style="margin-top: 24px; font-size: 13px; color: #9ca3af;">
-                  View all applications: <a href="https://app.alignfaith.com/admin/founders">admin/founders</a>
+                  View all applications: <a href="https://app.alignfaith.com/admin/founder-applications">admin/founder-applications</a>
                 </p>
               </div>
             `,
@@ -84,11 +110,10 @@ export async function POST(_req: NextRequest, { params }: RouteParams) {
         }
       } catch (emailErr) {
         console.error('[founder/approve] email failed:', emailErr)
-        // Status already updated — don't fail the request
       }
     }
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true, inviteCode })
   } catch (error) {
     console.error('[founder/approve]', error)
     return NextResponse.json({ error: 'Failed to approve application' }, { status: 500 })

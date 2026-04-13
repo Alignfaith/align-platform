@@ -15,9 +15,10 @@ interface AdminSidebarProps {
   pendingPhotos?: number
   openReports?: number
   pendingAppeals?: number
+  pendingFounders?: number
 }
 
-export default function AdminSidebar({ pendingPhotos = 0, openReports = 0, pendingAppeals = 0 }: AdminSidebarProps) {
+export default function AdminSidebar({ pendingPhotos = 0, openReports = 0, pendingAppeals = 0, pendingFounders = 0 }: AdminSidebarProps) {
   const pathname = usePathname()
   const [collapsed, setCollapsed] = useState(false)
 
@@ -33,6 +34,7 @@ export default function AdminSidebar({ pendingPhotos = 0, openReports = 0, pendi
     { label: 'Community', href: '/admin/community', icon: '⊚' },
     { label: 'Stories', href: '/admin/alignment-stories', icon: '⊕' },
     { label: 'Professional', href: '/admin/professional', icon: '◈' },
+    { label: 'Founders', href: '/admin/founder-applications', icon: '✦', badge: pendingFounders },
     { label: 'Settings', href: '/admin/settings', icon: '⊗' },
     { label: 'Audit Log', href: '/admin/audit-log', icon: '⊟' },
   ]
