@@ -41,13 +41,44 @@ const perks = [
 
 export default function FounderPage() {
   const [form, setForm] = useState({
-    name: '', email: '', phone: '', gender: '', city: '', state: '',
+    name: '', email: '', phone: '', gender: '', zip: '', city: '', state: '',
   })
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  const [zipError, setZipError] = useState('')
+  const [zipLoading, setZipLoading] = useState(false)
 
   const update = (field: string, value: string) =>
     setForm(prev => ({ ...prev, [field]: value }))
+
+  const handleZipChange = async (zip: string) => {
+    update('zip', zip)
+    setZipError('')
+    if (zip.length !== 5 || !/^\d{5}$/.test(zip)) return
+    setZipLoading(true)
+    try {
+      const res = await fetch(`https://api.zippopotam.us/us/${zip}`)
+      if (!res.ok) {
+        setZipError('ZIP code not found.')
+        setForm(prev => ({ ...prev, city: '', state: '' }))
+        return
+      }
+      const data = await res.json()
+      const place = data.places?.[0]
+      if (place) {
+        setForm(prev => ({
+          ...prev,
+          city: place['place name'] || '',
+          state: place['state'] || '',
+        }))
+      }
+    } catch {
+      setZipError('Could not look up ZIP code.')
+      setForm(prev => ({ ...prev, city: '', state: '' }))
+    } finally {
+      setZipLoading(false)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -346,6 +377,35 @@ export default function FounderPage() {
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                   </select>
+                </div>
+
+                {/* ZIP Code */}
+                <div className="form-group" style={{ margin: 0 }}>
+                  <label className="form-label">ZIP Code</label>
+                  <div style={{ position: 'relative' }}>
+                    <input
+                      type="text"
+                      className="form-input"
+                      placeholder="5-digit ZIP"
+                      value={form.zip}
+                      onChange={e => handleZipChange(e.target.value.replace(/\D/g, '').slice(0, 5))}
+                      maxLength={5}
+                      inputMode="numeric"
+                      disabled={status === 'loading'}
+                      style={zipLoading ? { paddingRight: '36px' } : undefined}
+                    />
+                    {zipLoading && (
+                      <span style={{
+                        position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)',
+                        color: 'var(--color-text-tertiary)', fontSize: '0.75rem',
+                      }}>…</span>
+                    )}
+                  </div>
+                  {zipError && (
+                    <p style={{ margin: '4px 0 0', fontSize: '0.75rem', color: 'var(--color-error)' }}>
+                      {zipError}
+                    </p>
+                  )}
                 </div>
 
                 {/* City + State */}

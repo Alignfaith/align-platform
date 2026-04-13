@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { notifyAdminMessage } from '@/lib/email'
 
 export async function POST(request: NextRequest) {
     try {
@@ -23,6 +24,14 @@ export async function POST(request: NextRequest) {
                 message,
                 category: category || 'general',
             },
+        })
+
+        notifyAdminMessage({
+            name: feedback.name,
+            email: feedback.email,
+            subject: feedback.subject,
+            message: feedback.message,
+            createdAt: feedback.createdAt,
         })
 
         return NextResponse.json({ success: true, id: feedback.id })

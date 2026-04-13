@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { notifyFounderApplication } from '@/lib/email'
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,7 +30,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    await prisma.founderApplication.create({
+    const application = await prisma.founderApplication.create({
       data: {
         name: name.trim(),
         email: email.trim().toLowerCase(),
@@ -38,6 +39,15 @@ export async function POST(request: NextRequest) {
         city: city.trim(),
         state: state.trim(),
       },
+    })
+
+    notifyFounderApplication({
+      name: application.name,
+      email: application.email,
+      phone: application.phone,
+      city: application.city,
+      state: application.state,
+      createdAt: application.createdAt,
     })
 
     return NextResponse.json({ success: true })
