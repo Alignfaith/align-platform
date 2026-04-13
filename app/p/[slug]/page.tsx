@@ -83,16 +83,12 @@ export default async function CmsPageView({ params }: PageProps) {
                 Meet the Founder
               </p>
 
-              <div style={{
-                display: 'flex',
-                flexDirection: 'row',
-                gap: '56px',
-                alignItems: 'flex-start',
-              }}
+              <div
                 className="founder-layout"
+                style={{ display: 'flex', gap: '56px', alignItems: 'flex-start' }}
               >
                 {/* Photo */}
-                <div style={{ flexShrink: 0, display: 'flex', justifyContent: 'center' }}>
+                <div className="founder-photo">
                   <Image
                     src="/images/thomas-marks.png"
                     alt="Thomas Marks"
@@ -105,33 +101,9 @@ export default async function CmsPageView({ params }: PageProps) {
 
                 {/* Bio */}
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <h2 style={{
-                    fontFamily: 'var(--font-heading)',
-                    fontSize: 'clamp(1.75rem, 3vw, 2.5rem)',
-                    fontWeight: 800,
-                    color: 'var(--color-text-primary)',
-                    lineHeight: 1.1,
-                    margin: '0 0 8px',
-                  }}>
-                    Thomas Marks
-                  </h2>
-                  <p style={{
-                    fontSize: '0.8rem',
-                    fontWeight: 700,
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    color: 'var(--color-primary)',
-                    margin: '0 0 24px',
-                  }}>
-                    Founder &amp; Author
-                  </p>
-                  <p style={{
-                    color: 'var(--color-text-secondary)',
-                    fontSize: '1rem',
-                    lineHeight: 1.8,
-                    margin: '0 0 32px',
-                    maxWidth: '560px',
-                  }}>
+                  <h2 className="founder-bio__name">Thomas Marks</h2>
+                  <p className="founder-bio__title">Founder &amp; Author</p>
+                  <p className="founder-bio__body">
                     Thomas Marks is the founder of ALIGN and the author of{' '}
                     <em>Relationship Fitness</em>. Led by God to build a platform where
                     Christians could grow together — not just read about growth alone —
@@ -142,17 +114,7 @@ export default async function CmsPageView({ params }: PageProps) {
                     href="https://a.co/d/09qpJCAh"
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{
-                      display: 'inline-block',
-                      backgroundColor: 'var(--color-primary)',
-                      color: '#fff',
-                      fontWeight: 700,
-                      fontSize: '0.875rem',
-                      padding: '12px 28px',
-                      borderRadius: 'var(--radius-md)',
-                      textDecoration: 'none',
-                      letterSpacing: '0.02em',
-                    }}
+                    className="founder-bio__cta"
                   >
                     Get the Book
                   </a>
