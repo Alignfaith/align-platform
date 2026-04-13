@@ -124,6 +124,31 @@ export default async function CmsPageView({ params }: PageProps) {
           </section>
         )}
 
+        {/* Tagline callout — only on /p/about */}
+        {slug === 'about' && (
+          <section style={{
+            backgroundColor: 'var(--color-bg-primary)',
+            padding: '56px 24px',
+            borderBottom: '1px solid var(--color-border-subtle)',
+          }}>
+            <blockquote style={{
+              maxWidth: '720px',
+              margin: '0 auto',
+              textAlign: 'center',
+              fontFamily: 'var(--font-heading)',
+              fontSize: 'clamp(1.15rem, 2.5vw, 1.5rem)',
+              fontWeight: 700,
+              color: 'var(--color-primary)',
+              lineHeight: 1.55,
+              fontStyle: 'normal',
+              borderLeft: 'none',
+              padding: 0,
+            }}>
+              &ldquo;At ALIGN, we align before we match. That is not just a saying — it is how we operate.&rdquo;
+            </blockquote>
+          </section>
+        )}
+
         {/* Prose content */}
         <section className="section section--cream">
           <div className="container">

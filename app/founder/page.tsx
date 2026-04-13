@@ -159,10 +159,24 @@ export default function FounderPage() {
               fontSize: 'clamp(1rem, 2.5vw, 1.15rem)',
               lineHeight: 1.75,
               maxWidth: '540px',
-              margin: '0 auto',
+              margin: '0 auto 32px',
             }}>
               We are hand-selecting a small group of founding members to help launch ALIGN.
               If you are serious about your faith and your preparation for relationship, this is for you.
+            </p>
+
+            <p style={{
+              fontFamily: 'var(--font-heading)',
+              fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
+              fontWeight: 700,
+              color: 'rgba(255,255,255,0.95)',
+              lineHeight: 1.55,
+              maxWidth: '560px',
+              margin: '0 auto',
+              borderTop: '1px solid rgba(255,255,255,0.2)',
+              paddingTop: '28px',
+            }}>
+              &ldquo;At ALIGN, we align before we match. That is not just a saying — it is how we operate.&rdquo;
             </p>
           </div>
         </section>
