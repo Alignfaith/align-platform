@@ -16,22 +16,21 @@ export default function Header() {
 
     const closeMenu = () => setIsMenuOpen(false)
 
-    const baseLinks = [
+    const navLinks = session ? [
         { href: '/', label: 'Home' },
-        { href: '/alignment-stories', label: 'Stories' },
         { href: '/pricing', label: 'Membership' },
-    ]
-
-    const authLinks = session ? [
         { href: '/dashboard', label: 'Dashboard' },
+        { href: '/alignment-stories', label: 'Stories' },
         { href: '/messages', label: 'Messages' },
+        { href: '/about', label: 'About' },
     ] : [
+        { href: '/', label: 'Home' },
+        { href: '/pricing', label: 'Membership' },
+        { href: '/alignment-stories', label: 'Stories' },
         { href: '/about', label: 'About' },
         { href: '/framework', label: 'Framework' },
         { href: '/founder', label: 'Become a Founder' },
     ]
-
-    const navLinks = [...baseLinks, ...authLinks]
 
     return (
         <header className="header">
