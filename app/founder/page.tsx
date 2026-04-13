@@ -246,6 +246,106 @@ export default function FounderPage() {
           </div>
         </section>
 
+        {/* ── Expectations ──────────────────────────────────────── */}
+        <section style={{ backgroundColor: 'var(--color-bg-primary)', padding: '72px 24px', borderBottom: '1px solid var(--color-border-subtle)' }}>
+          <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+
+            {/* Header */}
+            <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+              <p style={{
+                fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.14em',
+                textTransform: 'uppercase', color: 'var(--color-primary)',
+                marginBottom: '12px',
+              }}>
+                Before You Apply
+              </p>
+              <h2 style={{
+                fontFamily: 'var(--font-heading)',
+                fontSize: 'clamp(1.5rem, 3vw, 2.25rem)',
+                fontWeight: 700,
+                color: 'var(--color-text-primary)',
+                lineHeight: 1.2,
+                marginBottom: '16px',
+              }}>
+                What We Expect From You
+              </h2>
+              <p style={{
+                color: 'var(--color-primary)',
+                fontSize: '0.95rem',
+                fontWeight: 600,
+                fontStyle: 'italic',
+                lineHeight: 1.65,
+              }}>
+                At ALIGN, we align before we match. That is not just a saying — it is how we operate.
+              </p>
+            </div>
+
+            {/* Expectation items */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '52px' }}>
+              {[
+                { n: 1, text: 'Complete your Six Pillars assessment honestly.' },
+                { n: 2, text: 'Engage with the community to encourage and uplift — not to pursue.' },
+                { n: 3, text: 'Share your growth journey openly and authentically.' },
+                { n: 4, text: 'Respect that everyone is at a different stage in their process.' },
+                { n: 5, text: 'Keep all interactions faith-centered and intentional.' },
+                { n: 6, text: 'Provide honest feedback to help shape the platform.' },
+                { n: 7, text: 'Harassment of any kind will not be tolerated and will result in immediate removal from the platform.', strong: true },
+              ].map(({ n, text, strong }) => (
+                <div key={n} style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '16px',
+                  backgroundColor: strong ? 'rgba(192,24,42,0.06)' : 'var(--color-bg-elevated)',
+                  border: `1px solid ${strong ? 'rgba(192,24,42,0.25)' : 'var(--color-border-subtle)'}`,
+                  borderLeft: `3px solid ${strong ? 'var(--color-primary)' : 'var(--color-border-subtle)'}`,
+                  borderRadius: '10px',
+                  padding: '16px 20px',
+                }}>
+                  <span style={{
+                    flexShrink: 0,
+                    width: '28px',
+                    height: '28px',
+                    borderRadius: '50%',
+                    backgroundColor: strong ? 'var(--color-primary)' : 'rgba(192,24,42,0.1)',
+                    color: strong ? '#fff' : 'var(--color-primary)',
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginTop: '1px',
+                  }}>
+                    {n}
+                  </span>
+                  <p style={{
+                    margin: 0,
+                    color: strong ? 'var(--color-text-primary)' : 'var(--color-text-secondary)',
+                    fontSize: '0.9rem',
+                    lineHeight: 1.7,
+                    fontWeight: strong ? 600 : 400,
+                  }}>
+                    {text}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Closing statement */}
+            <p style={{
+              textAlign: 'center',
+              fontFamily: 'var(--font-heading)',
+              fontSize: 'clamp(1.1rem, 2.2vw, 1.35rem)',
+              fontWeight: 700,
+              color: 'var(--color-primary)',
+              lineHeight: 1.5,
+              margin: 0,
+            }}>
+              Come ready to grow. Everything else will follow.
+            </p>
+
+          </div>
+        </section>
+
         {/* ── Application Form ──────────────────────────────────── */}
         <section style={{ backgroundColor: 'var(--color-bg-primary)', padding: '80px 24px' }}>
           <div style={{ maxWidth: '560px', margin: '0 auto' }}>
