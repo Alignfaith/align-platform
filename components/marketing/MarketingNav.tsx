@@ -68,7 +68,7 @@ export default function MarketingNav() {
             </Link>
           ))}
           <a
-            href={`${APP_URL}/register`}
+            href={`${APP_URL}/founder`}
             style={{
               backgroundColor: '#c0182a',
               color: '#fff',
@@ -132,7 +132,7 @@ export default function MarketingNav() {
             </Link>
           ))}
           <a
-            href={`${APP_URL}/register`}
+            href={`${APP_URL}/founder`}
             style={{
               backgroundColor: '#c0182a',
               color: '#fff',
