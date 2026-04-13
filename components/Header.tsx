@@ -27,9 +27,9 @@ export default function Header() {
         { href: '/', label: 'Home' },
         { href: '/pricing', label: 'Membership' },
         { href: '/alignment-stories', label: 'Stories' },
-        { href: '/about', label: 'About' },
         { href: '/framework', label: 'Framework' },
         { href: '/founder', label: 'Become a Founder' },
+        { href: '/about', label: 'About' },
     ]
 
     return (
