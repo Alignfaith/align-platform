@@ -22,13 +22,14 @@ export default function Header() {
         { href: '/dashboard', label: 'Dashboard' },
         { href: '/alignment-stories', label: 'Stories' },
         { href: '/messages', label: 'Messages' },
+        { href: '/founders', label: 'Founders' },
         { href: '/about', label: 'About' },
     ] : [
         { href: '/', label: 'Home' },
         { href: '/pricing', label: 'Membership' },
         { href: '/alignment-stories', label: 'Stories' },
         { href: '/framework', label: 'Framework' },
-        { href: '/founder', label: 'Become a Founder' },
+        { href: '/founders', label: 'Founders' },
         { href: '/about', label: 'About' },
     ]
 
