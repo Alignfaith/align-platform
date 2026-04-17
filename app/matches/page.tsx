@@ -339,9 +339,13 @@ export default function MatchesPage() {
                                                 <PillarBreakdownSection breakdown={match.pillarBreakdown} />
                                             )}
                                             <div style={{ marginTop: 'auto' }}>
-                                                <button className="btn btn--primary btn--sm" style={{ width: '100%' }}>
+                                                <Link
+                                                    href={`/matches/${match.matchId}`}
+                                                    className="btn btn--primary btn--sm"
+                                                    style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                                                >
                                                     View Profile <ChevronRight size={16} />
-                                                </button>
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
