@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import {
+  PROFILE_PHOTOS_BUCKET,
+  ALLOWED_IMAGE_TYPES,
+  storagePath,
+  uploadToStorage,
+  StorageUploadError,
+} from '@/lib/storage'
 
 // GET — public, returns approved stories
 export async function GET(req: NextRequest) {
@@ -75,17 +82,25 @@ export async function POST(req: NextRequest) {
     let photoPublicId: string | undefined
 
     if (photo && photo.size > 0) {
-      if (photo.size > 10 * 1024 * 1024) {
-        return NextResponse.json({ error: 'Photo must be under 10 MB' }, { status: 400 })
+      if (!ALLOWED_IMAGE_TYPES.has(photo.type)) {
+        return NextResponse.json(
+          { error: 'File type not allowed. Please upload a JPEG, PNG, WebP, HEIC, or HEIF image.' },
+          { status: 400 }
+        )
       }
-      const buffer = Buffer.from(await photo.arrayBuffer())
-      const { uploadImage } = await import('@/lib/cloudinary')
-      const result = await uploadImage(buffer, {
-        folder: 'align/stories',
-        publicId: `story_${session.user.id}_${Date.now()}`,
-      })
-      photoUrl = result.url
-      photoPublicId = result.publicId
+      if (photo.size > 10 * 1024 * 1024) {
+        return NextResponse.json({ error: 'Photo must be under 10 MB' }, { status: 413 })
+      }
+      const path = storagePath('stories', session.user.id, photo.name || 'photo.jpg')
+      try {
+        photoUrl = await uploadToStorage(PROFILE_PHOTOS_BUCKET, path, await photo.arrayBuffer(), photo.type)
+        photoPublicId = path
+      } catch (e) {
+        if (e instanceof StorageUploadError) {
+          return NextResponse.json({ error: e.message }, { status: e.httpStatus })
+        }
+        return NextResponse.json({ error: 'Storage is not configured on the server' }, { status: 500 })
+      }
     }
 
     const record = await prisma.alignmentStory.create({

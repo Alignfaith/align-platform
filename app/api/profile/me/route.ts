@@ -19,7 +19,11 @@ export async function GET() {
         state: true,
         country: true,
         relationshipGoal: true,
-        // Primary photo via the existing Photo model (no migration needed)
+        // Human verification — previously hardcoded as false/null, now read from DB
+        humanVerified: true,
+        humanVerificationPhotoUrl: true,
+        humanVerificationSubmittedAt: true,
+        // Primary photo via the Photo model
         photos: {
           where: { isPrimary: true },
           select: { url: true, isApproved: true, publicId: true },
@@ -40,13 +44,13 @@ export async function GET() {
       state: profile.state,
       country: profile.country,
       relationshipGoal: profile.relationshipGoal,
-      // Shape expected by profile edit page
+      // Identity photo
       identityPhotoUrl: primaryPhoto?.url ?? null,
       identityPhotoApproved: primaryPhoto?.isApproved ?? false,
-      // Human verification: not yet in prod DB — return safe defaults
-      humanVerified: false,
-      humanVerificationPhotoUrl: null,
-      humanVerificationSubmittedAt: null,
+      // Human verification — real values from DB
+      humanVerified: profile.humanVerified,
+      humanVerificationPhotoUrl: profile.humanVerificationPhotoUrl ?? null,
+      humanVerificationSubmittedAt: profile.humanVerificationSubmittedAt ?? null,
       // profession/education not in prod DB yet — return empty strings
       profession: '',
       education: '',

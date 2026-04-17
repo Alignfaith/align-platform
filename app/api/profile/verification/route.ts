@@ -3,59 +3,92 @@ import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
 import { authOptions } from '@/lib/auth'
 import { handleApiError, AuthenticationError, NotFoundError } from '@/lib/errors'
+import {
+  PROFILE_PHOTOS_BUCKET,
+  ALLOWED_IMAGE_TYPES,
+  storagePath,
+  uploadToStorage,
+  StorageUploadError,
+} from '@/lib/storage'
+
+const MAX_BYTES = 15 * 1024 * 1024 // 15 MB (larger than identity — raw selfie, not resized)
 
 export async function POST(req: NextRequest) {
   try {
+    // ── Auth ────────────────────────────────────────────────────────────────
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) throw new AuthenticationError()
 
-    const profile = await prisma.profile.findUnique({ where: { userId: session.user.id }, select: { id: true } })
+    // ── Profile lookup ───────────────────────────────────────────────────────
+    const profile = await prisma.profile.findUnique({
+      where: { userId: session.user.id },
+      select: { id: true },
+    })
     if (!profile) throw new NotFoundError('Profile not found')
 
-    const formData = await req.formData()
+    // ── Parse upload ─────────────────────────────────────────────────────────
+    let formData: FormData
+    try {
+      formData = await req.formData()
+    } catch {
+      return NextResponse.json({ error: 'Failed to parse file upload' }, { status: 400 })
+    }
+
     const file = formData.get('photo') as File | null
     if (!file) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 })
     }
 
-    if (file.size > 15 * 1024 * 1024) {
-      return NextResponse.json({ error: 'Image must be under 15MB' }, { status: 400 })
+    // ── MIME type validation ─────────────────────────────────────────────────
+    if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
+      return NextResponse.json(
+        { error: 'File type not allowed. Please upload a JPEG, PNG, WebP, HEIC, or HEIF image.' },
+        { status: 400 }
+      )
     }
 
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
+    // ── Size validation ──────────────────────────────────────────────────────
+    if (file.size > MAX_BYTES) {
+      return NextResponse.json({ error: 'Image must be under 15 MB' }, { status: 413 })
+    }
 
+    // ── Upload to Supabase Storage ───────────────────────────────────────────
+    const path = storagePath('verification', session.user.id, file.name || 'verification.jpg')
     let url: string
-    let publicId: string
-
-    if (process.env.CLOUDINARY_CLOUD_NAME) {
-      const { uploadImage } = await import('@/lib/cloudinary')
-      const result = await uploadImage(buffer, {
-        folder: 'align/human-verification',
-        publicId: `verify_${profile.id}_${Date.now()}`,
-      })
-      url = result.url
-      publicId = result.publicId
-    } else {
-      url = `data:image/jpeg;base64,${buffer.toString('base64')}`
-      publicId = `local_verify_${profile.id}_${Date.now()}`
+    try {
+      url = await uploadToStorage(PROFILE_PHOTOS_BUCKET, path, await file.arrayBuffer(), file.type)
+    } catch (e) {
+      if (e instanceof StorageUploadError) {
+        return NextResponse.json({ error: e.message }, { status: e.httpStatus })
+      }
+      console.error('[profile/verification] Storage config error:', e)
+      return NextResponse.json({ error: 'Storage is not configured on the server' }, { status: 500 })
     }
 
-    // Store verification photo using the existing Photo model.
-    // publicId prefix 'verify_' distinguishes it from identity photos.
-    // isPrimary=false so it doesn't override the profile photo.
+    // ── Persist to DB ────────────────────────────────────────────────────────
+    // Store in Photo table for admin moderation queue (same as identity photos).
+    // Also write humanVerificationPhotoUrl + humanVerificationSubmittedAt to Profile
+    // so /api/profile/me can return the real state instead of hardcoded nulls.
     await prisma.photo.create({
       data: {
         profileId: profile.id,
         url,
-        publicId,
+        publicId: path,      // path prefix 'verification/' distinguishes it from identity photos
         isPrimary: false,
         isApproved: false,
         order: 99,
       },
     })
 
-    return NextResponse.json({ success: true })
+    await prisma.profile.update({
+      where: { id: profile.id },
+      data: {
+        humanVerificationPhotoUrl: url,
+        humanVerificationSubmittedAt: new Date(),
+      },
+    })
+
+    return NextResponse.json({ success: true, url })
   } catch (error) {
     return handleApiError(error)
   }
