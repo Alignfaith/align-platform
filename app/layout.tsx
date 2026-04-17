@@ -25,10 +25,28 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-    title: 'ALIGN | Find Meaningful Connection',
+    metadataBase: new URL('https://app.alignfaith.com'),
+    title: {
+        default: 'ALIGN | Find Meaningful Connection',
+        template: '%s | ALIGN',
+    },
     description: 'A Christian dating platform where preparation comes before connection. Built on the Six Pillars framework for relationship readiness.',
-    keywords: ['Christian dating', 'faith based dating', 'relationship platform', 'intentional relationships', 'meaningful connection'],
+    keywords: [
+        'Christian dating',
+        'Christian singles',
+        'faith-based relationships',
+        'biblical relationships',
+        'relationship preparation',
+        'God-centered love',
+        'Six Pillars',
+        'Relationship Fitness',
+        'Thomas Marks',
+        'intentional relationships',
+        'Christian dating app',
+    ],
     authors: [{ name: 'Thomas Marks' }],
+    creator: 'Thomas Marks',
+    publisher: 'ALIGN',
     icons: {
         icon: [
             { url: '/favicon.ico', sizes: '32x32', type: 'image/x-icon' },
@@ -39,9 +57,37 @@ export const metadata: Metadata = {
     },
     openGraph: {
         title: 'ALIGN | Find Meaningful Connection',
-        description: 'A Christian dating platform where preparation comes before connection.',
+        description: 'A Christian dating platform where preparation comes before connection. Built on the Six Pillars framework for relationship readiness.',
         type: 'website',
         locale: 'en_US',
+        url: 'https://app.alignfaith.com',
+        siteName: 'ALIGN',
+        images: [
+            {
+                url: '/icon.png',
+                width: 192,
+                height: 192,
+                alt: 'ALIGN — Faith-Based Relationships',
+            },
+        ],
+    },
+    twitter: {
+        card: 'summary',
+        title: 'ALIGN | Find Meaningful Connection',
+        description: 'A Christian dating platform where preparation comes before connection. Built on the Six Pillars framework for relationship readiness.',
+        images: ['/icon.png'],
+        creator: '@alignfaith',
+    },
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+            'max-snippet': -1,
+            'max-image-preview': 'large',
+            'max-video-preview': -1,
+        },
     },
 }
 

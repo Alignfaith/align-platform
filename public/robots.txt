@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /profile/
+Disallow: /messages/
+Disallow: /settings/
+Disallow: /matches/
+Disallow: /checkout/
+
+Sitemap: https://app.alignfaith.com/sitemap.xml

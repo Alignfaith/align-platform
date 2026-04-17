@@ -1,8 +1,26 @@
+import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import SixPillars from '@/components/SixPillars'
 import Link from 'next/link'
 import { BookOpen, Sun, Shield, Heart } from 'lucide-react'
+
+export const metadata: Metadata = {
+    title: 'About ALIGN | Our Mission & the Six Pillars Framework',
+    description: "Learn about ALIGN's mission to help Christian singles prepare for intentional, faith-centered relationships through Thomas Marks' Six Pillars of Relationship Fitness.",
+    alternates: { canonical: 'https://app.alignfaith.com/about' },
+    openGraph: {
+        title: 'About ALIGN | Our Mission & the Six Pillars Framework',
+        description: "ALIGN was built on one conviction: you must become the right person before you can find the right person. Discover the mission and framework behind Christian singles platform ALIGN.",
+        url: 'https://app.alignfaith.com/about',
+        images: [{ url: '/icon.png', width: 192, height: 192, alt: 'ALIGN — About Our Mission' }],
+    },
+    twitter: {
+        card: 'summary',
+        title: 'About ALIGN | Our Mission & the Six Pillars Framework',
+        description: "ALIGN helps Christian singles prepare for God-centered love through Thomas Marks' Six Pillars of Relationship Fitness.",
+    },
+}
 
 export default function AboutPage() {
   return (

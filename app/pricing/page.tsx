@@ -1,9 +1,27 @@
+import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import MembershipTiers from '@/components/MembershipTiers'
 import { Check, X, Shield, BookOpen, Gift, Truck } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
+
+export const metadata: Metadata = {
+    title: 'Membership Plans | Christian Dating Platform',
+    description: 'Join ALIGN free or upgrade to connect with Christian singles prepared for biblical relationships. Every paid plan includes Relationship Fitness by Thomas Marks.',
+    alternates: { canonical: 'https://app.alignfaith.com/pricing' },
+    openGraph: {
+        title: 'Membership Plans | ALIGN | Christian Dating Platform',
+        description: 'Start free or go premium. Every paid ALIGN membership includes a physical copy of Relationship Fitness by Thomas Marks and full access to the Six Pillars framework.',
+        url: 'https://app.alignfaith.com/pricing',
+        images: [{ url: '/icon.png', width: 192, height: 192, alt: 'ALIGN Membership Plans' }],
+    },
+    twitter: {
+        card: 'summary',
+        title: 'Membership Plans | ALIGN',
+        description: 'Find the ALIGN membership that fits your faith journey. Connect with Christian singles prepared for intentional, God-centered relationships.',
+    },
+}
 
 export default function PricingPage() {
     return (
