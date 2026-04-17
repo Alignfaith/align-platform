@@ -109,7 +109,7 @@ export default function ProfileSetupPage() {
             const data = await response.json()
             if (!response.ok) throw new Error(data.error || 'Failed to save profile')
 
-            await update({ profileComplete: true })
+            await update({ profileSetup: true })
 
             // Send user to the Six Pillar Assessment as the next required onboarding step
             router.push('/dashboard/assessment?onboarding=1')

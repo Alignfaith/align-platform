@@ -78,8 +78,6 @@ export async function POST(req: NextRequest) {
           country: data.country || 'USA',
           bio: data.bio || null,
           relationshipGoal: data.relationshipGoal,
-          isComplete: true,
-          completedAt: new Date(),
         },
       })
 

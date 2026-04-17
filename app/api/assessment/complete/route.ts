@@ -39,7 +39,13 @@ export async function POST(req: Request) {
     console.log('[assessment/complete] Step 3: looking up profile')
     const profile = await prisma.profile.findUnique({
       where: { userId: session.user.id },
-      select: { id: true },
+      select: {
+        id: true,
+        dateOfBirth: true,
+        city: true,
+        seekingGender: true,
+        relationshipGoal: true,
+      },
     })
     console.log('[assessment/complete] Step 3 OK: profileId =', profile?.id)
 
@@ -79,6 +85,21 @@ export async function POST(req: Request) {
     )
     console.log('[assessment/complete] Step 5 OK: PillarResponses upserted')
 
+    // Step 5.5: Mark profile fully complete now that assessment is saved.
+    // Only flip if profile setup was completed first (required fields present).
+    const profileSetupComplete = !!(
+      profile.dateOfBirth && profile.city && profile.seekingGender && profile.relationshipGoal
+    )
+    if (profileSetupComplete) {
+      await prisma.profile.update({
+        where: { id: profile.id },
+        data: { isComplete: true, completedAt: new Date() },
+      })
+      console.log('[assessment/complete] Step 5.5 OK: isComplete = true')
+    } else {
+      console.warn('[assessment/complete] Step 5.5 SKIPPED: profile setup incomplete, isComplete not set')
+    }
+
     console.log('[assessment/complete] Step 6: fetching other profiles for matching')
     const myAnswers: PillarAnswers = Object.fromEntries(
       responses.map((r) => [r.questionId, r.value])
@@ -90,6 +111,7 @@ export async function POST(req: Request) {
         isActive: true,
         isComplete: true,
         pillarResponses: { some: {} },
+        assessments: { some: {} },
       },
       select: {
         id: true,

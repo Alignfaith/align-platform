@@ -5,6 +5,11 @@ import GoogleProvider from 'next-auth/providers/google'
 import { prisma } from '@/lib/prisma'
 import { verifyPassword } from '@/lib/security'
 
+// Profile setup is considered done when the required demographic fields are present
+function deriveProfileSetup(profile: { dateOfBirth?: Date | null; city?: string | null } | null | undefined): boolean {
+  return !!(profile?.dateOfBirth && profile?.city)
+}
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: {
@@ -48,6 +53,7 @@ export const authOptions: NextAuthOptions = {
           role: user.role,
           tier: user.tier,
           profileComplete: user.profile?.isComplete ?? false,
+          profileSetup: deriveProfileSetup(user.profile),
           mustChangePassword: user.mustChangePassword,
         }
       },
@@ -69,13 +75,21 @@ export const authOptions: NextAuthOptions = {
         token.role = user.role
         token.tier = user.tier
         token.profileComplete = user.profileComplete
+        token.profileSetup = user.profileSetup
         token.mustChangePassword = user.mustChangePassword
       }
 
-      // Handle session updates (e.g., after profile completion or tier change)
+      // Handle session updates — re-read from DB to prevent stale token values
       if (trigger === 'update' && session) {
-        if (session.tier !== undefined) token.tier = session.tier
-        if (session.profileComplete !== undefined) token.profileComplete = session.profileComplete
+        const freshUser = await prisma.user.findUnique({
+          where: { id: token.id as string },
+          select: { tier: true, profile: { select: { isComplete: true, dateOfBirth: true, city: true } } },
+        })
+        if (freshUser) {
+          if (session.tier !== undefined) token.tier = freshUser.tier
+          if (session.profileComplete !== undefined) token.profileComplete = freshUser.profile?.isComplete ?? false
+          if (session.profileSetup !== undefined) token.profileSetup = deriveProfileSetup(freshUser.profile)
+        }
         if (session.mustChangePassword !== undefined) token.mustChangePassword = session.mustChangePassword
       }
 
@@ -87,6 +101,7 @@ export const authOptions: NextAuthOptions = {
         session.user.role = token.role as string
         session.user.tier = token.tier as string
         session.user.profileComplete = token.profileComplete as boolean
+        session.user.profileSetup = token.profileSetup as boolean
         session.user.mustChangePassword = token.mustChangePassword as boolean
       }
       return session

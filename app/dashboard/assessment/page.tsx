@@ -60,7 +60,7 @@ export default function AssessmentPage() {
 }
 
 function AssessmentPageInner() {
-    const { data: session, status } = useSession()
+    const { data: session, status, update } = useSession()
     const router = useRouter()
     const searchParams = useSearchParams()
     const isOnboarding = searchParams.get('onboarding') === '1'
@@ -117,6 +117,8 @@ function AssessmentPageInner() {
                 body: JSON.stringify({ responses }),
             })
             if (!res.ok) throw new Error(await res.text())
+            // Refresh JWT so profileComplete = true is reflected immediately
+            await update({ profileComplete: true })
             setSubmitted(true)
         } catch (e) {
             setError(e instanceof Error ? e.message : 'Something went wrong. Please try again.')
