@@ -141,7 +141,7 @@ export default function ProfileSetupPage() {
             if (!response.ok) throw new Error(data.error || 'Failed to save profile')
 
             // Clear draft now that profile is saved server-side
-            try { localStorage.removeItem(`align_profile_setup_draft_${session.user.id}`) } catch {}
+            try { localStorage.removeItem(`align_profile_setup_draft_${session?.user?.id}`) } catch {}
 
             await update({ profileSetup: true })
 

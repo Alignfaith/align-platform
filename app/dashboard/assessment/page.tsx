@@ -71,10 +71,43 @@ function AssessmentPageInner() {
     const [submitting, setSubmitting] = useState(false)
     const [submitted, setSubmitted] = useState(false)
     const [error, setError] = useState('')
+    const [draftLoaded, setDraftLoaded] = useState(false)
+    const [draftRestored, setDraftRestored] = useState(false)
 
     useEffect(() => {
         if (status === 'unauthenticated') router.push('/login')
     }, [status, router])
+
+    // Restore draft from localStorage once session is available
+    useEffect(() => {
+        if (!session?.user?.id) return
+        try {
+            const key = `align_assessment_draft_${session.user.id}`
+            const saved = localStorage.getItem(key)
+            if (saved) {
+                const parsed = JSON.parse(saved)
+                if (parsed?.answers && typeof parsed.answers === 'object' && Object.keys(parsed.answers).length > 0) {
+                    setAnswers(parsed.answers)
+                    setDraftRestored(true)
+                }
+                if (typeof parsed?.step === 'number') {
+                    setStep(parsed.step)
+                }
+            }
+        } catch {}
+        setDraftLoaded(true)
+    }, [session?.user?.id])
+
+    // Save draft to localStorage on every change
+    useEffect(() => {
+        if (!session?.user?.id || !draftLoaded) return
+        try {
+            const key = `align_assessment_draft_${session.user.id}`
+            if (Object.keys(answers).length > 0) {
+                localStorage.setItem(key, JSON.stringify({ answers, step }))
+            }
+        } catch {}
+    }, [answers, step, session?.user?.id, draftLoaded])
 
     if (status === 'loading' || !session) {
         return (
@@ -117,6 +150,8 @@ function AssessmentPageInner() {
                 body: JSON.stringify({ responses }),
             })
             if (!res.ok) throw new Error(await res.text())
+            // Clear draft now that answers are saved server-side
+            try { localStorage.removeItem(`align_assessment_draft_${session?.user?.id}`) } catch {}
             // Refresh JWT so profileComplete = true is reflected immediately
             await update({ profileComplete: true })
             setSubmitted(true)
@@ -174,6 +209,19 @@ function AssessmentPageInner() {
                     {isOnboarding && (
                         <div style={{ marginBottom: 'var(--space-6)', padding: 'var(--space-3) var(--space-4)', background: 'rgba(225,29,72,0.06)', border: '1px solid rgba(225,29,72,0.15)', borderRadius: 'var(--radius-md)', fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', textAlign: 'center' }}>
                             <strong style={{ color: 'var(--color-primary)' }}>Step 3 of 3</strong> — Six Pillar Assessment
+                        </div>
+                    )}
+
+                    {/* Draft restored notice */}
+                    {draftRestored && (
+                        <div style={{ marginBottom: 'var(--space-4)', padding: 'var(--space-3) var(--space-4)', background: 'rgba(16,185,129,0.07)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 'var(--radius-md)', fontSize: 'var(--text-sm)', color: '#10B981', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <span>Your progress has been restored.</span>
+                            <button
+                                onClick={() => { setDraftRestored(false); setAnswers({}); setStep(0); try { localStorage.removeItem(`align_assessment_draft_${session?.user?.id}`) } catch {} }}
+                                style={{ fontSize: '11px', padding: '2px 10px', borderRadius: '99px', border: '1px solid rgba(16,185,129,0.3)', background: 'transparent', color: '#10B981', cursor: 'pointer', fontWeight: 600, marginLeft: 'var(--space-3)' }}
+                            >
+                                Start over
+                            </button>
                         </div>
                     )}
 
