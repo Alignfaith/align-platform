@@ -10,6 +10,13 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 
+interface PillarData {
+    pillarScore: number
+    contribution: number
+    weight: number
+    questionCount: number
+}
+
 interface MatchData {
     matchId: string
     receiverId: string
@@ -18,12 +25,94 @@ interface MatchData {
     alignmentTier: string | null
     hardStopTriggered: boolean
     hardStopReason: string | null
+    pillarBreakdown: Record<string, PillarData> | null
     displayName: string
     age: number | null
     city: string | null
     state: string | null
     bio: string | null
     photoUrl: string | null
+}
+
+const PILLAR_ORDER = [
+    { key: 'SPIRITUAL',  label: 'Spiritual' },
+    { key: 'MENTAL',     label: 'Mental' },
+    { key: 'INTIMACY',   label: 'Intimacy' },
+    { key: 'FINANCIAL',  label: 'Financial' },
+    { key: 'PHYSICAL',   label: 'Physical' },
+    { key: 'APPEARANCE', label: 'Appearance' },
+]
+
+function PillarBreakdownSection({ breakdown }: { breakdown: Record<string, PillarData> }) {
+    return (
+        <div style={{
+            borderTop: '1px solid var(--color-border-subtle)',
+            paddingTop: 'var(--space-3)',
+            marginBottom: 'var(--space-4)',
+        }}>
+            <p style={{
+                fontSize: '10px',
+                fontWeight: 700,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                color: 'var(--color-text-tertiary)',
+                margin: '0 0 var(--space-2)',
+            }}>
+                Pillar Breakdown
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                {PILLAR_ORDER.map(({ key, label }) => {
+                    const data = breakdown[key]
+                    if (!data) return null
+                    const score = data.pillarScore
+                    const weightPct = Math.round(data.weight * 100)
+                    const barColor = score >= 70
+                        ? 'var(--color-primary)'
+                        : score >= 50
+                        ? '#e57373'
+                        : '#d1d5db'
+                    return (
+                        <div key={key}>
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'baseline',
+                                marginBottom: '3px',
+                            }}>
+                                <span style={{ fontSize: '11px', color: 'var(--color-text-secondary)', fontWeight: 500 }}>
+                                    {label}{' '}
+                                    <span style={{ color: 'var(--color-text-tertiary)', fontWeight: 400 }}>
+                                        {weightPct}%
+                                    </span>
+                                </span>
+                                <span style={{
+                                    fontSize: '11px',
+                                    fontWeight: 700,
+                                    color: score >= 70 ? 'var(--color-primary)' : 'var(--color-text-tertiary)',
+                                }}>
+                                    {score}%
+                                </span>
+                            </div>
+                            <div style={{
+                                height: '4px',
+                                backgroundColor: 'var(--color-border-subtle)',
+                                borderRadius: '2px',
+                                overflow: 'hidden',
+                            }}>
+                                <div style={{
+                                    height: '100%',
+                                    width: `${score}%`,
+                                    borderRadius: '2px',
+                                    backgroundColor: barColor,
+                                    transition: 'width 0.3s ease',
+                                }} />
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
+        </div>
+    )
 }
 
 const TIER_COLORS: Record<string, string> = {
@@ -245,6 +334,9 @@ export default function MatchesPage() {
                                                 } as React.CSSProperties}>
                                                     &ldquo;{match.bio}&rdquo;
                                                 </p>
+                                            )}
+                                            {match.pillarBreakdown && (
+                                                <PillarBreakdownSection breakdown={match.pillarBreakdown} />
                                             )}
                                             <div style={{ marginTop: 'auto' }}>
                                                 <button className="btn btn--primary btn--sm" style={{ width: '100%' }}>
