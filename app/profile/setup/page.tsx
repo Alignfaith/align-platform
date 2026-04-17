@@ -17,6 +17,8 @@ export default function ProfileSetupPage() {
     const [currentStep, setCurrentStep] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
+    const [draftLoaded, setDraftLoaded] = useState(false)
+    const [draftRestored, setDraftRestored] = useState(false)
 
     const [formData, setFormData] = useState({
         dobMonth: '',
@@ -36,6 +38,35 @@ export default function ProfileSetupPage() {
             router.push('/login')
         }
     }, [status, router])
+
+    // Restore draft from localStorage once session is available
+    useEffect(() => {
+        if (!session?.user?.id) return
+        try {
+            const key = `align_profile_setup_draft_${session.user.id}`
+            const saved = localStorage.getItem(key)
+            if (saved) {
+                const parsed = JSON.parse(saved)
+                if (parsed?.formData && typeof parsed.formData === 'object') {
+                    setFormData(prev => ({ ...prev, ...parsed.formData }))
+                    setDraftRestored(true)
+                }
+                if (typeof parsed?.currentStep === 'number') {
+                    setCurrentStep(parsed.currentStep)
+                }
+            }
+        } catch {}
+        setDraftLoaded(true)
+    }, [session?.user?.id])
+
+    // Save draft to localStorage on every change
+    useEffect(() => {
+        if (!session?.user?.id || !draftLoaded) return
+        try {
+            const key = `align_profile_setup_draft_${session.user.id}`
+            localStorage.setItem(key, JSON.stringify({ formData, currentStep }))
+        } catch {}
+    }, [formData, currentStep, session?.user?.id, draftLoaded])
 
     const updateFormData = (field: string, value: string) => {
         setFormData(prev => ({ ...prev, [field]: value }))
@@ -109,6 +140,9 @@ export default function ProfileSetupPage() {
             const data = await response.json()
             if (!response.ok) throw new Error(data.error || 'Failed to save profile')
 
+            // Clear draft now that profile is saved server-side
+            try { localStorage.removeItem(`align_profile_setup_draft_${session.user.id}`) } catch {}
+
             await update({ profileSetup: true })
 
             // Send user to the Six Pillar Assessment as the next required onboarding step
@@ -154,6 +188,25 @@ export default function ProfileSetupPage() {
                                     Step 2 of 3 in your ALIGN onboarding
                                 </p>
                             </div>
+
+                            {/* Draft restored notice */}
+                            {draftRestored && (
+                                <div style={{ marginBottom: 'var(--space-4)', padding: 'var(--space-3) var(--space-4)', background: 'rgba(16,185,129,0.07)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 'var(--radius-md)', fontSize: 'var(--text-sm)', color: '#10B981', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <span>Your progress has been restored.</span>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setDraftRestored(false)
+                                            setCurrentStep(1)
+                                            setFormData({ dobMonth: '', dobDay: '', dobYear: '', gender: '', seekingGender: '', country: 'United States', state: '', city: '', bio: '', relationshipGoal: 'SERIOUS_DATING' })
+                                            try { localStorage.removeItem(`align_profile_setup_draft_${session?.user?.id}`) } catch {}
+                                        }}
+                                        style={{ fontSize: '11px', padding: '2px 10px', borderRadius: '99px', border: '1px solid rgba(16,185,129,0.3)', background: 'transparent', color: '#10B981', cursor: 'pointer', fontWeight: 600, marginLeft: 'var(--space-3)' }}
+                                    >
+                                        Start over
+                                    </button>
+                                </div>
+                            )}
 
                             {/* Progress Bar */}
                             <div style={{ marginBottom: 'var(--space-6)' }}>
