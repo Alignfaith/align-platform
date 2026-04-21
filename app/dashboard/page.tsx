@@ -91,6 +91,7 @@ interface GrowthPost {
     id: string
     pillar: string
     content: string
+    imageUrl?: string | null
     createdAt: string
 }
 
@@ -275,6 +276,20 @@ export default function DashboardPage() {
                                                         <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', marginBottom: 0, lineHeight: 1.5 }}>
                                                             {post.content}
                                                         </p>
+                                                        {post.imageUrl && (
+                                                            <img
+                                                                src={post.imageUrl}
+                                                                alt="Reflection photo"
+                                                                style={{
+                                                                    display: 'block',
+                                                                    marginTop: 'var(--space-3)',
+                                                                    maxWidth: '100%',
+                                                                    maxHeight: '400px',
+                                                                    borderRadius: 'var(--radius-md)',
+                                                                    objectFit: 'cover',
+                                                                }}
+                                                            />
+                                                        )}
                                                     </div>
                                                 </div>
                                             )

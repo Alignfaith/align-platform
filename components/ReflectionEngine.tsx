@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import {
     Church, Brain, Dumbbell, Wallet, Sparkles, Heart,
-    Send, Loader2, CheckCircle2
+    Send, Loader2, CheckCircle2, ImageIcon, X,
 } from 'lucide-react'
 
 import { PillarType } from '@/lib/pillars'
@@ -88,6 +88,13 @@ export default function ReflectionEngine() {
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
+    // Photo state
+    const [photoPreview, setPhotoPreview] = useState<string | null>(null)
+    const [photoUrl, setPhotoUrl] = useState<string | null>(null)
+    const [uploadingPhoto, setUploadingPhoto] = useState(false)
+    const [photoError, setPhotoError] = useState<string | null>(null)
+    const fileInputRef = useRef<HTMLInputElement>(null)
+
     const currentQ = PILLAR_QUESTIONS[selectedPillar]
 
     const handlePillarChange = (pillarId: PillarType) => {
@@ -96,12 +103,59 @@ export default function ReflectionEngine() {
         setError(null)
     }
 
+    const clearPhoto = () => {
+        if (photoPreview) URL.revokeObjectURL(photoPreview)
+        setPhotoPreview(null)
+        setPhotoUrl(null)
+        setPhotoError(null)
+        if (fileInputRef.current) fileInputRef.current.value = ''
+    }
+
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if (!file) return
+
+        // Client-side size check (server enforces authoritatively)
+        if (file.size > 10 * 1024 * 1024) {
+            setPhotoError('Photo must be under 10 MB')
+            if (fileInputRef.current) fileInputRef.current.value = ''
+            return
+        }
+
+        // Revoke previous preview before creating a new one
+        if (photoPreview) URL.revokeObjectURL(photoPreview)
+        setPhotoPreview(URL.createObjectURL(file))
+        setPhotoUrl(null)
+        setPhotoError(null)
+        setUploadingPhoto(true)
+
+        // Reset input so the same file can be re-selected after a clear
+        if (fileInputRef.current) fileInputRef.current.value = ''
+
+        try {
+            const fd = new FormData()
+            fd.append('photo', file)
+            const res = await fetch('/api/growth-posts/photo', { method: 'POST', body: fd })
+            const data = await res.json()
+            if (!res.ok) throw new Error(data.error || 'Upload failed')
+            setPhotoUrl(data.url)
+        } catch (e) {
+            setPhotoError(e instanceof Error ? e.message : 'Photo upload failed. Please try again.')
+            if (photoPreview) URL.revokeObjectURL(photoPreview)
+            setPhotoPreview(null)
+        } finally {
+            setUploadingPhoto(false)
+        }
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         if (!content) {
             setError('Please select an option before posting')
             return
         }
+        // Block submit while photo is still uploading
+        if (uploadingPhoto) return
 
         setIsSubmitting(true)
         setError(null)
@@ -110,13 +164,18 @@ export default function ReflectionEngine() {
             const response = await fetch('/api/growth-posts', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ pillar: selectedPillar, content })
+                body: JSON.stringify({
+                    pillar: selectedPillar,
+                    content,
+                    ...(photoUrl ? { imageUrl: photoUrl } : {}),
+                }),
             })
 
             if (!response.ok) throw new Error('Failed to post reflection')
 
             setSuccess(true)
             setContent('')
+            clearPhoto()
             setTimeout(() => setSuccess(false), 3000)
         } catch {
             setError('Something went wrong. Please try again.')
@@ -192,14 +251,113 @@ export default function ReflectionEngine() {
                     </select>
                 </div>
 
+                {/* Photo attachment */}
+                <div style={{ marginBottom: 'var(--space-4)' }}>
+                    {/* Hidden file input */}
+                    <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        style={{ display: 'none' }}
+                        disabled={isSubmitting || uploadingPhoto}
+                    />
+
+                    {/* "Add photo" trigger — shown when no photo is selected */}
+                    {!photoPreview && !uploadingPhoto && (
+                        <button
+                            type="button"
+                            onClick={() => fileInputRef.current?.click()}
+                            disabled={isSubmitting}
+                            style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                fontSize: 'var(--text-sm)',
+                                color: 'var(--color-text-secondary)',
+                                background: 'none',
+                                border: '1px dashed var(--color-border-subtle)',
+                                borderRadius: 'var(--radius-md)',
+                                padding: '8px 14px',
+                                cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                                opacity: isSubmitting ? 0.5 : 1,
+                            }}
+                        >
+                            <ImageIcon size={15} /> Add photo
+                        </button>
+                    )}
+
+                    {/* Upload spinner */}
+                    {uploadingPhoto && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', padding: '8px 0' }}>
+                            <Loader2 size={15} className="animate-spin" /> Uploading photo…
+                        </div>
+                    )}
+
+                    {/* Preview */}
+                    {photoPreview && !uploadingPhoto && (
+                        <div style={{ position: 'relative', display: 'inline-block' }}>
+                            <img
+                                src={photoPreview}
+                                alt="Selected photo"
+                                style={{
+                                    display: 'block',
+                                    maxWidth: '100%',
+                                    maxHeight: '220px',
+                                    borderRadius: 'var(--radius-md)',
+                                    objectFit: 'cover',
+                                    border: `1px solid ${photoUrl ? 'var(--color-border-subtle)' : '#F87171'}`,
+                                }}
+                            />
+                            {/* Remove button */}
+                            <button
+                                type="button"
+                                onClick={clearPhoto}
+                                disabled={isSubmitting}
+                                style={{
+                                    position: 'absolute',
+                                    top: '6px',
+                                    right: '6px',
+                                    width: '24px',
+                                    height: '24px',
+                                    borderRadius: '50%',
+                                    background: 'rgba(0,0,0,0.55)',
+                                    color: '#fff',
+                                    border: 'none',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    cursor: 'pointer',
+                                    padding: 0,
+                                }}
+                            >
+                                <X size={13} />
+                            </button>
+                            {/* Upload-incomplete indicator */}
+                            {!photoUrl && (
+                                <p style={{ fontSize: '11px', color: '#B91C1C', marginTop: '4px', marginBottom: 0 }}>
+                                    Upload did not complete — remove and try again
+                                </p>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Photo-specific error */}
+                    {photoError && (
+                        <p style={{ color: '#B91C1C', fontSize: 'var(--text-sm)', marginTop: '6px', marginBottom: 0 }}>
+                            {photoError}
+                        </p>
+                    )}
+                </div>
+
                 {error && <p style={{ color: '#B91C1C', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-4)' }}>{error}</p>}
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <button
                         type="submit"
                         className={`btn ${success ? 'btn--success' : 'btn--primary'}`}
-                        disabled={isSubmitting || !content}
-                        style={{ minWidth: '140px' }}
+                        disabled={isSubmitting || uploadingPhoto || !content}
+                        style={{ minWidth: '140px', opacity: (isSubmitting || uploadingPhoto || !content) ? 0.55 : 1 }}
                     >
                         {isSubmitting ? <Loader2 size={18} className="animate-spin" /> :
                             success ? <><CheckCircle2 size={18} /> Posted</> :
