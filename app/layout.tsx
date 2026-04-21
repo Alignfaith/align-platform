@@ -97,7 +97,7 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <html lang="en" className={`${plusJakarta.variable} ${inter.variable}`} suppressHydrationWarning>
+        <html lang="en" className={`${plusJakarta.variable} ${inter.variable}`} data-theme="light" style={{ colorScheme: 'light' }}>
             <body>
                 <ThemeProvider>
                     <SessionProvider>
