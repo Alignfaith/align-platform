@@ -42,7 +42,7 @@ export async function notifyFounderApplication(app: {
 
   await sendEmail({
     to: ADMIN_EMAIL,
-    subject: `New ALIGN Founder Application – ${app.name}`,
+    subject: `New Founder Application Received – ${app.name}`,
     html: `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #374151;">
         <div style="background: linear-gradient(135deg, #c0182a 0%, #7a0f1a 100%); padding: 28px 32px; border-radius: 12px 12px 0 0;">
