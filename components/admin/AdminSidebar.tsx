@@ -32,6 +32,7 @@ export default function AdminSidebar({ pendingPhotos = 0, openReports = 0, pendi
     { label: 'Pages', href: '/admin/pages', icon: '⊠' },
     { label: 'Communications', href: '/admin/communications', icon: '⊙' },
     { label: 'Community', href: '/admin/community', icon: '⊚' },
+    { label: 'Media', href: '/admin/media', icon: '⊟' },
     { label: 'Stories', href: '/admin/alignment-stories', icon: '⊕' },
     { label: 'Professional', href: '/admin/professional', icon: '◈' },
     { label: 'Founders', href: '/admin/founder-applications', icon: '✦', badge: pendingFounders },
