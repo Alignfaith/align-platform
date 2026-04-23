@@ -118,6 +118,26 @@ export async function POST(req: NextRequest) {
       return newUser
     })
 
+    try {
+      const windowOpen = process.env.FOUNDING_MEMBER_WINDOW_OPEN === 'true'
+      if (windowOpen) {
+        console.log('[mobile-signup] founding member: window open')
+        await prisma.user.update({ where: { id: user.id }, data: { isFoundingMember: true } })
+      } else {
+        const approvedApp = await prisma.founderApplication.findFirst({
+          where: { email: data.email, status: 'APPROVED' },
+        })
+        if (approvedApp) {
+          console.log('[mobile-signup] founding member: approved application matched')
+          await prisma.user.update({ where: { id: user.id }, data: { isFoundingMember: true } })
+        } else {
+          console.log('[mobile-signup] founding member: none')
+        }
+      }
+    } catch (founderErr) {
+      console.error('[mobile-signup] founding member check failed:', founderErr)
+    }
+
     return NextResponse.json(
       {
         userId: user.id,

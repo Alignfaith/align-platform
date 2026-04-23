@@ -131,9 +131,10 @@ model User {
   sessions Session[]
 
   // Membership
-  tier             MembershipTier @default(FREE)
-  tierExpiresAt    DateTime?
-  stripeCustomerId String?        @unique
+  tier              MembershipTier @default(FREE)
+  tierExpiresAt     DateTime?
+  stripeCustomerId  String?        @unique
+  isFoundingMember  Boolean        @default(false)
 
   // Admin moderation fields
   suspendedAt    DateTime?
