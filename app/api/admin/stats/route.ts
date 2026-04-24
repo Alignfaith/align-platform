@@ -24,7 +24,6 @@ export async function GET() {
       activeMatches,
       waitlistSize,
       unreadFeedback,
-      pendingFounders,
       recentActions,
       alerts,
     ] = await Promise.all([
@@ -40,7 +39,6 @@ export async function GET() {
       prisma.match.count({ where: { status: 'MATCHED' } }),
       prisma.waitlistEntry.count({ where: { isApproved: false } }),
       prisma.feedback.count({ where: { isRead: false } }),
-      prisma.founderApplication.count({ where: { status: 'PENDING' } }),
       // Recent admin actions for activity feed
       prisma.adminAction.findMany({
         take: 20,
@@ -88,7 +86,6 @@ export async function GET() {
         activeMatches,
         waitlistSize,
         unreadFeedback,
-        pendingFounders,
       },
       recentActions,
       alerts: {

@@ -10,15 +10,14 @@ export const metadata = {
 
 async function getQueueCounts() {
   try {
-    const [pendingPhotos, openReports, pendingAppeals, pendingFounders] = await Promise.all([
+    const [pendingPhotos, openReports, pendingAppeals] = await Promise.all([
       prisma.photo.count({ where: { isApproved: false, moderatedAt: null } }),
       prisma.report.count({ where: { status: 'OPEN' } }),
       prisma.appeal.count({ where: { status: 'PENDING' } }),
-      prisma.founderApplication.count({ where: { status: 'PENDING' } }),
     ])
-    return { pendingPhotos, openReports, pendingAppeals, pendingFounders }
+    return { pendingPhotos, openReports, pendingAppeals }
   } catch {
-    return { pendingPhotos: 0, openReports: 0, pendingAppeals: 0, pendingFounders: 0 }
+    return { pendingPhotos: 0, openReports: 0, pendingAppeals: 0 }
   }
 }
 
@@ -40,7 +39,6 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         pendingPhotos={counts.pendingPhotos}
         openReports={counts.openReports}
         pendingAppeals={counts.pendingAppeals}
-        pendingFounders={counts.pendingFounders}
       />
       <main
         style={{

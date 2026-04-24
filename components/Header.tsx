@@ -16,7 +16,6 @@ export default function Header() {
 
     const navLinks = session ? [
         { href: '/', label: 'Home' },
-        { href: '/founders', label: 'Founders' },
         { href: '/pricing', label: 'Membership' },
         { href: '/dashboard', label: 'Dashboard' },
         { href: '/alignment-stories', label: 'Stories' },
@@ -24,7 +23,6 @@ export default function Header() {
         { href: '/about', label: 'About' },
     ] : [
         { href: '/', label: 'Home' },
-        { href: '/founders', label: 'Founders' },
         { href: '/pricing', label: 'Membership' },
         { href: '/alignment-stories', label: 'Stories' },
         { href: '/framework', label: 'Framework' },

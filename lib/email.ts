@@ -27,46 +27,6 @@ export async function sendEmail(payload: EmailPayload): Promise<void> {
 
 // ── Notification helpers ──────────────────────────────────────────
 
-export async function notifyFounderApplication(app: {
-  name: string
-  email: string
-  phone: string
-  city: string
-  state: string
-  createdAt: Date
-}) {
-  const date = app.createdAt.toLocaleString('en-US', {
-    month: 'short', day: 'numeric', year: 'numeric',
-    hour: 'numeric', minute: '2-digit', timeZoneName: 'short',
-  })
-
-  await sendEmail({
-    to: ADMIN_EMAIL,
-    subject: `New Founder Application Received – ${app.name}`,
-    html: `
-      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #374151;">
-        <div style="background: linear-gradient(135deg, #c0182a 0%, #7a0f1a 100%); padding: 28px 32px; border-radius: 12px 12px 0 0;">
-          <h2 style="margin: 0; color: #fff; font-size: 18px;">New Founder Application</h2>
-        </div>
-        <div style="background: #ffffff; padding: 28px 32px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 12px 12px;">
-          <table style="width: 100%; border-collapse: collapse;">
-            <tr><td style="padding: 7px 0; color: #9ca3af; width: 90px; font-size: 13px;">Name</td><td style="padding: 7px 0; font-weight: 600;">${app.name}</td></tr>
-            <tr><td style="padding: 7px 0; color: #9ca3af; font-size: 13px;">Email</td><td style="padding: 7px 0;"><a href="mailto:${app.email}" style="color: #c0182a;">${app.email}</a></td></tr>
-            <tr><td style="padding: 7px 0; color: #9ca3af; font-size: 13px;">Phone</td><td style="padding: 7px 0;">${app.phone}</td></tr>
-            <tr><td style="padding: 7px 0; color: #9ca3af; font-size: 13px;">Location</td><td style="padding: 7px 0;">${app.city}, ${app.state}</td></tr>
-            <tr><td style="padding: 7px 0; color: #9ca3af; font-size: 13px;">Submitted</td><td style="padding: 7px 0;">${date}</td></tr>
-          </table>
-          <div style="margin-top: 24px;">
-            <a href="https://app.alignfaith.com/admin/founder-applications" style="background: #c0182a; color: #fff; padding: 10px 22px; border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 14px;">
-              Review Application →
-            </a>
-          </div>
-        </div>
-      </div>
-    `,
-  })
-}
-
 export async function notifyAdminMessage(msg: {
   name: string | null
   email: string | null

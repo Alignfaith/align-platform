@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'ALIGN | Grow Before You Go · The Ultimate Christian Relationship Platform',
-  description: 'ALIGN is the ultimate Christian relationship platform. Grow across the Six Pillars of Relationship Fitness before you start looking for love. Now accepting founding members.',
+  description: 'ALIGN is the ultimate Christian relationship platform. Grow across the Six Pillars of Relationship Fitness before you start looking for love.',
   openGraph: {
     title: 'ALIGN | Grow Before You Go',
     description: 'The Ultimate Christian Relationship Platform. Grow before you go.',
@@ -16,7 +16,6 @@ export const metadata: Metadata = {
 
 const APP_URL = 'https://app.alignfaith.com'
 const BOOK_URL = 'https://a.co/d/09qpJCAh'
-const FOUNDER_URL = `${APP_URL}/founder`
 
 const pillars = [
   { icon: '✦', name: 'Spiritual', color: '#c0182a', bg: '#FEF2F2', desc: 'How your faith shows up in daily life, decisions, and relationships.' },
@@ -36,8 +35,8 @@ const testimonials = [
 const steps = [
   {
     num: '01',
-    title: 'Apply to Be a Founding Member',
-    desc: 'ALIGN is invitation only. Submit your founding member application and we will review it personally.',
+    title: 'Request an Invite',
+    desc: 'ALIGN is invitation only. Contact us to request access and we will review your request personally.',
   },
   {
     num: '02',
@@ -80,23 +79,6 @@ export default function MarketingHome() {
         </div>
 
         <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '80px 24px 72px', maxWidth: '780px', margin: '0 auto' }}>
-          {/* Founding member badge */}
-          <div style={{
-            display: 'inline-block',
-            backgroundColor: 'rgba(192,24,42,0.75)',
-            border: '1px solid rgba(255,255,255,0.3)',
-            borderRadius: '100px',
-            padding: '6px 18px',
-            fontSize: '0.72rem',
-            fontWeight: 700,
-            color: '#fff',
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            marginBottom: '28px',
-          }}>
-            Now Accepting Founding Members — Limited to 25
-          </div>
-
           {/* Headline */}
           <h1 style={{
             fontSize: 'clamp(2.75rem, 7vw, 5rem)',
@@ -140,7 +122,7 @@ export default function MarketingHome() {
 
           {/* CTAs */}
           <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '32px' }}>
-            <a href={FOUNDER_URL} style={{
+            <Link href="/framework" style={{
               backgroundColor: '#c0182a',
               color: '#fff',
               padding: '14px 32px',
@@ -149,18 +131,6 @@ export default function MarketingHome() {
               fontWeight: 700,
               textDecoration: 'none',
               boxShadow: '0 4px 20px rgba(192,24,42,0.45)',
-            }}>
-              Apply to Be a Founding Member →
-            </a>
-            <Link href="/framework" style={{
-              backgroundColor: 'rgba(255,255,255,0.15)',
-              border: '1px solid rgba(255,255,255,0.35)',
-              color: '#fff',
-              padding: '14px 32px',
-              borderRadius: '10px',
-              fontSize: '1rem',
-              fontWeight: 600,
-              textDecoration: 'none',
             }}>
               Explore the Six Pillars
             </Link>
@@ -173,7 +143,7 @@ export default function MarketingHome() {
             letterSpacing: '0.08em',
             marginBottom: '10px',
           }}>
-            100% Faith-Based · Built on Biblical Principles · Founding Members Only
+            100% Faith-Based · Built on Biblical Principles
           </p>
 
           {/* Book italic */}
@@ -222,37 +192,11 @@ export default function MarketingHome() {
               padding: '0 40px',
               flexShrink: 0,
             }}>
-              Grow Before You Go&nbsp;&nbsp;·&nbsp;&nbsp;Faith-Based&nbsp;&nbsp;·&nbsp;&nbsp;Founding Members Only&nbsp;&nbsp;·&nbsp;&nbsp;Six Pillars of Relationship Fitness
+              Grow Before You Go&nbsp;&nbsp;·&nbsp;&nbsp;Faith-Based&nbsp;&nbsp;·&nbsp;&nbsp;Six Pillars of Relationship Fitness
             </span>
           ))}
         </div>
       </div>
-
-      {/* ── Invite-Only Banner ────────────────────────────────────── */}
-      <section style={{ backgroundColor: '#FFF7F7', borderBottom: '1px solid #FECACA', padding: '28px 24px' }}>
-        <div style={{ maxWidth: '860px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, minWidth: '260px' }}>
-            <span style={{ fontSize: '1.25rem', flexShrink: 0 }}>🔒</span>
-            <p style={{ margin: 0, color: '#374151', fontSize: '0.95rem', lineHeight: 1.6 }}>
-              <strong style={{ color: '#111827' }}>ALIGN is not open to the public.</strong>{' '}
-              The platform is currently available exclusively through the founding member program — a hand-selected group of Christians committed to growth before connection.
-            </p>
-          </div>
-          <a href={FOUNDER_URL} style={{
-            flexShrink: 0,
-            backgroundColor: '#c0182a',
-            color: '#fff',
-            padding: '10px 22px',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            fontWeight: 700,
-            textDecoration: 'none',
-            whiteSpace: 'nowrap',
-          }}>
-            Apply Now →
-          </a>
-        </div>
-      </section>
 
       {/* ── Six Pillars ───────────────────────────────────────────── */}
       <section style={{ backgroundColor: '#ffffff', padding: '96px 24px' }}>
@@ -438,13 +382,6 @@ export default function MarketingHome() {
                 }}>
                   Get the Book
                 </a>
-                <a href={FOUNDER_URL} style={{
-                  backgroundColor: '#fff', border: '1px solid #FECACA',
-                  color: '#c0182a', padding: '11px 24px',
-                  borderRadius: '8px', fontSize: '0.875rem', fontWeight: 700, textDecoration: 'none',
-                }}>
-                  Apply to Join →
-                </a>
               </div>
             </div>
           </div>
@@ -484,32 +421,6 @@ export default function MarketingHome() {
       {/* ── Book Banner ───────────────────────────────────────────── */}
       <section style={{ backgroundColor: '#ffffff', padding: '96px 24px' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-
-          {/* Houston/Katy callout */}
-          <div style={{
-            backgroundColor: '#FEF2F2',
-            border: '1px solid #FECACA',
-            borderLeft: '4px solid #c0182a',
-            borderRadius: '12px',
-            padding: '20px 24px',
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: '14px',
-          }}>
-            <span style={{ fontSize: '1.25rem', flexShrink: 0 }}>🎁</span>
-            <div>
-              <p style={{ margin: '0 0 6px', color: '#111827', fontWeight: 700, fontSize: '0.95rem' }}>
-                Free book for local founding members
-              </p>
-              <p style={{ margin: 0, color: '#374151', fontSize: '0.875rem', lineHeight: 1.65 }}>
-                The first 25 founding members in the Houston/Katy area receive a complimentary copy of{' '}
-                <em>Relationship Fitness</em> by Thomas Marks. Not local?{' '}
-                <a href={BOOK_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#c0182a', fontWeight: 600 }}>
-                  Grab your copy on Amazon →
-                </a>
-              </p>
-            </div>
-          </div>
 
           {/* Book card */}
           <div style={{
@@ -551,14 +462,6 @@ export default function MarketingHome() {
                 }}>
                   Get it on Amazon →
                 </a>
-                <a href={FOUNDER_URL} style={{
-                  backgroundColor: '#ffffff', border: '1px solid #FECACA',
-                  color: '#c0182a', padding: '12px 24px',
-                  borderRadius: '8px', fontSize: '0.9rem', fontWeight: 700, textDecoration: 'none',
-                  display: 'inline-block',
-                }}>
-                  Apply to Join →
-                </a>
               </div>
             </div>
           </div>
@@ -576,15 +479,15 @@ export default function MarketingHome() {
             Grow before you go.
           </h2>
           <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '1.1rem', lineHeight: 1.7, marginBottom: '36px' }}>
-            The person you become determines the relationship you attract. Founding member spots are limited to 25. Apply today.
+            The person you become determines the relationship you attract.
           </p>
-          <a href={FOUNDER_URL} style={{
+          <Link href="/framework" style={{
             backgroundColor: '#fff', color: '#c0182a', padding: '14px 36px',
             borderRadius: '10px', fontSize: '1rem', fontWeight: 700, textDecoration: 'none',
             display: 'inline-block', boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
           }}>
-            Apply to Be a Founding Member →
-          </a>
+            Explore the Six Pillars →
+          </Link>
         </div>
       </section>
 

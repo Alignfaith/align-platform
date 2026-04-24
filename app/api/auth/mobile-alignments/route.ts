@@ -53,7 +53,6 @@ export async function GET(req: NextRequest) {
           select: {
             id: true,
             tier: true,
-            isFoundingMember: true,
             profile: {
               select: {
                 firstName: true,
@@ -82,7 +81,6 @@ export async function GET(req: NextRequest) {
           age: calculateAge(p.dateOfBirth),
           photoUrl: p.photos[0]?.url ?? null,
           tier: m.receiver.tier,
-          isFounder: m.receiver.isFoundingMember,
           alignmentScore: m.alignmentScore,
           alignmentTier: m.alignmentTier,
         }

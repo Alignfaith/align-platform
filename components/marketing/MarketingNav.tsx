@@ -67,23 +67,6 @@ export default function MarketingNav() {
               {l.label}
             </Link>
           ))}
-          <a
-            href={`${APP_URL}/founder`}
-            style={{
-              backgroundColor: '#c0182a',
-              color: '#fff',
-              padding: '8px 20px',
-              borderRadius: '8px',
-              fontSize: '0.875rem',
-              fontWeight: 600,
-              textDecoration: 'none',
-              transition: 'background-color 0.2s',
-            }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#a01524')}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#c0182a')}
-          >
-            Request Invite
-          </a>
         </nav>
 
         {/* Mobile hamburger */}
@@ -131,22 +114,6 @@ export default function MarketingNav() {
               {l.label}
             </Link>
           ))}
-          <a
-            href={`${APP_URL}/founder`}
-            style={{
-              backgroundColor: '#c0182a',
-              color: '#fff',
-              padding: '12px 20px',
-              borderRadius: '8px',
-              fontSize: '0.95rem',
-              fontWeight: 600,
-              textDecoration: 'none',
-              textAlign: 'center',
-              marginTop: '12px',
-            }}
-          >
-            Request Invite
-          </a>
         </div>
       )}
 

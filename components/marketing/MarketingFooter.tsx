@@ -47,7 +47,6 @@ export default function MarketingFooter() {
           <div>
             <p style={{ color: '#111827', fontWeight: 600, fontSize: '0.8rem', marginBottom: '16px', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Platform</p>
             {[
-              { href: `${APP_URL}/founder`, label: 'Apply to Join' },
               { href: `${APP_URL}/login`, label: 'Sign In' },
               { href: `${APP_URL}/pricing`, label: 'Membership' },
               { href: `${APP_URL}/alignment-stories`, label: 'Stories' },
