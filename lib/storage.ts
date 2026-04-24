@@ -74,6 +74,7 @@ export async function uploadToStorage(
     res = await fetch(uploadUrl, {
       method: 'POST',
       headers: {
+        apikey: serviceKey,
         Authorization: `Bearer ${serviceKey}`,
         'Content-Type': contentType,
         'x-upsert': 'false',
