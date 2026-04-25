@@ -77,6 +77,21 @@ export const authOptions: NextAuthOptions = {
         token.profileComplete = user.profileComplete
         token.profileSetup = user.profileSetup
         token.mustChangePassword = user.mustChangePassword
+
+        // Downgrade TIER_1 to FREE if the free period has expired and no paid sub
+        if (user.tier === 'TIER_1') {
+          const freshUser = await prisma.user.findUnique({
+            where: { id: user.id as string },
+            select: { tierExpiresAt: true },
+          })
+          if (freshUser?.tierExpiresAt && freshUser.tierExpiresAt < new Date()) {
+            await prisma.user.update({
+              where: { id: user.id as string },
+              data: { tier: 'FREE', tierExpiresAt: null },
+            })
+            token.tier = 'FREE'
+          }
+        }
       }
 
       // Handle session updates — re-read from DB to prevent stale token values

@@ -80,6 +80,8 @@ export async function POST(req: NextRequest) {
           email: data.email,
           passwordHash,
           invitedById: inviterId,
+          tier: 'TIER_1',
+          tierExpiresAt: new Date('2026-11-11'),
           profile: {
             create: {
               firstName: data.firstName,
