@@ -78,24 +78,39 @@ function AssessmentPageInner() {
         if (status === 'unauthenticated') router.push('/login')
     }, [status, router])
 
-    // Restore draft from localStorage once session is available
+    // Restore draft — DB is source of truth, localStorage is fallback
     useEffect(() => {
         if (!session?.user?.id) return
-        try {
-            const key = `align_assessment_draft_${session.user.id}`
-            const saved = localStorage.getItem(key)
-            if (saved) {
-                const parsed = JSON.parse(saved)
-                if (parsed?.answers && typeof parsed.answers === 'object' && Object.keys(parsed.answers).length > 0) {
-                    setAnswers(parsed.answers)
+        const lsKey = `align_assessment_draft_${session.user.id}`
+
+        function restoreFromLocalStorage() {
+            try {
+                const saved = localStorage.getItem(lsKey)
+                if (saved) {
+                    const parsed = JSON.parse(saved)
+                    if (parsed?.answers && typeof parsed.answers === 'object' && Object.keys(parsed.answers).length > 0) {
+                        setAnswers(parsed.answers)
+                        setDraftRestored(true)
+                    }
+                    if (typeof parsed?.step === 'number') setStep(parsed.step)
+                }
+            } catch {}
+        }
+
+        fetch('/api/draft/load')
+            .then(r => r.json())
+            .then(data => {
+                const draft = data?.draftData?.assessment
+                if (draft?.answers && typeof draft.answers === 'object' && Object.keys(draft.answers).length > 0) {
+                    setAnswers(draft.answers)
+                    if (typeof draft.step === 'number') setStep(draft.step)
                     setDraftRestored(true)
+                } else {
+                    restoreFromLocalStorage()
                 }
-                if (typeof parsed?.step === 'number') {
-                    setStep(parsed.step)
-                }
-            }
-        } catch {}
-        setDraftLoaded(true)
+            })
+            .catch(restoreFromLocalStorage)
+            .finally(() => setDraftLoaded(true))
     }, [session?.user?.id])
 
     // Save draft to localStorage on every change
@@ -135,6 +150,17 @@ function AssessmentPageInner() {
         setAnswers((prev) => ({ ...prev, [questionId]: value }))
     }
 
+    function handleNextPillar() {
+        if (!currentAnswered) return
+        const nextStep = step + 1
+        fetch('/api/draft/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ key: 'assessment', data: { answers, step: nextStep } }),
+        }).catch(() => {})
+        setStep(nextStep)
+    }
+
     async function handleSubmit() {
         if (!allAnswered) return
         setSubmitting(true)
@@ -150,7 +176,12 @@ function AssessmentPageInner() {
                 body: JSON.stringify({ responses }),
             })
             if (!res.ok) throw new Error(await res.text())
-            // Clear draft now that answers are saved server-side
+            // Clear drafts (server + local)
+            fetch('/api/draft/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ key: 'assessment', data: null }),
+            }).catch(() => {})
             try { localStorage.removeItem(`align_assessment_draft_${session?.user?.id}`) } catch {}
             // Refresh JWT so profileComplete = true is reflected immediately
             await update({ profileComplete: true })
@@ -330,7 +361,7 @@ function AssessmentPageInner() {
                                     </button>
                                 ) : <div />}
                                 <button
-                                    onClick={() => setStep(step + 1)}
+                                    onClick={handleNextPillar}
                                     disabled={!currentAnswered}
                                     className="btn btn--primary"
                                     style={{ opacity: currentAnswered ? 1 : 0.45, cursor: currentAnswered ? 'pointer' : 'not-allowed' }}

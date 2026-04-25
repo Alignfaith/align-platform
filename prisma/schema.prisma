@@ -280,6 +280,9 @@ model Profile {
   isComplete  Boolean   @default(false)
   completedAt DateTime?
 
+  // Server-side onboarding draft — extensible bag of keys
+  draftData   Json?
+
   // Identity Photo (internal use only, not shown to members until approved)
   identityPhotoUrl      String?
   identityPhotoApproved Boolean @default(false)

@@ -39,24 +39,39 @@ export default function ProfileSetupPage() {
         }
     }, [status, router])
 
-    // Restore draft from localStorage once session is available
+    // Restore draft — DB is source of truth, localStorage is fallback
     useEffect(() => {
         if (!session?.user?.id) return
-        try {
-            const key = `align_profile_setup_draft_${session.user.id}`
-            const saved = localStorage.getItem(key)
-            if (saved) {
-                const parsed = JSON.parse(saved)
-                if (parsed?.formData && typeof parsed.formData === 'object') {
-                    setFormData(prev => ({ ...prev, ...parsed.formData }))
+        const lsKey = `align_profile_setup_draft_${session.user.id}`
+
+        function restoreFromLocalStorage() {
+            try {
+                const saved = localStorage.getItem(lsKey)
+                if (saved) {
+                    const parsed = JSON.parse(saved)
+                    if (parsed?.formData && typeof parsed.formData === 'object') {
+                        setFormData(prev => ({ ...prev, ...parsed.formData }))
+                        setDraftRestored(true)
+                    }
+                    if (typeof parsed?.currentStep === 'number') setCurrentStep(parsed.currentStep)
+                }
+            } catch {}
+        }
+
+        fetch('/api/draft/load')
+            .then(r => r.json())
+            .then(data => {
+                const draft = data?.draftData?.profile_setup
+                if (draft?.formData && typeof draft.formData === 'object') {
+                    setFormData(prev => ({ ...prev, ...draft.formData }))
+                    if (typeof draft.currentStep === 'number') setCurrentStep(draft.currentStep)
                     setDraftRestored(true)
+                } else {
+                    restoreFromLocalStorage()
                 }
-                if (typeof parsed?.currentStep === 'number') {
-                    setCurrentStep(parsed.currentStep)
-                }
-            }
-        } catch {}
-        setDraftLoaded(true)
+            })
+            .catch(restoreFromLocalStorage)
+            .finally(() => setDraftLoaded(true))
     }, [session?.user?.id])
 
     // Save draft to localStorage on every change
@@ -100,9 +115,15 @@ export default function ProfileSetupPage() {
 
     const nextStep = () => {
         if (validateStep(currentStep) && currentStep < TOTAL_STEPS) {
-            setCurrentStep(currentStep + 1)
+            const nextStepNum = currentStep + 1
+            setCurrentStep(nextStepNum)
             setError(null)
             window.scrollTo(0, 0)
+            fetch('/api/draft/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ key: 'profile_setup', data: { formData, currentStep: nextStepNum } }),
+            }).catch(() => {})
         }
     }
 
@@ -140,7 +161,12 @@ export default function ProfileSetupPage() {
             const data = await response.json()
             if (!response.ok) throw new Error(data.error || 'Failed to save profile')
 
-            // Clear draft now that profile is saved server-side
+            // Clear drafts (server + local)
+            fetch('/api/draft/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ key: 'profile_setup', data: null }),
+            }).catch(() => {})
             try { localStorage.removeItem(`align_profile_setup_draft_${session?.user?.id}`) } catch {}
 
             await update({ profileSetup: true })
