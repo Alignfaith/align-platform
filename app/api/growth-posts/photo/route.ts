@@ -87,6 +87,7 @@ export async function POST(req: NextRequest) {
     uploadRes = await fetch(uploadUrl, {
       method: 'POST',
       headers: {
+        apikey: serviceKey,
         Authorization: `Bearer ${serviceKey}`,
         'Content-Type': file.type,
         'x-upsert': 'false',
