@@ -6,8 +6,8 @@ import { prisma } from '@/lib/prisma'
 import { verifyPassword } from '@/lib/security'
 
 // Profile setup is considered done when the required demographic fields are present
-function deriveProfileSetup(profile: { dateOfBirth?: Date | null; city?: string | null } | null | undefined): boolean {
-  return !!(profile?.dateOfBirth && profile?.city)
+function deriveProfileSetup(profile: { dateOfBirth?: Date | null } | null | undefined): boolean {
+  return !!(profile?.dateOfBirth)
 }
 
 export const authOptions: NextAuthOptions = {
