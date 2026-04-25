@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
 
     console.log('[mobile-assessment] Step 6: conditionally setting isComplete')
     const profileSetupComplete = !!(
-      profile.dateOfBirth && profile.city && profile.seekingGender && profile.relationshipGoal
+      profile.dateOfBirth && profile.seekingGender && profile.relationshipGoal
     )
     if (profileSetupComplete) {
       await prisma.profile.update({

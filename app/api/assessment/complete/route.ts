@@ -88,7 +88,7 @@ export async function POST(req: Request) {
     // Step 5.5: Mark profile fully complete now that assessment is saved.
     // Only flip if profile setup was completed first (required fields present).
     const profileSetupComplete = !!(
-      profile.dateOfBirth && profile.city && profile.seekingGender && profile.relationshipGoal
+      profile.dateOfBirth && profile.seekingGender && profile.relationshipGoal
     )
     if (profileSetupComplete) {
       await prisma.profile.update({
