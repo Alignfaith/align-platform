@@ -7,7 +7,7 @@ import { Suspense } from 'react'
 import { useEffect, useState } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { User, Heart, MessageCircle, Settings, Crown, Users, Shield, BookOpen, BarChart2, Church, Brain, Dumbbell, Wallet, Sparkles, Clock } from 'lucide-react'
+import { User, Heart, MessageCircle, Settings, Crown, Users, Shield, BookOpen, BarChart2, Church, Brain, Dumbbell, Wallet, Sparkles, Clock, Copy } from 'lucide-react'
 import Link from 'next/link'
 
 import ReflectionEngine from '@/components/ReflectionEngine'
@@ -34,6 +34,31 @@ function SubscriptionSuccessBanner() {
                 </p>
             </div>
         </div>
+    )
+}
+
+const SHARE_TEXT = "I'm using ALIGN — a faith-centered relationship readiness platform built on the Six Pillars. Tier 1 membership is free until 11/11/26. Join here: https://app.alignfaith.com/register"
+
+function ShareButton() {
+    const [copied, setCopied] = useState(false)
+
+    const handleShare = async () => {
+        try {
+            await navigator.clipboard.writeText(SHARE_TEXT)
+            setCopied(true)
+            setTimeout(() => setCopied(false), 2000)
+        } catch {}
+    }
+
+    return (
+        <button
+            onClick={handleShare}
+            className="btn btn--secondary btn--sm"
+            style={{ marginTop: 'var(--space-2)', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+        >
+            <Copy size={14} />
+            {copied ? 'Copied!' : 'Invite a Friend'}
+        </button>
     )
 }
 
@@ -174,6 +199,7 @@ export default function DashboardPage() {
                                 <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-slate)', marginBottom: 0 }}>
                                     Readiness Score: <strong style={{ color: 'var(--color-accent)' }}>74</strong>
                                 </p>
+                                <ShareButton />
                             </div>
                         </div>
 
