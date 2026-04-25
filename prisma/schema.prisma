@@ -436,6 +436,13 @@ model Match {
   alignmentTier     String?
   hardStopTriggered Boolean @default(false)
   hardStopReason    String?
+
+  // Three-phase consent — null = pending, "APPROVED", "DECLINED"
+  senderPhase1   String?
+  receiverPhase1 String?
+  senderPhase2   String?
+  receiverPhase2 String?
+
   pillarBreakdown   Json?
 
   createdAt DateTime @default(now())
